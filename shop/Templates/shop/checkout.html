@@ -1,0 +1,161 @@
+{% extends "shop/basic.html" %}
+{% load static %}
+
+{% block title %} Checkout - My Awesome Cart {% endblock %}
+
+{% block body %}
+<div class="container my-5">
+  
+  {% if thank %}
+  <div class="row">
+    <div class="col-md-8 mx-auto text-center my-4">
+      <div class="alert alert-success p-5 shadow border-0 rounded-3">
+        <h2 class="fw-bold mb-3">🎉 Order Placed Successfully!</h2>
+        <p class="lead text-muted">Thank you for purchasing from My Awesome Cart.</p>
+        <div class="bg-light p-3 rounded border my-4">
+          <span class="text-secondary fw-semibold">Your Tracking Order ID:</span>
+          <span class="text-primary fw-bold fs-4 ms-2">#{{id}}</span>
+        </div>
+        <p class="small text-secondary">Keep this ID handy to track your delivery status.</p>
+        <a href="/shop/" class="btn btn-primary px-4 mt-2">Continue Shopping</a>
+      </div>
+    </div>
+  </div>
+ 
+  {% else %}
+  <div class="row g-5">
+    
+    <div class="col-12">
+      <h3 class="fw-bold text-dark mb-4">Step 1 - Review Your Cart Items</h3>
+      <div class="bg-white p-4 border rounded-3 shadow-sm">
+        <ul class="list-group list-group-flush" id="items">
+          </ul>
+          <span id = "totalprice"></span>
+      </div>
+    </div>
+
+    <div class="col-12 mt-5" id="address-section">
+      <h3 class="fw-bold text-dark mb-4">Step 2 - Enter Address & Other Details</h3>
+      <div class="bg-white p-4 border rounded-3 shadow-sm">
+        <form action="/shop/checkout/" method="post" class="row g-3">
+          {% csrf_token %}
+          
+          <input type="hidden" name="itemsJson" id="itemsJson">
+          
+          <div class="col-md-6">
+            <label for="name" class="form-label fw-semibold text-secondary">Full Name</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your full name" required>
+          </div>
+          
+          <div class="col-md-6">
+            <label for="email" class="form-label fw-semibold text-secondary">Email Address</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+          </div>
+          
+          <div class="col-12">
+            <label for="address1" class="form-label fw-semibold text-secondary">Address Line 1</label>
+            <input type="text" class="form-control" id="address1" name="address1" placeholder="1234 Main St" required>
+          </div>
+          
+          <div class="col-12">
+            <label for="address2" class="form-label fw-semibold text-secondary">Address Line 2 (Optional)</label>
+            <input type="text" class="form-control" id="address2" name="address2" placeholder="Apartment, suite, or floor">
+          </div>
+          
+          <div class="col-md-6">
+            <label for="city" class="form-label fw-semibold text-secondary">City</label>
+            <input type="text" class="form-control" id="city" name="city" placeholder="e.g. Ahmedabad" required>
+          </div>
+          
+          <div class="col-md-4">
+            <label for="state" class="form-label fw-semibold text-secondary">State</label>
+            <input type="text" class="form-control" id="state" name="state" placeholder="e.g. Gujarat" required>
+          </div>
+          
+          <div class="col-md-2">
+            <label for="zip_code" class="form-label fw-semibold text-secondary">Zip Code</label>
+            <input type="text" class="form-control" id="zip_code" name="zip_code" placeholder="382350" required>
+          </div>
+
+          <div class="col-md-6">
+            <label for="phone" class="form-label fw-semibold text-secondary">Phone Number</label>
+            <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter 10-digit mobile number" required>
+          </div>
+          
+          <div class="col-12 mt-4">
+            <button type="submit" class="btn btn-primary btn-lg px-5 shadow-sm">Place Order</button>
+          </div>
+          
+        </form>
+      </div>
+    </div>
+
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+{% if thank %}
+localStorage.clear();
+{% endif %}
+
+// 1. Load the updated 3-element Cart State Matrix from LocalStorage
+let checkCart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
+console.log("Current Checkout Cart State:", checkCart);
+
+let itemsContainer = $('#items');
+itemsContainer.empty();
+
+let totalItemsCount = 0;
+let totalTotalPrice = 0;
+
+if ($.isEmptyObject(checkCart)) {
+    let emptyStr = `<div class="alert alert-warning my-2 text-center" role="alert">
+                      Your cart is currently empty! Please add some items from the shop before checking out.
+                    </div>`;
+    itemsContainer.append(emptyStr);
+    $('#address-section').hide();
+} else {
+    // 2. Loop through array data to display real titles, quantities, and individual prices
+    for (let item in checkCart) {
+        let qty = checkCart[item][0]; 
+        let name = checkCart[item][1];
+        let price = checkCart[item][2] || 0; // FIXED: Pulls the new price parameter from index 2
+        
+        let itemTotalPrice = qty * price;
+        totalItemsCount += qty;
+        totalTotalPrice += itemTotalPrice;
+        
+        let mystr = `<li class="list-group-item d-flex justify-content-between align-items-center px-3 py-3 border-bottom">
+                        <div>
+                            <span class="text-dark fw-medium">${name}</span>
+                            <small class="text-muted d-block">$${price} each</small>
+                        </div>
+                        <div class="text-end">
+                            <span class="badge bg-primary rounded-pill px-3 py-2 fs-6">Qty: ${qty}</span>
+                            <span class="text-primary fw-bold d-block mt-1">$${itemTotalPrice}</span>
+                        </div>
+                     </li>`;
+        itemsContainer.append(mystr);
+    }
+    
+    // 3. Append a sleek, final Summary Total Row at the bottom of the layout list
+    let totalRowStr = `<li class="list-group-item d-flex justify-content-between align-items-center px-3 py-3 bg-light border rounded mt-3">
+                        <span class="text-dark fw-bold fs-5">Total Grand Bill Amount:</span>
+                        <span class="text-success fw-extrabold fs-4">$${totalTotalPrice}</span>
+                       </li>`;
+    itemsContainer.append(totalRowStr);
+}
+
+// 4. Send clean payload bundle down to hidden field for views.py orders parsing
+$('#itemsJson').val(JSON.stringify(checkCart));
+
+// 5. Sync total item sum indicator directly to your global navbar badge
+let cartBadge = document.getElementById('cart');
+if (cartBadge) {
+    cartBadge.innerHTML = totalItemsCount;
+}
+</script>
+{% endblock %}

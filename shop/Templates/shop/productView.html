@@ -1,0 +1,204 @@
+{% extends "shop/basic.html" %}
+
+{% block title %} {{product.product_name}} - My Awesome Cart{% endblock %}
+
+{% block css %}
+<style>
+  /* Modern Styling Variables */
+  :root {
+    --primary-color: #0d6efd;
+    --hover-lift: -6px;
+  }
+
+  body {
+    background-color: #f8f9fa;
+  }
+
+  /* Clean Card Design & Interactions */
+  .product-card {
+    border: none;
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: #ffffff;
+  }
+
+  .product-card:hover {
+    transform: translateY(var(--hover-lift));
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .product-card img {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  /* Custom Styling for Slider Buttons */
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 5%;
+  }
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    padding: 1.5rem;
+    background-size: 50%;
+  }
+
+  .carousel-indicators [data-bs-target] {
+    background-color: var(--primary-color);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  .carousel-inner {
+    padding: 15px 0;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container my-4">
+  <div class="row">
+    
+    <div class="col-md-4">
+      <div class="row mb-3 justify-content-center">
+        <img src="/media/{{product.image}}" style="width: 233px; height: 385px; object-fit: contain;">
+      </div> 
+      
+      <div class="row px-2 gap-2">
+        <button class="col btn btn-primary"> Buy Now </button>
+        <span id="divpr{{product.id}}" class="col p-0">
+          <button id="pr{{product.id}}" class="btn btn-primary w-100 cart"> Add To Cart </button>
+        </span>
+      </div> 
+    </div>
+    
+    <div class="col-md-8">
+      <h2 class="fw-bold text-dark card-title" id="namepr{{product.id}}">{{product.product_name}}</h2>
+      <h4 class="text-success fw-bold my-3">${{product.price}}</h4>
+      <p class="text-muted lead" style="font-size: 1.05rem; line-height: 1.6;">{{product.description}}</p>
+    </div>
+
+  </div>
+</div> 
+{% endblock %}   
+
+{% block js %}
+<script>
+console.log('Cart JavaScript Operational');
+
+// 1. Initial State Sync & Migration
+let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
+for (let key in cart) {
+  if (!Array.isArray(cart[key])) {
+    cart = {};
+    localStorage.removeItem('cart');
+    break;
+  }
+}
+
+// 2. Initial Setup Run
+updateCart(cart);
+
+// 3. Click interaction delegation handler
+$(document).on('click', '.cart', function(){
+  console.log('Cart item add trigger received.');
+  var idstr = this.id.toString();
+  
+  if (cart[idstr] !== undefined){
+    cart[idstr][0] = cart[idstr][0] + 1;
+  } else {
+    let nameElement = document.getElementById('name' + idstr);
+    let name = nameElement ? nameElement.innerHTML : "Product";
+    cart[idstr] = [1, name];
+  }
+  
+  updateCart(cart);
+});
+
+// Helper function managing calculating and displaying total item values
+function updateCart(currentCart) {
+  let totalItems = 0;
+
+  for (var item in currentCart) {
+    let qty = currentCart[item][0];
+    totalItems += qty;
+    let targetSpan = document.getElementById('div' + item);
+    
+    if (targetSpan) {
+      if (qty > 0) {
+        targetSpan.innerHTML = `
+          <div class="d-flex justify-content-between align-items-center bg-light border rounded p-1" style="font-size: 14px;">
+            <button id="minus${item}" class="btn btn-sm btn-primary minus px-2">-</button>
+            <span id="val${item}" class="fw-bold text-dark mx-1">${qty}</span>
+            <button id="plus${item}" class="btn btn-sm btn-primary plus px-2">+</button>
+          </div>`;
+      } else {
+        targetSpan.innerHTML = `<button id="${item}" class="btn btn-primary w-100 cart"> Add To Cart </button>`;
+        delete currentCart[item];
+      }
+    }
+  }
+
+  localStorage.setItem('cart', JSON.stringify(currentCart));
+  document.getElementById('cart').innerHTML = totalItems;
+  
+  updatePopover(currentCart);
+}
+
+// 4. Modifier delegation action: Decrement click handler
+$(document).on("click", "button.minus", function() {
+  var a = this.id.slice(5); 
+  cart[a][0] = cart[a][0] - 1;
+  cart[a][0] = Math.max(0, cart[a][0]);
+  
+  if (cart[a][0] == 0){
+    let targetContainer = document.getElementById('div' + a);
+    if (targetContainer) {
+       targetContainer.innerHTML = `<button id="${a}" class="btn btn-primary w-100 cart"> Add To Cart </button>`;
+    }
+    delete cart[a];
+  }
+  updateCart(cart);
+});
+
+// 5. Modifier delegation action: Increment click handler
+$(document).on("click", "button.plus", function() {
+  var a = this.id.slice(4);
+  cart[a][0] = cart[a][0] + 1;
+  updateCart(cart);
+});
+
+// 6. Asynchronous Bootstrap 5 Content Popover Handler
+function updatePopover(currentCart) {
+  let popStr = "<h5>Your Shopping Cart</h5><div class='mx-2 my-2'>";
+  let i = 1;
+
+  if (Object.keys(currentCart).length === 0) {
+    popStr += "<p class='text-muted small'>Your cart is empty!</p>";
+  } else {
+    for (var item in currentCart) {
+      let qty = currentCart[item][0];
+      let name = currentCart[item][1];
+      
+      popStr += `<b>${i}</b>. ${name.slice(0, 19)}... Qty: <b>${qty}</b><br>`;
+      i++;
+    }
+  }
+  popStr += "</div>";
+
+  let popcartElement = document.getElementById('popcart');
+  if (popcartElement) {
+    let popoverInstance = bootstrap.Popover.getOrCreateInstance(popcartElement);
+    popoverInstance.setContent({
+      '.popover-body': popStr
+    });
+  }
+}
+</script>
+{% endblock %}

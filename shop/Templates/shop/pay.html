@@ -1,0 +1,46 @@
+{% extends "shop/basic.html" %}
+{% block title %}Redirecting to Payment...{% endblock %}
+{% block body %}
+<div class="container my-5 text-center">
+    <div class="card p-5 shadow border-0 rounded-3 d-inline-block" style="max-width: 500px;">
+        <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <h3 class="fw-bold mb-3">Redirecting to Secure Payment Gateway</h3>
+        <p class="text-muted">Please wait while we connect to Razorpay. Do not refresh or close this window.</p>
+        <button id="pay-btn" class="btn btn-primary btn-lg mt-3 w-100 shadow-sm">Pay Now</button>
+    </div>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    var options = {
+        "key": "{{ key_id }}",
+        "amount": "{{ amount }}",
+        "currency": "INR",
+        "name": "My Awesome Cart",
+        "description": "Order Purchase #{{ order_id }}",
+        "order_id": "{{ razorpay_order_id }}",
+        "callback_url": "{{ callback_url }}",
+        "prefill": {
+            "name": "{{ name }}",
+            "email": "{{ email }}",
+            "contact": "{{ phone }}"
+        },
+        "theme": {
+            "color": "#0d6efd"
+        }
+    };
+    var rzp1 = new Razorpay(options);
+    
+    // Automatically open the Razorpay Checkout pop-up window
+    window.onload = function() {
+        rzp1.open();
+    };
+
+    document.getElementById('pay-btn').onclick = function(e){
+        rzp1.open();
+        e.preventDefault();
+    }
+</script>
+{% endblock %}

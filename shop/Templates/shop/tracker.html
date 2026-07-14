@@ -1,0 +1,125 @@
+{% extends "shop/basic.html" %}
+{% load static %}
+
+{% block title %} My Awesome Cart Tracker - Track Your Order {% endblock %}
+
+{% block body %}
+<div class="container my-5">
+  <div class="row g-5">
+    
+    <div class="col-12">
+      <h3 class="fw-bold text-dark mb-4">Step 1 - Enter Your Order ID & Email to Track</h3>
+      <div class="bg-white p-4 border rounded-3 shadow-sm">
+        <form action="/shop/tracker/" method="post" id="trackerForm" class="row g-3">
+          {% csrf_token %}
+          
+          <div class="col-md-6">
+            <label for="orderId" class="form-label fw-semibold text-secondary">Order ID</label>
+            <input type="text" class="form-control" id="orderId" name="orderId" placeholder="Enter Order ID (e.g., 3)" required>
+          </div>
+          
+          <div class="col-md-6">
+            <label for="email" class="form-label fw-semibold text-secondary">Email Address</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+          </div>
+          
+          <div class="col-12 mt-4">
+            <button type="submit" class="btn btn-primary btn-lg px-5 shadow-sm">Track Order</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-12 mt-5">
+      <h3 class="fw-bold text-dark mb-4">Step 2 - Your Order Status Updates</h3>
+      <div class="bg-white p-4 border rounded-3 shadow-sm">
+        <ul class="list-group list-group-flush" id="items">
+          <li class="list-group-item text-muted small px-3 py-2">
+            Enter your Order ID and Email address above to find status updates.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-12 mt-5">
+      <h3 class="fw-bold text-dark mb-4">Step 3 - Ordered Items Review</h3>
+      <div class="bg-white p-4 border rounded-3 shadow-sm">
+        <ul class="list-group list-group-flush" id="citems">
+          </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+// Handle the asynchronous form submission using jQuery AJAX
+$('#trackerForm').submit(function(event) {
+    // Clear out tracking content elements on submit trigger run
+    $('#items').empty();
+    $('#citems').empty();
+
+    var formData = {
+        'orderId': $('input[name=orderId]').val(),
+        'email': $('input[name=email]').val(),
+        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+    };
+
+    $.ajax({
+        type: 'POST',
+        url: '/shop/tracker/',
+        data: formData,
+        encode: true
+    })
+    .done(function(data) {
+        console.log("Server Tracking Payload:", data);
+        
+        if (data && data !== '{}') {
+            let updates = data[0];
+            let cartItems = data[1];
+
+            if (updates && updates.length > 0) {
+                // 1. Populate Tracking Updates Timeline Grid
+                for (let i = 0; i < updates.length; i++) {
+                    let text = updates[i]['text'];
+                    
+                    // FIXED: Directly print the raw string timestamp from views.py instead of passing it to new Date()
+                    let time = updates[i]['time']; 
+                    
+                    let updateStr = `<li class="list-group-item d-flex justify-content-between align-items-center px-3 py-3 border-bottom">
+                                        <span class="text-dark fw-medium">${text}</span>
+                                        <span class="badge bg-secondary rounded-pill px-3 py-2 fs-6">${time}</span>
+                                     </li>`;
+                    $('#items').append(updateStr);
+                }
+
+                // 2. Populate Product Items breakdown inside the matching order
+                let checkCart = JSON.parse(cartItems);
+                for (let item in checkCart) {
+                    let qty = checkCart[item][0]; 
+                    let name = checkCart[item][1];
+                    
+                    let productStr = `<li class="list-group-item d-flex justify-content-between align-items-center px-3 py-3 border-bottom">
+                                        <span class="text-dark fw-medium">${name}</span>
+                                        <span class="badge bg-primary rounded-pill px-3 py-2 fs-6">Qty: ${qty}</span>
+                                     </li>`;
+                    $('#citems').append(productStr);
+                }
+            }
+        } else {
+            // Fallback warning layout element if no matching data is found
+            let errorStr = `<div class="alert alert-danger my-2 text-center w-100" role="alert">
+                              No order records found matching that ID and Email combination.
+                            </div>`;
+            $('#items').append(errorStr);
+            $('#citems').append(`<li class="list-group-item text-muted small text-center">No items to review</li>`);
+        }
+    });
+
+    // Stop default HTML window relocation behavior from breaking the asynchronous loading thread
+    event.preventDefault();
+});
+</script>
+{% endblock %}

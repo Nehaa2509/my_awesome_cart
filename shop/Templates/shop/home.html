@@ -1,0 +1,31 @@
+{% extends "shop/basic.html" %}
+{% load static %}
+
+{% block title %}Welcome - My Awesome Cart{% endblock %}
+
+{% block navbar %}{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+  <div class="p-5 mb-4 bg-light rounded-3 shadow-sm text-start">
+    <div class="container-fluid py-5">
+      
+      <h1 class="display-4 fw-normal text-dark">Welcome to My Awesome Cart</h1>
+      
+      <p class="col-md-10 fs-5 text-secondary mt-3">
+        This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.
+      </p>
+      
+      <p class="col-md-10 fs-6 text-muted border-top pt-3 mt-4">
+        It uses utility classes for typography and spacing to space content out within the larger container.
+      </p>
+      
+      <div class="d-flex gap-2 mt-4">
+        <a href="/shop/" class="btn btn-primary btn-lg px-4 fw-medium">Go To Shop</a>
+        <a href="/blog/" class="btn btn-primary btn-lg px-4 fw-medium">Go To Blog</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}
