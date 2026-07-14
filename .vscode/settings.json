@@ -1,0 +1,12 @@
+{
+    "editor.suggest.snippetsPreventQuickSuggestions": true,
+    "terminal.integrated.suggest.quickSuggestions": {
+        "commands": "on",
+        "arguments": "on",
+        "unknown": "on"
+    },
+    "emmet.useInlineCompletions": true,
+    "terminal.integrated.commandsToSkipShell": [
+        ""
+    ]
+}
