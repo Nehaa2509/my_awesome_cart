@@ -1,4 +1,5 @@
 from django.urls import path
+# pyrefly: ignore [missing-import]
 from . import views
 
 urlpatterns = [
@@ -11,4 +12,7 @@ urlpatterns = [
     # 3. FIXED: Catch-all fallback route when the user leaves off the numeric ID number
     # (Matches exactly /blog/blogpost/ or /blog/blogpost)
     path('blogpost/', views.blogpost, name='blogpost_fallback'),
-]   
+    path('postComment/', views.postComment, name='postComment'),
+    path('deleteComment/<int:sno>/', views.deleteComment, name='deleteComment'),
+    path('like/<int:post_id>/', views.likePost, name='like_post'),
+]

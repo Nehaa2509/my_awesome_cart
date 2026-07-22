@@ -1,7 +1,7 @@
 import json  # FIXED: Added missing import for handling JSON tracking payloads
 import math
 import razorpay
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
@@ -25,6 +25,25 @@ def index(request):
     context = {'allProds': allProds}
     return render(request, 'shop/index.html', context)
 
+def searchMatch(query, item):
+    return query.lower() in item.product_name.lower() or query.lower() in item.description.lower()
+
+def search(request):
+    query = request.GET.get('query', '')
+    allProds = []
+    catprods = Product.objects.values('category', 'id')
+    cats = {item['category'] for item in catprods}
+    
+    for cat in cats:
+        prodtemp = Product.objects.filter(category=cat)
+        prod = [item for item in prodtemp if searchMatch(query, item)]   
+        n = len(prod)
+        nSlides = n // 4 + math.ceil((n / 4) - (n // 4))
+        allProds.append([prod, range(1, nSlides), nSlides])
+
+    context = {'allProds': allProds}
+    return render(request, 'shop/index.html', context)
+
 # 1.5 Main Landing Page View
 def home(request):
     return render(request, 'shop/home.html')
@@ -40,7 +59,6 @@ def tracker(request):
         email = request.POST.get('email', '')
         
         try:
-            # FIXED: Changed 'Orders' to 'Order' to match your imported model definition name
             order = Order.objects.filter(order_id=orderId, email=email)
             
             if len(order) > 0:
@@ -49,23 +67,19 @@ def tracker(request):
                     update_list = []
                     for item in updates:
                         update_list.append({'text': item.update_desc, 'time': str(item.timestamp)})
-                        response = json.dumps([updates,order[0].items_json],default=" ")
                 except Exception:
                     update_list = [{'text': 'Your order has been placed successfully!', 'time': 'Just now'}]
                 
+                # FIXED: Now dumping 'update_list' (the dictionary array) instead of the raw 'updates' model objects collection
                 response_data = [update_list, order[0].items_json]
                 return HttpResponse(json.dumps(response_data), content_type="application/json")
             else:
-                return HttpResponse('{}')
+                return HttpResponse('{}', content_type="application/json")
                 
         except Exception as e:
-            return HttpResponse('{}')
+            return HttpResponse('{}', content_type="application/json")
             
     return render(request, 'shop/tracker.html')
-
-# 4. Search View
-def search(request):
-    return render(request, 'shop/search.html')
 
 # 5. Product Detail View
 def productview(request, myid):
@@ -135,7 +149,6 @@ def checkout(request):
         }
         return render(request, 'shop/pay.html', context)
 
-    # FIXED: Fixed template spelling here as well
     return render(request, 'shop/checkout.html')
 
 @csrf_exempt

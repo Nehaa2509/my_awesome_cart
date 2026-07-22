@@ -4,63 +4,81 @@
 {% block title %} My Awesome Cart - Blog Home {% endblock %}
 
 {% block body %}
+<div class="container mt-4">
+  
+  <!-- Featured Hero Banner Card: Automatically uses the newest post (Index 0) -->
+  {% if posts.0 %}
   <div class="p-4 p-md-5 mb-4 rounded text-bg-dark bg-dark">
     <div class="col-md-12 px-0">
-      <h1 class="display-4 fst-italic">Title of a longer featured blog post</h1>
-      <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what’s most interesting in this post’s contents.</p>
-      <p class="lead mb-0"><a href="#" class="text-white fw-bold text-decoration-none">Continue reading...</a></p>
+      <h1 class="display-4 fst-italic">{{ posts.0.title }}</h1>
+      <p class="lead my-3">{{ posts.0.content | safe | slice:"0:300" }}...</p>
+      <p class="lead mb-0">
+        <a href="{% url 'blogpost' posts.0.post_id %}" class="text-white fw-bold text-decoration-none">Continue reading...</a>
+      </p>
     </div>
   </div>
+  {% endif %}
 
+  <!-- Two Column Sub-Featured Grid Layout: Dynamically pulls Index 1 and Index 2 -->
   <div class="row mb-2">
+    {% if posts.1 %}
     <div class="col-md-6">
       <div class="card flex-md-row mb-4 shadow-sm h-md-250 border rounded bg-white">
         <div class="card-body d-flex flex-column align-items-start p-4">
-          <strong class="d-inline-block mb-2 text-primary">World</strong>
-          <h3 class="mb-0 fw-bold text-dark">Featured post</h3>
-          <div class="mb-1 text-muted small">Nov 12</div>
-          <p class="card-text mb-auto text-secondary">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="text-decoration-none mt-2">Continue reading</a>
+          <strong class="d-inline-block mb-2 text-primary">{{ posts.1.category }}</strong>
+          <h3 class="mb-0 fw-bold text-dark">{{ posts.1.title }}</h3>
+          <div class="mb-1 text-muted small">{{ posts.1.pub_date }}</div>
+          <p class="card-text mb-auto text-secondary">{{ posts.1.content | safe | slice:"0:150" }}...</p>
+          <a href="{% url 'blogpost' posts.1.post_id %}" class="text-decoration-none mt-2">Continue reading...</a>
         </div>
       </div>
     </div>
+    {% endif %}
+
+    {% if posts.2 %}
     <div class="col-md-6">
       <div class="card flex-md-row mb-4 shadow-sm h-md-250 border rounded bg-white">
         <div class="card-body d-flex flex-column align-items-start p-4">
-          <strong class="d-inline-block mb-2 text-success">Design</strong>
-          <h3 class="mb-0 fw-bold text-dark">Post title</h3>
-          <div class="mb-1 text-muted small">Nov 11</div>
-          <p class="card-text mb-auto text-secondary">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="text-decoration-none mt-2">Continue reading</a>
+          <strong class="d-inline-block mb-2 text-success">{{ posts.2.category }}</strong>
+          <h3 class="mb-0 fw-bold text-dark">{{ posts.2.title }}</h3>
+          <div class="mb-1 text-muted small">{{ posts.2.pub_date }}</div>
+          <p class="card-text mb-auto text-secondary">{{ posts.2.content | safe | slice:"0:150" }}...</p>
+          <a href="{% url 'blogpost' posts.2.post_id %}" class="text-decoration-none mt-2">Continue reading</a>
         </div>
       </div>
     </div>
+    {% endif %}
   </div>
 
   <h3 class="pb-4 mb-4 fst-italic border-bottom text-dark mt-5">From the Firehose</h3>
 
+  <!-- DYNAMIC LOGIC LOOP: Loops through all blog posts smoothly -->
   {% for post in posts %}
-  <article class="blog-post mb-5">
-    <h2 class="blog-post-title text-dark fw-bold mb-1">
-      <a href="{% url 'blogpost' post.post_id %}" class="text-decoration-none text-dark">{{post.title}}</a>
-    </h2>
-    <p class="blog-post-meta text-muted">{{post.pub_date}} by <a href="#" class="text-decoration-none fw-medium text-secondary">{{post.author}}</a></p>
-    <p>{{post.content | safe | slice:"0:300"}}...</p>
-    <p class="mt-2">
-      <a href="{% url 'blogpost' post.post_id %}" class="btn btn-sm btn-outline-primary rounded-pill px-3">Continue reading...</a>
-    </p>
-  </article>
+    <article class="blog-post mb-5">
+      <h2 class="blog-post-title text-dark fw-bold mb-1">
+        <a href="{% url 'blogpost' post.post_id %}" class="text-decoration-none text-dark">{{ post.title }}</a>
+      </h2>
+      <p class="blog-post-meta text-muted">{{ post.pub_date }} by <a href="#" class="text-decoration-none fw-medium text-secondary">{{ post.author }}</a></p>
+      
+      <p>{{ post.content | safe | slice:"0:300" }}...</p>
+      
+      <p class="mt-2">
+        <a href="{% url 'blogpost' post.post_id %}" class="btn btn-sm btn-outline-primary rounded-pill px-3">Continue reading...</a>
+      </p>
+    </article>
   {% empty %}
-  
-  <article class="blog-post mb-5">
-    <h2 class="blog-post-title text-dark fw-bold mb-1">Welcome to Our Awesome Blog!</h2>
-    <p class="blog-post-meta text-muted">July 14, 2026 by <a href="#" class="text-decoration-none fw-medium text-secondary">Admin</a></p>
-    <p>This is the main body content of our very first blog post. Django makes it extremely easy to build robust web applications.</p>
-  </article>
+    <!-- Static Fallback text if database has no articles yet -->
+    <article class="blog-post mb-5">
+      <h2 class="blog-post-title text-dark fw-bold mb-1">Welcome to Our Awesome Blog!</h2>
+      <p class="blog-post-meta text-muted">No posts available yet. Check back soon!</p>
+    </article>
   {% endfor %}
 
+  <!-- Pagination System (Fixed Text Labels) -->
   <nav class="blog-pagination my-4" aria-label="Pagination">
     <a class="btn btn-outline-primary rounded-pill px-4" href="#">Older</a>
     <a class="btn btn-outline-secondary rounded-pill px-4 disabled">Newer</a>
   </nav>
+
+</div>     
 {% endblock %}
