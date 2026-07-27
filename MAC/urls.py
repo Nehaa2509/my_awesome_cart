@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 from shop import views as shop_views
 
 urlpatterns = [
+    path('admin/dashboard/', shop_views.admin_dashboard, name='admin_dashboard'),
     path('admin/', admin.site.urls),
     path('shop/',include('shop.urls')),
     path('blog/',include('blog.urls')),

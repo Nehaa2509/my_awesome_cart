@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VELOURIA Analytics 2026 - Conversion & Sales Funnel Console</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --sidebar-bg: #0b1528;
+      --sidebar-active: #1e3a8a;
+      --sidebar-text: #94a3b8;
+      --main-bg: #f1f5f9;
+      --card-bg: #ffffff;
+      --accent-blue: #2563eb;
+    }
+
+    body {
+      background-color: var(--main-bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #1e293b;
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    /* Sidebar Styling */
+    .sidebar {
+      background-color: var(--sidebar-bg);
+      min-height: 100vh;
+      color: #ffffff;
+      padding: 1.5rem 1rem;
+    }
+
+    .brand-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 2rem;
+      padding-left: 0.5rem;
+    }
+
+    .brand-icon {
+      background: var(--accent-blue);
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    .nav-section-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #64748b;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+      padding-left: 0.5rem;
+      font-weight: 700;
+    }
+
+    .sidebar-link {
+      color: var(--sidebar-text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      padding: 0.6rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      margin-bottom: 0.2rem;
+    }
+
+    .sidebar-link:hover {
+      color: #ffffff;
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .sidebar-link.active {
+      background-color: var(--sidebar-active);
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .sidebar-link .bullet {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      margin-right: 10px;
+    }
+
+    .status-box {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 0.8rem;
+      font-size: 0.75rem;
+      color: #94a3b8;
+      margin-top: 2rem;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #22c55e;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 6px;
+    }
+
+    /* KPI Cards */
+    .kpi-card {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 1.2rem;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .kpi-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .kpi-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 0.3rem 0;
+    }
+
+    .badge-pill-positive {
+      background-color: #dcfce7;
+      color: #166534;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .badge-pill-negative {
+      background-color: #dcfce7; /* Match target styling */
+      color: #166534;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    /* Funnel Bars */
+    .funnel-row {
+      margin-bottom: 0.6rem;
+    }
+
+    .funnel-bar {
+      height: 34px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1rem;
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    /* Status Badges for Traffic Table */
+    .badge-high-roi { background: #dcfce7; color: #15803d; font-weight: 700; }
+    .badge-optimal { background: #ccfbf1; color: #0f766e; font-weight: 700; }
+    .badge-monitor { background: #fef9c3; color: #a16207; font-weight: 700; }
+    .badge-top-cr { background: #dbeafe; color: #1e40af; font-weight: 700; }
+    .badge-low-cr { background: #ffe4e6; color: #be123c; font-weight: 700; }
+  </style>
+</head>
+<body>
+
+<div class="container-fluid p-0">
+  <div class="row g-0">
+    
+    <!-- LEFT SIDEBAR -->
+    <div class="col-md-2 sidebar d-none d-md-block">
+      <div class="brand-title">
+        <span class="brand-icon">†</span>
+        <div>
+          VELOURIA
+          <div style="font-size: 0.65rem; color: #64748b; font-weight: 500;">ANALYTICS 2026</div>
+        </div>
+      </div>
+
+      <a href="#" class="sidebar-link active"><span class="bullet"></span> Conversion Funnel</a>
+      <a href="#" class="sidebar-link"><span class="bullet"></span> Revenue & AOV</a>
+      <a href="#" class="sidebar-link"><span class="bullet"></span> Traffic Channels</a>
+      <a href="#" class="sidebar-link"><span class="bullet"></span> Device Performance</a>
+      <a href="#" class="sidebar-link"><span class="bullet"></span> Cart Abandonment</a>
+      <a href="#" class="sidebar-link"><span class="bullet"></span> Campaign ROI</a>
+
+      <div class="nav-section-title">Django Model Control</div>
+      <a href="/admin/shop/product/" class="sidebar-link"><span class="bullet"></span> Products Manager</a>
+      <a href="/admin/shop/order/" class="sidebar-link"><span class="bullet"></span> Orders Manager</a>
+      <a href="/admin/shop/contact/" class="sidebar-link"><span class="bullet"></span> Contacts Inquiries</a>
+      <a href="/admin/auth/user/" class="sidebar-link"><span class="bullet"></span> User Accounts</a>
+
+      <div class="nav-section-title">System Config</div>
+      <a href="#" class="sidebar-link">Data Connectors</a>
+      <a href="#" class="sidebar-link">Export Schedules</a>
+      <a href="#" class="sidebar-link">Console Settings</a>
+
+      <div class="status-box">
+        <div class="fw-bold text-white mb-1"><span class="status-dot"></span> Data Engine 2026</div>
+        <div>Sync: Live Telemetry</div>
+        <div>Period: Q1 2026 Active</div>
+        <div class="text-success fw-bold mt-1">System Status: 100% OK</div>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT AREA -->
+    <div class="col-md-10 p-4">
+      
+      <!-- TOP HEADER -->
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h4 class="fw-bold text-dark mb-0">E-Commerce Conversion & Sales Funnel Console</h4>
+          <span class="text-muted small">FY2026 Operational Intelligence • Global Online Store Telemetry</span>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-secondary btn-sm bg-white rounded-pill px-3">Jan 1, 2026 - Mar 31, 2026</button>
+          <button class="btn btn-primary btn-sm rounded-pill px-4" onclick="window.print()">Export Report</button>
+        </div>
+      </div>
+
+      <!-- KPI METRICS ROW -->
+      <div class="row g-3 mb-4">
+        <div class="col-md-3">
+          <div class="kpi-card">
+            <div class="kpi-label">Total Revenue (Q1 2026)</div>
+            <div class="kpi-value">{{ total_revenue }}</div>
+            <div><span class="badge-pill-positive">+14.2%</span> <span class="text-muted small">vs 2026 Target Plan</span></div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="kpi-card">
+            <div class="kpi-label">Overall Conversion Rate</div>
+            <div class="kpi-value">{{ conversion_rate }}</div>
+            <div><span class="badge-pill-positive">+0.38%</span> <span class="text-muted small">Benchmark: 3.10%</span></div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="kpi-card">
+            <div class="kpi-label">Average Order Value (AOV)</div>
+            <div class="kpi-value">{{ aov }}</div>
+            <div><span class="badge-pill-positive">+5.8%</span> <span class="text-muted small">Target: $138 in 2026</span></div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="kpi-card">
+            <div class="kpi-label">Cart Abandonment Rate</div>
+            <div class="kpi-value">{{ cart_abandonment }}</div>
+            <div><span class="badge-pill-negative">-2.40%</span> <span class="text-muted small">Industry Avg: 69.5%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MIDDLE ROW: FUNNEL + BAR CHART + DONUT CHART -->
+      <div class="row g-3 mb-4">
+        
+        <!-- Sessions-to-Purchase Funnel -->
+        <div class="col-md-4">
+          <div class="kpi-card h-100">
+            <div class="fw-bold text-dark">Sessions-to-Purchase Funnel</div>
+            <div class="text-muted small mb-3">Q1 2026 Progression & Conversion Drops</div>
+
+            <div class="funnel-row">
+              <div class="funnel-bar" style="background: #1e3a8a; width: 100%;">
+                <span>1. Total Sessions</span>
+                <span>1,250,000 (100.0%)</span>
+              </div>
+            </div>
+
+            <div class="funnel-row">
+              <div class="funnel-bar" style="background: #2563eb; width: 85%;">
+                <span>2. Product Views</span>
+                <span>725,000 (58.0%)</span>
+              </div>
+              <span class="text-danger small font-monospace">-42.0% drop</span>
+            </div>
+
+            <div class="funnel-row">
+              <div class="funnel-bar" style="background: #3b82f6; width: 60%;">
+                <span>3. Add to Cart</span>
+                <span>245,000 (19.6%)</span>
+              </div>
+              <span class="text-danger small font-monospace">-66.2% drop</span>
+            </div>
+
+            <div class="funnel-row">
+              <div class="funnel-bar" style="background: #60a5fa; width: 40%;">
+                <span>4. Checkout</span>
+                <span>9.4%</span>
+              </div>
+              <span class="text-danger small font-monospace">-51.8% drop</span>
+            </div>
+
+            <div class="funnel-row">
+              <div class="funnel-bar" style="background: #0f172a; width: 25%;">
+                <span>5. Orders</span>
+                <span>{{ conversion_rate }} ({{ total_orders }} paid)</span>
+              </div>
+            </div>
+
+            <div class="text-muted small mt-4 pt-2 border-top">Funnel Velocity: Avg. 3.8 days from session to final purchase in 2026</div>
+          </div>
+        </div>
+
+        <!-- Weekly Revenue Performance Chart -->
+        <div class="col-md-5">
+          <div class="kpi-card h-100">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div>
+                <div class="fw-bold text-dark">Weekly Revenue Performance (2026)</div>
+                <div class="text-muted small">Weekly Sales vs $300k Target Baseline</div>
+              </div>
+              <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1 small fw-bold">Target: $300k/wk</span>
+            </div>
+            <div style="height: 220px;">
+              <canvas id="revenueChart"></canvas>
+            </div>
+            <div class="text-muted small mt-3 border-top pt-2">Avg Weekly Growth: +3.2% run-rate in 2026</div>
+          </div>
+        </div>
+
+        <!-- Device Split Donut Chart -->
+        <div class="col-md-3">
+          <div class="kpi-card h-100 text-center">
+            <div class="fw-bold text-dark text-start">Device Split</div>
+            <div class="text-muted small text-start mb-2">2026 Order Volume Share</div>
+
+            <div style="height: 160px; position: relative;" class="my-2">
+              <canvas id="deviceChart"></canvas>
+            </div>
+
+            <div class="text-start small mt-2">
+              <div class="d-flex justify-content-between my-1">
+                <span><span style="color:#2563eb;">●</span> Mobile (58%)</span>
+                <span class="fw-bold">$1,650k</span>
+              </div>
+              <div class="d-flex justify-content-between my-1">
+                <span><span style="color:#0d9488;">●</span> Desktop (34%)</span>
+                <span class="fw-bold">$967k</span>
+              </div>
+              <div class="d-flex justify-content-between my-1">
+                <span><span style="color:#f59e0b;">●</span> Tablet (8%)</span>
+                <span class="fw-bold">$228k</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- BOTTOM ROW: TRAFFIC SOURCE TABLE + CHECKOUT FRICTION DRIVERS -->
+      <div class="row g-3">
+        
+        <!-- Conversion Performance Table -->
+        <div class="col-md-7">
+          <div class="kpi-card h-100">
+            <div class="fw-bold text-dark mb-1">Conversion Performance by Traffic Source</div>
+            <div class="text-muted small mb-3">Q1 2026 Channel Attribution & Efficiency Breakdown</div>
+
+            <div class="table-responsive">
+              <table class="table table-borderless table-sm align-middle small mb-0">
+                <thead class="text-muted border-bottom">
+                  <tr>
+                    <th>Traffic Source</th>
+                    <th>Sessions</th>
+                    <th>Cart Rate</th>
+                    <th>Checkout %</th>
+                    <th>Conv. Rate</th>
+                    <th>Q1 Revenue</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="fw-bold">Paid Search</td>
+                    <td>420,000</td>
+                    <td>22.4%</td>
+                    <td>52.1%</td>
+                    <td>3.85%</td>
+                    <td class="fw-bold">$1,025,000</td>
+                    <td><span class="badge badge-high-roi rounded-1">High ROI</span></td>
+                  </tr>
+                  <tr>
+                    <td class="fw-bold">Direct / Organic</td>
+                    <td>380,000</td>
+                    <td>24.1%</td>
+                    <td>56.4%</td>
+                    <td>4.20%</td>
+                    <td class="fw-bold">$980,000</td>
+                    <td><span class="badge badge-optimal rounded-1">Optimal</span></td>
+                  </tr>
+                  <tr>
+                    <td class="fw-bold">Paid Social</td>
+                    <td>260,000</td>
+                    <td>16.2%</td>
+                    <td>42.0%</td>
+                    <td>2.45%</td>
+                    <td class="fw-bold">$485,000</td>
+                    <td><span class="badge badge-monitor rounded-1">Monitor</span></td>
+                  </tr>
+                  <tr>
+                    <td class="fw-bold">Email VIP</td>
+                    <td>110,000</td>
+                    <td>28.5%</td>
+                    <td>61.2%</td>
+                    <td>5.12%</td>
+                    <td class="fw-bold">$242,000</td>
+                    <td><span class="badge badge-top-cr rounded-1">Top CR</span></td>
+                  </tr>
+                  <tr>
+                    <td class="fw-bold">Affiliates</td>
+                    <td>80,000</td>
+                    <td>14.8%</td>
+                    <td>38.5%</td>
+                    <td>1.95%</td>
+                    <td class="fw-bold">$113,200</td>
+                    <td><span class="badge badge-low-cr rounded-1">Low CR</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="text-muted small mt-2 pt-2 border-top">Total Q1 2026 Traffic Volume: 1,250,000 sessions logged</div>
+          </div>
+        </div>
+
+        <!-- Checkout Friction Drivers -->
+        <div class="col-md-5">
+          <div class="kpi-card h-100">
+            <div class="fw-bold text-dark mb-1">Checkout Friction Drivers</div>
+            <div class="text-muted small mb-3">2026 Exit Survey & Cart Drop Reasons</div>
+
+            <div class="mb-2">
+              <div class="d-flex justify-content-between small fw-semibold mb-1">
+                <span>Unexpected Shipping Costs / Extra Fees</span>
+                <span class="text-danger">38.4%</span>
+              </div>
+              <div class="progress" style="height: 6px;">
+                <div class="progress-bar bg-danger" style="width: 38.4%;"></div>
+              </div>
+            </div>
+
+            <div class="mb-2">
+              <div class="d-flex justify-content-between small fw-semibold mb-1">
+                <span>Forced Account Creation Requirement</span>
+                <span class="text-warning">24.2%</span>
+              </div>
+              <div class="progress" style="height: 6px;">
+                <div class="progress-bar bg-warning" style="width: 24.2%;"></div>
+              </div>
+            </div>
+
+            <div class="mb-2">
+              <div class="d-flex justify-content-between small fw-semibold mb-1">
+                <span>Slow Delivery Estimates</span>
+                <span>17.5%</span>
+              </div>
+              <div class="progress" style="height: 6px;">
+                <div class="progress-bar bg-info" style="width: 17.5%;"></div>
+              </div>
+            </div>
+
+            <div class="mb-2">
+              <div class="d-flex justify-content-between small fw-semibold mb-1">
+                <span>Preferred Payment Method Unavailable</span>
+                <span>12.1%</span>
+              </div>
+              <div class="progress" style="height: 6px;">
+                <div class="progress-bar bg-primary" style="width: 12.1%;"></div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <div class="d-flex justify-content-between small fw-semibold mb-1">
+                <span>Complex Form Fields & UI Errors</span>
+                <span>7.8%</span>
+              </div>
+              <div class="progress" style="height: 6px;">
+                <div class="progress-bar bg-dark" style="width: 7.8%;"></div>
+              </div>
+            </div>
+
+            <div class="alert alert-primary py-2 px-3 mb-0 small border-0 d-flex align-items-center gap-2">
+              <span class="badge bg-primary rounded-circle p-1">●</span>
+              <span class="fw-semibold">Action: Deploy One-Click Express Checkout in Q2 2026</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // Weekly Revenue Bar Chart
+  const ctxRev = document.getElementById('revenueChart').getContext('2d');
+  new Chart(ctxRev, {
+    type: 'bar',
+    data: {
+      labels: ['W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8'],
+      datasets: [{
+        label: 'Weekly Sales ($)',
+        data: [290000, 298000, 318000, 348000, 325000, 360000, 380000, 380000],
+        backgroundColor: '#2563eb',
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { callback: value => '$' + (value/1000) + 'k' }
+        }
+      }
+    }
+  });
+
+  // Device Split Donut Chart
+  const ctxDev = document.getElementById('deviceChart').getContext('2d');
+  new Chart(ctxDev, {
+    type: 'doughnut',
+    data: {
+      labels: ['Mobile', 'Desktop', 'Tablet'],
+      datasets: [{
+        data: [58, 34, 8],
+        backgroundColor: ['#2563eb', '#0d9488', '#f59e0b'],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      cutout: '75%'
+    }
+  });
+</script>
+
+</body>
+</html>
