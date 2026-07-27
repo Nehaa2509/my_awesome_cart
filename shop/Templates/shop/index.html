@@ -64,168 +64,211 @@
 
 {% block body %}
 <div class="container my-5">
-  <!-- Amazon-Style Multi-Box Dashboard Grid Row -->
-  <div class="row g-4">
-    {% for product, range, nSlides in allProds %}
-    <div class="col-12 col-md-6 col-lg-4">
-      <div class="card border-0 shadow-sm h-100 p-4 rounded-3 bg-white">
-        <h4 class="fw-bold text-dark mb-3">{{ product.0.category }}</h4>
-        
-        <!-- 4-Box Multi-Product Display Layout Grid -->
-        <div class="row g-2">
-          {% for p in product|slice:":4" %}
-          <div class="col-6 text-center position-relative">
-            <a href="/shop/products/{{ p.id }}" class="text-decoration-none">
-              <div class="bg-light p-2 rounded-2 mb-1" style="height: 120px; display: flex; align-items: center; justify-content: center;">
-                <img src="/media/{{ p.image }}" class="img-fluid" style="max-height: 100px; object-fit: contain;" alt="{{ p.product_name }}">
-              </div>
-              <span class="d-block text-truncate text-muted small px-1 fw-medium">{{ p.product_name }}</span>
-              <span class="d-block text-primary small fw-bold mb-2">₹{{ p.price }}</span>
-            </a>
-          </div>
-          {% endfor %}
-        </div>
-        
-        <a href="/shop/search/?query={{ product.0.category }}" class="btn btn-link text-start text-primary p-0 mt-3 small fw-semibold text-decoration-none">See more choices →</a>
+
+  {% for product, range, nSlides in allProds %}
+
+  <h3 class="fw-bold my-4 text-dark text-center text-md-start">Flash Sale On {{product.0.category}} - Recommended Items
+  </h3>
+  <div class="row">
+    <div id="productCarousel{{forloop.counter}}" class="col carousel slide mb-5" data-bs-ride="carousel">
+
+      <div class="carousel-indicators mb-n3">
+        <button type="button" data-bs-target="#productCarousel{{forloop.counter}}" data-bs-slide-to="0" class="active"
+          aria-current="true"></button>
+        {% for i in range %}
+        <button type="button" data-bs-target="#productCarousel{{forloop.parentloop.counter}}"
+          data-bs-slide-to="{{i}}"></button>
+        {% endfor %}
       </div>
+
+      <div class="carousel-inner px-md-5">
+
+        <div class="carousel-item active">
+          <div class="row g-4">
+
+            {% for p in product %}
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+              <div class="card product-card h-100 shadow-sm">
+                <img src="/media/{{p.image}}" class="card-img-top" alt="{{p.product_name}}">
+                <div class="card-body d-flex flex-column justify-content-between">
+                  <div>
+                    <h5 class="card-title fw-semibold" id="namepr{{p.id}}">{{p.product_name}}</h5>
+                    <p class="card-text text-muted small">{{p.description | slice:"0:53"}}...</p>
+                  </div>
+                  <div class="mt-3">
+                    <div class="fw-bold text-primary mb-2">₹<span id="pricepr{{p.id}}">{{p.price}}</span></div>
+
+                    <div class="d-flex gap-2">
+                      <span id="divpr{{p.id}}" class="w-50">
+                        <button id="pr{{p.id}}" class="btn btn-primary w-100 cart">Add to Cart</button>
+                      </span>
+                      <a href="{% url 'View Product' p.id %}" class="btn btn-outline-secondary w-50">View</a>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {% if forloop.counter|divisibleby:4 and not forloop.last %}
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="row g-4">
+            {% endif %}
+            {% endfor %}
+
+          </div>
+        </div>
+
+      </div>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel{{forloop.counter}}"
+        data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#productCarousel{{forloop.counter}}"
+        data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      </button>
     </div>
-    {% endfor %}
   </div>
+  {% endfor %}
 </div>
 {% endblock %}
 
 {% block js %}
 <script>
-console.log('Cart JavaScript Operational');
+  console.log('Cart JavaScript Operational');
 
-// 1. Initial State Sync
-let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
+  // 1. Initial State Sync
+  let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
 
-// 2. Initial Setup Run
-updateCart(cart);
-
-// 3. Click interaction delegation handler
-$(document).on('click', '.cart', function(){
-  console.log('Cart item add trigger received.');
-  var idstr = this.id.toString().trim();
-  
-  if (cart[idstr] !== undefined){
-    cart[idstr][0] = cart[idstr][0] + 1;
-  } else {
-    let nameElement = document.getElementById('name' + idstr);
-    let name = nameElement ? nameElement.innerHTML : "Product";
-    
-    // FIXED: Fetching the raw text string value from our newly created span price container
-    let priceElement = document.getElementById('price' + idstr);
-    let price = priceElement ? parseInt(priceElement.innerHTML) : 0;
-    
-    // FIXED: Stores as a 3-element data bundle array matrix [Quantity, Name, Price]
-    cart[idstr] = [1, name, price];
-  }
-  
+  // 2. Initial Setup Run
   updateCart(cart);
-});
 
-// Helper function to programmatically reset layout mutations completely
-function clearCart() {
-  cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
-  for (var item in cart) {
-    let targetSpan = document.getElementById('div' + item);
-    if (targetSpan) {
-      targetSpan.innerHTML = `<button id="${item}" class="btn btn-primary w-100 cart">Add to Cart</button>`;
+  // 3. Click interaction delegation handler
+  $(document).on('click', '.cart', function () {
+    console.log('Cart item add trigger received.');
+    var idstr = this.id.toString().trim();
+
+    if (cart[idstr] !== undefined) {
+      cart[idstr][0] = cart[idstr][0] + 1;
+    } else {
+      let nameElement = document.getElementById('name' + idstr);
+      let name = nameElement ? nameElement.innerHTML : "Product";
+
+      // FIXED: Fetching the raw text string value from our newly created span price container
+      let priceElement = document.getElementById('price' + idstr);
+      let price = priceElement ? parseInt(priceElement.innerHTML) : 0;
+
+      // FIXED: Stores as a 3-element data bundle array matrix [Quantity, Name, Price]
+      cart[idstr] = [1, name, price];
     }
+
+    updateCart(cart);
+  });
+
+  // Helper function to programmatically reset layout mutations completely
+  function clearCart() {
+    cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
+    for (var item in cart) {
+      let targetSpan = document.getElementById('div' + item);
+      if (targetSpan) {
+        targetSpan.innerHTML = `<button id="${item}" class="btn btn-primary w-100 cart">Add to Cart</button>`;
+      }
+    }
+    localStorage.clear();
+    cart = {};
+    updateCart(cart);
   }
-  localStorage.clear();
-  cart = {};
-  updateCart(cart);
-}
 
-// Helper function managing calculating and displaying total item values
-function updateCart(currentCart) {
-  let totalItems = 0;
+  // Helper function managing calculating and displaying total item values
+  function updateCart(currentCart) {
+    let totalItems = 0;
 
-  for (var item in currentCart) {
-    let qty = currentCart[item][0];
-    totalItems += qty;
-    let targetSpan = document.getElementById('div' + item);
-    
-    if (targetSpan) {
-      if (qty > 0) {
-        targetSpan.innerHTML = `
+    for (var item in currentCart) {
+      let qty = currentCart[item][0];
+      totalItems += qty;
+      let targetSpan = document.getElementById('div' + item);
+
+      if (targetSpan) {
+        if (qty > 0) {
+          targetSpan.innerHTML = `
           <div class="d-flex justify-content-between align-items-center bg-light border rounded p-1" style="font-size: 14px;">
             <button id="minus${item}" class="btn btn-sm btn-primary minus px-2">-</button>
             <span id="val${item}" class="fw-bold text-dark mx-1">${qty}</span>
             <button id="plus${item}" class="btn btn-sm btn-primary plus px-3">+</button>
           </div>`;
-      } else {
-        targetSpan.innerHTML = `<button id="${item}" class="btn btn-primary w-100 cart">Add to Cart</button>`;
-        delete currentCart[item];
+        } else {
+          targetSpan.innerHTML = `<button id="${item}" class="btn btn-primary w-100 cart">Add to Cart</button>`;
+          delete currentCart[item];
+        }
       }
     }
+
+    localStorage.setItem('cart', JSON.stringify(currentCart));
+    document.getElementById('cart').innerHTML = totalItems;
+
+    updatePopover(currentCart);
   }
 
-  localStorage.setItem('cart', JSON.stringify(currentCart));
-  document.getElementById('cart').innerHTML = totalItems;
-  
-  updatePopover(currentCart);
-}
+  // 4. Modifier delegation action: Decrement click handler
+  $(document).on("click", "button.minus", function () {
+    var a = this.id.slice(5);
+    cart[a][0] = cart[a][0] - 1;
+    cart[a][0] = Math.max(0, cart[a][0]);
 
-// 4. Modifier delegation action: Decrement click handler
-$(document).on("click", "button.minus", function() {
-  var a = this.id.slice(5); 
-  cart[a][0] = cart[a][0] - 1;
-  cart[a][0] = Math.max(0, cart[a][0]);
-  
-  if (cart[a][0] == 0){
-    let targetContainer = document.getElementById('div' + a);
-    if (targetContainer) {
-       targetContainer.innerHTML = `<button id="${a}" class="btn btn-primary w-100 cart">Add to Cart</button>`;
+    if (cart[a][0] == 0) {
+      let targetContainer = document.getElementById('div' + a);
+      if (targetContainer) {
+        targetContainer.innerHTML = `<button id="${a}" class="btn btn-primary w-100 cart">Add to Cart</button>`;
+      }
+      delete cart[a];
     }
-    delete cart[a];
-  }
-  updateCart(cart);
-});
+    updateCart(cart);
+  });
 
-// 5. Modifier delegation action: Increment click handler
-$(document).on("click", "button.plus", function() {
-  var a = this.id.slice(4);
-  cart[a][0] = cart[a][0] + 1;
-  updateCart(cart);
-});
+  // 5. Modifier delegation action: Increment click handler
+  $(document).on("click", "button.plus", function () {
+    var a = this.id.slice(4);
+    cart[a][0] = cart[a][0] + 1;
+    updateCart(cart);
+  });
 
-// 6. Asynchronous Bootstrap 5 Content Popover Handler
-function updatePopover(currentCart) {
-  let popStr = "<h5>Your Shopping Cart</h5><div class='mx-2 my-2'>";
-  let i = 1;
+  // 6. Asynchronous Bootstrap 5 Content Popover Handler
+  function updatePopover(currentCart) {
+    let popStr = "<h5>Your Shopping Cart</h5><div class='mx-2 my-2'>";
+    let i = 1;
 
-  if (Object.keys(currentCart).length === 0) {
-    popStr += "<p class='text-muted small'>Your cart is empty!</p>";
-  } else {
-    for (var item in currentCart) {
-      let qty = currentCart[item][0];
-      let name = currentCart[item][1];
-      
-      popStr += `<b>${i}</b>. ${name.slice(0, 19)}... Qty: <b>${qty}</b><br>`;
-      i++;
+    if (Object.keys(currentCart).length === 0) {
+      popStr += "<p class='text-muted small'>Your cart is empty!</p>";
+    } else {
+      for (var item in currentCart) {
+        let qty = currentCart[item][0];
+        let name = currentCart[item][1];
+
+        popStr += `<b>${i}</b>. ${name.slice(0, 19)}... Qty: <b>${qty}</b><br>`;
+        i++;
+      }
     }
-  }
-  
-  popStr += `</div> 
+
+    popStr += `</div> 
              <div class='d-flex gap-2 mt-2'>
                <a href='/shop/checkout/' class='btn btn-sm btn-primary w-50 text-white d-flex align-items-center justify-content-center' id='checkout' style='text-decoration: none;'>Checkout</a>
                <button class='btn btn-sm btn-outline-danger w-50' onclick='clearCart()' id='clearCart'>Clear Cart</button>
              </div>`;
 
-  let popcartElement = document.getElementById('popcart');
-  if (popcartElement) {
-    let popoverInstance = bootstrap.Popover.getOrCreateInstance(popcartElement, {
-      html: true,
-      sanitize: false
-    });
-    popoverInstance.setContent({
-      '.popover-body': popStr
-    });
+    let popcartElement = document.getElementById('popcart');
+    if (popcartElement) {
+      let popoverInstance = bootstrap.Popover.getOrCreateInstance(popcartElement, {
+        html: true,
+        sanitize: false
+      });
+      popoverInstance.setContent({
+        '.popover-body': popStr
+      });
+    }
   }
-}
 </script>
 {% endblock %}

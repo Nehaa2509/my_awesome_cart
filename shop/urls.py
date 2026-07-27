@@ -10,8 +10,10 @@ urlpatterns = [
     path("products/<int:myid>", views.productview, name="View Product"),
     path("checkout/",views.checkout ,name="Check Out"),
     path("handlerequest/",views.handlerequest ,name="HandleRequest"),
-    path("login/", views.handle_login, name="Login"),
-    path("signup/", views.handle_signup, name="Signup"),
-    path("logout/", views.handle_logout, name="Logout"),
-]
+    path("invoice/<int:order_id>/", views.download_invoice, name="DownloadInvoice"),
+    path("login/", views.login_page, name="login"),
+    path("signup/", views.signup_page, name="signup"),
+    path("logout/", views.handleLogout, name="logout"),
+    path("orders/", views.orders_profile, name="OrdersProfile"),
+]   
 

@@ -80,32 +80,47 @@
     
     <div class="col-md-8">
       <h2 class="fw-bold text-dark card-title" id="namepr{{product.id}}">{{product.product_name}}</h2>
-      <h4 class="text-success fw-bold my-3">${{product.price}}</h4>
+      <h4 class="text-success fw-bold my-3">₹{{product.price}}</h4>
       <p class="text-muted lead" style="font-size: 1.05rem; line-height: 1.6;">{{product.description}}</p>
+      <div class="small text-muted"><i class="bi bi-eye"></i> Viewed {{product.views}} times</div>
     </div>
 
   </div>
-</div> 
 
-{% if recommendations %}
-<div class="container my-5 pt-4 border-top">
-  <h4 class="fw-bold mb-4">Customers Who Viewed This Also Viewed</h4>
-  <div class="row g-4">
-    {% for rec in recommendations %}
-    <div class="col-6 col-md-3">
-      <div class="card product-card h-100 shadow-sm border-0 bg-white">
-        <img src="/media/{{rec.image}}" class="card-img-top" alt="{{rec.product_name}}" style="height: 180px; object-fit: cover;">
-        <div class="card-body d-flex flex-column p-3">
-          <h6 class="card-title fw-bold text-dark mb-1 text-truncate" title="{{rec.product_name}}">{{rec.product_name}}</h6>
-          <p class="text-success fw-semibold small mb-2">₹{{rec.price}}</p>
-          <a href="/shop/products/{{rec.id}}" class="btn btn-outline-primary btn-sm mt-auto w-100 stretched-link">View Item</a>
+  <!-- Customers Who Viewed This Also Viewed Recommendation Row -->
+  {% if recommendations %}
+  <div class="row mt-5 pt-4 border-top">
+    <div class="col-12 mb-4">
+      <h3 class="fw-bold text-dark mb-1">Customers Who Viewed This Also Viewed</h3>
+      <p class="text-muted small">Top related items in <strong>{{ product.category }}</strong></p>
+    </div>
+    
+    <div class="row g-4">
+      {% for item in recommendations %}
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="card h-100 shadow-sm border-0 product-card">
+          <div class="position-relative overflow-hidden rounded-top" style="height: 180px; background: #fff;">
+            <img src="/media/{{ item.image }}" class="w-100 h-100 object-fit-contain p-3" alt="{{ item.product_name }}">
+          </div>
+          <div class="card-body d-flex flex-column justify-content-between p-3">
+            <div>
+              <span class="badge bg-light text-primary border mb-2 text-capitalize" style="font-size: 0.75rem;">{{ item.category }}</span>
+              <h6 class="card-title fw-semibold text-dark text-truncate mb-1">{{ item.product_name }}</h6>
+              <p class="card-text text-muted small mb-2" style="font-size: 0.8rem;">{{ item.description|slice:"0:45" }}...</p>
+            </div>
+            <div class="d-flex align-items-center justify-content-between mt-2 pt-2 border-top">
+              <span class="fw-bold text-success">₹{{ item.price }}</span>
+              <a href="/shop/products/{{ item.id }}" class="btn btn-sm btn-outline-primary rounded-pill px-3">View Item</a>
+            </div>
+          </div>
         </div>
       </div>
+      {% endfor %}
     </div>
-    {% endfor %}
   </div>
-</div>
-{% endif %}
+  {% endif %}
+
+</div> 
 {% endblock %}   
 
 {% block js %}

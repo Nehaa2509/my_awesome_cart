@@ -1,0 +1,154 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+<div id="site-name">
+  <a href="{% url 'admin:index' %}" style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; font-weight: 700; color: #ffffff; text-decoration: none; display: flex; align-items: center; gap: 8px;">
+    <span>✨</span> {{ site_header|default:_('Django administration') }}
+  </a>
+</div>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* =========================================================================
+     NATIVE DJANGO ADMIN CSS VARIABLE OVERRIDES (THEME COLOR PALETTE)
+     ========================================================================= */
+  :root, [data-theme="light"], [data-theme="dark"] {
+    --primary: #6b443a !important;
+    --secondary: #e99fc1 !important;
+    --accent: #96f0e3 !important;
+    
+    --header-bg: #6b443a !important;
+    --header-color: #ffffff !important;
+    --header-link-color: #edd7c2 !important;
+    
+    --breadcrumbs-bg: #edd7c2 !important;
+    --breadcrumbs-color: #6b443a !important;
+    --breadcrumbs-link-color: #6b443a !important;
+    
+    --body-bg: #fdf6f9 !important;
+    --body-fg: #6b443a !important;
+    --body-quiet-color: #8c5a4d !important;
+    --body-loud-color: #4a2e27 !important;
+    
+    --darkfiltered-bg: #edd7c2 !important;
+    
+    --link-color: #6b443a !important;
+    --link-hover-color: #d887ab !important;
+    --link-selected-color: #e99fc1 !important;
+    
+    --hairline-color: #edd7c2 !important;
+    --border-color: #edd7c2 !important;
+    
+    --button-bg: #e99fc1 !important;
+    --button-hover-bg: #d887ab !important;
+    --button-fg: #ffffff !important;
+    
+    --default-button-bg: #96f0e3 !important;
+    --default-button-hover-bg: #76dfd1 !important;
+    --default-button-fg: #6b443a !important;
+
+    --font-family-primary: 'Poppins', system-ui, -apple-system, sans-serif !important;
+  }
+
+  body {
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif !important;
+    background-color: #fdf6f9 !important;
+    color: #6b443a !important;
+  }
+
+  /* Header Navbar */
+  #header {
+    background-color: #6b443a !important;
+    color: #ffffff !important;
+    padding: 14px 24px !important;
+    box-shadow: 0 4px 15px rgba(107, 68, 58, 0.2) !important;
+  }
+
+  #header a:link, #header a:visited {
+    color: #edd7c2 !important;
+  }
+
+  #header a:hover {
+    color: #96f0e3 !important;
+  }
+
+  /* Modules & Cards */
+  .module {
+    background: #ffffff !important;
+    border: 1px solid #edd7c2 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 12px rgba(107, 68, 58, 0.05) !important;
+    margin-bottom: 24px !important;
+    overflow: hidden !important;
+  }
+
+  .module h2, .module caption, .inline-group h2 {
+    background: #edd7c2 !important;
+    color: #6b443a !important;
+    font-family: 'Playfair Display', serif !important;
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    padding: 12px 16px !important;
+  }
+
+  /* Table Headers & Rows */
+  table thead th {
+    background: #edd7c2 !important;
+    color: #6b443a !important;
+    font-weight: 600 !important;
+    border-bottom: 2px solid rgba(107, 68, 58, 0.1) !important;
+  }
+
+  table tbody tr:hover {
+    background-color: rgba(233, 159, 193, 0.12) !important;
+  }
+
+  /* Action Buttons */
+  .button, input[type=submit], input[type=button], .submit-row input, a.button {
+    background: #e99fc1 !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    border-radius: 20px !important;
+    padding: 8px 20px !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+  }
+
+  .button:hover, input[type=submit]:hover, input[type=button]:hover, .submit-row input:hover {
+    background: #d887ab !important;
+    transform: translateY(-1px) !important;
+  }
+
+  .button.default, input[type=submit].default {
+    background: #96f0e3 !important;
+    color: #6b443a !important;
+  }
+
+  .button.default:hover, input[type=submit].default:hover {
+    background: #76dfd1 !important;
+  }
+
+  /* Breadcrumbs */
+  div.breadcrumbs {
+    background: #edd7c2 !important;
+    color: #6b443a !important;
+    border-radius: 8px !important;
+    padding: 10px 16px !important;
+    margin-bottom: 20px !important;
+  }
+
+  div.breadcrumbs a {
+    color: #6b443a !important;
+    font-weight: 600 !important;
+  }
+</style>
+{% endblock %}

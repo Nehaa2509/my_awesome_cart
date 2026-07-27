@@ -1,200 +1,299 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}{% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    {% block css %}
-    <style>
-      /* Floating Navigation Header System */
-      .navbar {
-        position: sticky;
-        top: 0;
-        z-index: 1030;
-        backdrop-filter: blur(8px);
-        background-color: rgba(33, 37, 41, 0.95) !important; /* Premium Amazon Dark Slate tint */
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      }
 
-      /* Antigravity Micro-Lift Animations */
-      .card, .btn {
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-      }
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet">
 
-      .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06) !important;
-      }
+  <style>
+    :root {
+      --color-pink: #e99fc1;
+      --color-bg: #fdf6f9;
+      --color-brown: #6b443a;
+      --color-nude: #edd7c2;
+      --color-mint: #96f0e3;
+      --color-mint-hover: #7be4d5;
+      --color-pink-dark: #d887ab;
+    }
 
-      .hover-bg-light:hover {
-        background-color: #f8f9fa !important;
-      }
-    </style>
-    {% endblock %}
-  </head>
-  <body>
-    {% load static %}
+    body {
+      background-color: var(--color-bg);
+      color: var(--color-brown);
+      font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+    }
 
-    {% block navbar %}
-    <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body shadow-sm" data-bs-theme="dark">
-      <div class="container">
-        <a class="navbar-brand fw-bold" href="/shop">My Awesome Cart</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+    h1,
+    h2,
+    h3,
+    .brand-font {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+
+    /* Custom Announcement Header Bar */
+    .announcement-bar {
+      background-color: var(--color-pink);
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    /* Custom Styled Navbar */
+    .navbar-custom {
+      background-color: var(--color-brown) !important;
+      box-shadow: 0 4px 15px rgba(107, 68, 58, 0.15);
+    }
+
+    .navbar-custom .navbar-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: #ffffff !important;
+    }
+
+    .navbar-custom .nav-link {
+      color: var(--color-nude) !important;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .navbar-custom .nav-link:hover,
+    .navbar-custom .nav-link.active {
+      color: var(--color-mint) !important;
+    }
+
+    /* Custom Buttons */
+    .btn-primary {
+      background-color: var(--color-pink) !important;
+      border-color: var(--color-pink) !important;
+      color: #ffffff !important;
+      font-weight: 500;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--color-pink-dark) !important;
+      border-color: var(--color-pink-dark) !important;
+    }
+
+    .btn-outline-primary {
+      color: var(--color-brown) !important;
+      border-color: var(--color-brown) !important;
+    }
+
+    .btn-outline-primary:hover {
+      background-color: var(--color-brown) !important;
+      color: #ffffff !important;
+    }
+
+    .btn-mint {
+      background-color: var(--color-mint) !important;
+      border-color: var(--color-mint) !important;
+      color: var(--color-brown) !important;
+      font-weight: 600;
+    }
+
+    .btn-mint:hover {
+      background-color: var(--color-mint-hover) !important;
+      border-color: var(--color-mint-hover) !important;
+    }
+
+    .btn-nude {
+      background-color: var(--color-nude) !important;
+      border-color: var(--color-nude) !important;
+      color: var(--color-brown) !important;
+      font-weight: 500;
+    }
+
+    .btn-secondary {
+      background-color: var(--color-nude) !important;
+      border-color: var(--color-nude) !important;
+      color: var(--color-brown) !important;
+      font-weight: 600;
+    }
+
+    /* Cards & Badges */
+    .card {
+      border-color: rgba(237, 215, 194, 0.6) !important;
+    }
+
+    .badge-nude {
+      background-color: var(--color-nude);
+      color: var(--color-brown);
+    }
+
+    .badge-mint {
+      background-color: var(--color-mint);
+      color: var(--color-brown);
+    }
+
+    .text-brown {
+      color: var(--color-brown) !important;
+    }
+
+    .bg-nude {
+      background-color: var(--color-nude) !important;
+    }
+
+    .bg-pink {
+      background-color: var(--color-pink) !important;
+    }
+
+    /* Input focus rings */
+    .form-control:focus {
+      border-color: var(--color-pink);
+      box-shadow: 0 0 0 0.25rem rgba(233, 159, 193, 0.25);
+    }
+  </style>
+
+  {% block css %}{% endblock %}
+</head>
+
+<body>
+  {% load static %}
+
+  <!-- Top Announcement Strip -->
+  <div class="announcement-bar py-1 text-center">
+    ✨ Free Shipping on Orders ₹500+ | Use Code <strong>AWESOME</strong> ✨
+  </div>
+
+  {% block navbar %}
+  <nav class="navbar navbar-expand-lg navbar-custom navbar-dark border-bottom border-body shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="/shop">My Awesome Cart</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/shop">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/shop/about">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/shop/tracker">Tracker</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/blog">Blog</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/shop/contact">Contact Us</a>
+          </li>
+        </ul>
+
+        <form method="get" action="/shop/search/" class="d-flex position-relative" role="search" id="searchForm">
+          <div class="position-relative w-100 me-2">
+            <input class="form-control" type="search" placeholder="Search products..." aria-label="Search" name="query"
+              id="query" autocomplete="off" />
+            <div id="search-autocomplete-dropdown"
+              class="dropdown-menu shadow-lg w-100 mt-1 border-0 rounded-3 overflow-hidden"
+              style="display: none; max-height: 400px; overflow-y: auto; z-index: 1050; left: 0; right: 0;"></div>
+          </div>
+          <button class="btn btn-mint" type="submit">Search</button>
+        </form>
+
+        <button type="button" class="btn btn-secondary mx-2" id="popcart" data-bs-container="body"
+          data-bs-toggle="popover" data-bs-placement="bottom" data-bs-html="true" data-bs-content="Bottom popover">
+          Cart (<span id="cart">0</span>)
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/shop">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/shop/about">About Us</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/shop/tracker">Tracker</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/blog">Blog</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/shop/contact">Contact Us</a>
-            </li>
-          </ul>
-          
-          <form method="get" action="/shop/search/" class="d-flex position-relative" role="search" id="searchForm">
-            <input class="form-control me-2" type="search" placeholder="Search products..." aria-label="Search" name="query" id="query" autocomplete="off"/>
-            <button class="btn btn-outline-success" type="submit">Search</button>
-            <div id="autocomplete-results" class="position-absolute bg-white border rounded shadow-sm text-start" style="display:none; z-index:1050; width:calc(100% - 85px); top:100%; left:0; max-height: 400px; overflow-y: auto;"></div>
-          </form>
-          
-          <button type="button" class="btn btn-secondary mx-2" id="popcart" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-html="true" data-bs-content="Bottom popover">
-            Cart (<span id="cart">0</span>)
-          </button>
-          
-          {% if user.is_authenticated %}
-            <a href="/shop/logout/" class="btn btn-outline-danger mx-1">Logout ({{ user.username }})</a>
-          {% else %}
-            <a href="/shop/login/" class="btn btn-outline-primary mx-1">Login</a>
-          {% endif %}
 
-        </div>
+        {% if user.is_authenticated %}
+        <span class="navbar-text me-2 small text-light fw-medium">Hi, {{ user.username }}</span>
+        <a href="/shop/orders/" class="btn btn-sm btn-nude rounded-pill px-3 me-1">My Orders</a>
+        <a href="/shop/logout/" class="btn btn-sm btn-outline-light rounded-pill px-3">Logout</a>
+        {% else %}
+        <a href="/shop/login/" class="btn btn-sm btn-outline-light rounded-pill px-3 me-1">Login</a>
+        <a href="/shop/signup/" class="btn btn-sm btn-mint rounded-pill px-3">Sign Up</a>
+        {% endif %}
+
       </div>
-    </nav>
-    {% endblock %}
+    </div>
+  </nav>
+  {% endblock %}
 
-    {% block body %}{% endblock %}
+  {% block body %}{% endblock %}
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    
-    {% block js %}{% endblock %}
-    
-    <!-- Instant Search JS -->
-    <script>
-      $(document).ready(function() {
-        $('#query').on('input', function() {
-          let query = $(this).val();
-          if (query.length > 0) {
-            $.ajax({
-              url: '/shop/search/',
-              data: { 'query': query },
-              headers: {'x-requested-with': 'XMLHttpRequest'},
-              success: function(data) {
-                let resultsContainer = $('#autocomplete-results');
-                resultsContainer.empty();
-                if (data.length > 0) {
-                  data.forEach(function(item) {
-                    resultsContainer.append(`
-                      <a href="/shop/products/${item.id}" class="text-decoration-none text-dark d-block p-2 border-bottom hover-bg-light">
-                        <div class="d-flex align-items-center">
-                          <img src="${item.image}" width="40" height="40" class="me-2 rounded" style="object-fit: cover;">
-                          <div style="line-height: 1.2;">
-                            <div class="fw-bold" style="font-size: 14px;">${item.product_name}</div>
-                            <div class="text-muted" style="font-size: 12px;">${item.category} &bull; ₹${item.price}</div>
-                          </div>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      let debounceTimer;
+      const $searchInput = $('#query');
+      const $dropdown = $('#search-autocomplete-dropdown');
+
+      $searchInput.on('input focus', function () {
+        const query = $(this).val().trim();
+        clearTimeout(debounceTimer);
+
+        if (query.length < 1) {
+          $dropdown.hide().empty();
+          return;
+        }
+
+        debounceTimer = setTimeout(function () {
+          $.ajax({
+            url: '/shop/search/',
+            type: 'GET',
+            data: { query: query, ajax: '1' },
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            success: function (response) {
+              $dropdown.empty();
+
+              if (response.products && response.products.length > 0) {
+                let html = '';
+                response.products.forEach(function (item) {
+                  const imgUrl = item.image ? item.image : 'https://via.placeholder.com/45?text=No+Img';
+                  html += `
+                      <a href="/shop/products/${item.id}" class="dropdown-item d-flex align-items-center p-2 border-bottom text-wrap text-decoration-none">
+                        <img src="${imgUrl}" alt="${item.product_name}" class="rounded me-3 object-fit-cover" style="width: 45px; height: 45px;">
+                        <div class="flex-grow-1 min-w-0">
+                          <div class="fw-semibold text-dark text-truncate" style="max-width: 210px;">${item.product_name}</div>
+                          <span class="badge bg-secondary text-capitalize" style="font-size: 10px;">${item.category}</span>
                         </div>
-                      </a>
-                    `);
-                  });
-                  resultsContainer.show();
-                } else {
-                  resultsContainer.append('<div class="p-3 text-muted text-center small">No products found</div>');
-                  resultsContainer.show();
-                }
+                        <div class="fw-bold text-success ms-2">₹${item.price}</div>
+                      </a>`;
+                });
+                $dropdown.html(html).show();
+              } else {
+                $dropdown.html(`
+                    <div class="p-3 text-center text-muted small">
+                      <i class="bi bi-search d-block mb-1"></i>
+                      No products matching "<strong>${query}</strong>"
+                    </div>`).show();
               }
-            });
-          } else {
-            $('#autocomplete-results').hide();
-          }
-        });
-
-        $(document).on('click', function(e) {
-          if (!$(e.target).closest('#searchForm').length) {
-            $('#autocomplete-results').hide();
-          }
-        });
+            },
+            error: function () {
+              $dropdown.html('<div class="p-2 text-center text-danger small">Error fetching search results.</div>').show();
+            }
+          });
+        }, 250);
       });
-    <!-- Secure Client-Side Cart Engine -->
-    <script>
-      // Initialize or fetch the structural ID-based cart matrix
-      if (localStorage.getItem('cart') == null) {
-          var cart = {};
-      } else {
-          try {
-              cart = JSON.parse(localStorage.getItem('cart'));
-              // Clean out legacy array structures if they exist from older migrations
-              for (let key in cart) {
-                  if (Array.isArray(cart[key])) {
-                      cart[key] = cart[key][0]; // Convert [qty, name, price] to just qty
-                  }
-              }
-              localStorage.setItem('cart', JSON.stringify(cart));
-          } catch(e) {
-              var cart = {};
-          }
-      }
 
-      // Function to update item count badges across UI layers
-      function updateCartBadge() {
-          let totalItems = 0;
-          for (let item in cart) {
-              totalItems += parseInt(cart[item]);
-          }
-          const badge = document.getElementById('cart') || document.getElementById('cart-badge');
-          if (badge) {
-              badge.innerHTML = totalItems;
-          }
-      }
+      // Hide dropdown when clicking outside
+      $(document).on('click', function (e) {
+        if (!$(e.target).closest('#searchForm').length) {
+          $dropdown.hide();
+        }
+      });
 
-      // Handles incrementing and initial additions securely via Product IDs
-      function addToCart(productId) {
-          productId = productId.toString();
-          if (cart[productId] !== undefined) {
-              cart[productId] = cart[productId] + 1;
-          } else {
-              cart[productId] = 1;
-          }
-          localStorage.setItem('cart', JSON.stringify(cart));
-          updateCartBadge();
-      }
+      // Hide dropdown on Escape key
+      $(document).on('keydown', function (e) {
+        if (e.key === 'Escape') {
+          $dropdown.hide();
+        }
+      });
+    });
+  </script>
 
-      // Handles decrements or clearing items from the persistent layer
-      function decrementCart(productId) {
-          productId = productId.toString();
-          if (cart[productId] !== undefined) {
-              cart[productId] = cart[productId] - 1;
-              if (cart[productId] <= 0) {
-                  delete cart[productId];
-              }
-              localStorage.setItem('cart', JSON.stringify(cart));
-              updateCartBadge();
-          }
-      }
+  {% block js %}{% endblock %}
+</body>
 
-      // Initialize layout counts on DOM load completion
-      document.addEventListener('DOMContentLoaded', updateCartBadge);
-    </script>
-  </body>
 </html>
