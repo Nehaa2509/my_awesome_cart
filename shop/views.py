@@ -9,7 +9,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import Product, Contact, Order, OrderUpdate  # FIXED: Unified to use 'Order' consistently
+from django.db import transaction
+from django.http import JsonResponse
+from .models import Product, Contact, Order, OrderItem, OrderUpdate  # FIXED: Unified models
 from .utils import generate_invoice_pdf
 
 # Initialize Razorpay Client
@@ -131,65 +133,139 @@ def productview(request, myid):
 @login_required(login_url='/shop/login/')
 def checkout(request):
     if request.method == "POST":
-        items_json = request.POST.get('itemsJson', '')
-        name = request.POST.get('name', '')
-        email = request.POST.get('email', '')
-        address1 = request.POST.get('address1', '')
-        address2 = request.POST.get('address2', '')
-        city = request.POST.get('city', '')
-        state = request.POST.get('state', '')
-        zip_code = request.POST.get('zip_code', '')
-        phone = request.POST.get('phone', '')
-
-        # Calculate total price on the backend
-        total_price = 0
         try:
-            cart = json.loads(items_json)
-            for item in cart.values():
-                qty = item[0]
-                price = item[2]
-                total_price += qty * price
-        except Exception:
-            total_price = 0
+            is_json = request.content_type == 'application/json'
+            if is_json:
+                data = json.loads(request.body)
+                client_cart = data.get('cart', {})
+                name = data.get('name', '').strip()
+                email = data.get('email', '').strip()
+                address1 = data.get('address1', '').strip()
+                address2 = data.get('address2', '').strip()
+                city = data.get('city', '').strip()
+                state = data.get('state', '').strip()
+                zip_code = data.get('zip_code', '').strip()
+                phone = data.get('phone', '').strip()
+                items_json = json.dumps(client_cart)
+            else:
+                items_json = request.POST.get('itemsJson', '')
+                name = request.POST.get('name', '').strip()
+                email = request.POST.get('email', '').strip()
+                address1 = request.POST.get('address1', '').strip()
+                address2 = request.POST.get('address2', '').strip()
+                city = request.POST.get('city', '').strip()
+                state = request.POST.get('state', '').strip()
+                zip_code = request.POST.get('zip_code', '').strip()
+                phone = request.POST.get('phone', '').strip()
+                
+                raw_cart = json.loads(items_json) if items_json else {}
+                client_cart = {}
+                for k, v in raw_cart.items():
+                    prod_id = str(k).replace("pr", "")
+                    qty = v[0] if isinstance(v, list) else v
+                    client_cart[prod_id] = qty
 
-        # Save the order to the database with amount and payment_status Pending
-        order = Order(items_json=items_json, name=name, email=email, 
-                      address1=address1, address2=address2, city=city, 
-                      state=state, zip_code=zip_code, phone=phone, amount=total_price,
-                      payment_status="Pending")
-        order.save()
-        
-        # Initialize the baseline milestone tracker data update record
-        update = OrderUpdate(order_id=order.order_id, update_desc="The Order has been placed..!")
-        update.save()
-        
-        # Create Razorpay order (amount in paise)
-        razorpay_amount = int(total_price * 100)
-        data = {
-            "amount": razorpay_amount,
-            "currency": "INR",
-            "receipt": str(order.order_id)
-        }
-        
-        try:
-            razorpay_order = client.order.create(data=data)
+            if not client_cart:
+                if is_json:
+                    return JsonResponse({'error': 'Your cart is completely empty.'}, status=400)
+                return render(request, 'shop/checkout.html', {'error': 'Your cart is empty.'})
+
+            product_ids = [str(k) for k in client_cart.keys()]
+            
+            with transaction.atomic():
+                products = Product.objects.filter(id__in=product_ids)
+                product_map = {str(p.id): p for p in products}
+
+                total_amount = 0
+                items_to_create = []
+
+                for prod_id, qty in client_cart.items():
+                    qty = int(qty)
+                    if qty <= 0:
+                        continue
+                        
+                    product = product_map.get(str(prod_id))
+                    if not product:
+                        if is_json:
+                            return JsonResponse({'error': f'Product Reference ID {prod_id} is missing.'}, status=400)
+                        continue
+
+                    item_total = product.price * qty
+                    total_amount += item_total
+                    
+                    items_to_create.append({
+                        'product': product,
+                        'quantity': qty,
+                        'price': product.price
+                    })
+
+                if total_amount == 0 and is_json:
+                    return JsonResponse({'error': 'Invalid items selected.'}, status=400)
+
+                order = Order.objects.create(
+                    user=request.user if request.user.is_authenticated else None,
+                    items_json=items_json,
+                    name=name,
+                    email=email,
+                    address1=address1,
+                    address2=address2,
+                    city=city,
+                    state=state,
+                    zip_code=zip_code,
+                    phone=phone,
+                    amount=total_amount,
+                    payment_status="Pending"
+                )
+
+                OrderItem.objects.bulk_create([
+                    OrderItem(
+                        order=order,
+                        product=item['product'],
+                        quantity=item['quantity'],
+                        price_at_purchase=item['price']
+                    ) for item in items_to_create
+                ])
+
+                OrderUpdate.objects.create(order_id=order.order_id, update_desc="The Order has been placed..!")
+
+            # Razorpay order creation (in paise)
+            razorpay_amount = int(total_amount * 100)
+            razorpay_order = client.order.create(data={
+                "amount": razorpay_amount,
+                "currency": "INR",
+                "receipt": f"receipt_order_{order.order_id}",
+                "payment_capture": 1
+            })
+            
             order.razorpay_order_id = razorpay_order['id']
-            order.save()
-        except Exception as e:
-            return HttpResponse(f"Error creating Razorpay order: {str(e)}")
+            order.save(update_fields=['razorpay_order_id'])
 
-        callback_url = request.build_absolute_uri('/shop/handlerequest/')
-        context = {
-            'razorpay_order_id': order.razorpay_order_id,
-            'amount': razorpay_amount,
-            'key_id': settings.RAZORPAY_KEY_ID,
-            'callback_url': callback_url,
-            'name': name,
-            'email': email,
-            'phone': phone,
-            'order_id': order.order_id,
-        }
-        return render(request, 'shop/pay.html', context)
+            if is_json:
+                return JsonResponse({
+                    'success': True,
+                    'order_id': order.order_id,
+                    'razorpay_order_id': order.razorpay_order_id,
+                    'amount': razorpay_amount,
+                    'razorpay_key': getattr(settings, 'RAZORPAY_KEY_ID', '')
+                })
+
+            callback_url = request.build_absolute_uri('/shop/handlerequest/')
+            context = {
+                'razorpay_order_id': order.razorpay_order_id,
+                'amount': razorpay_amount,
+                'key_id': settings.RAZORPAY_KEY_ID,
+                'callback_url': callback_url,
+                'name': name,
+                'email': email,
+                'phone': phone,
+                'order_id': order.order_id,
+            }
+            return render(request, 'shop/pay.html', context)
+
+        except Exception as e:
+            if request.content_type == 'application/json':
+                return JsonResponse({'error': f'Checkout error: {str(e)}'}, status=500)
+            return HttpResponse(f"Error creating order: {str(e)}")
 
     return render(request, 'shop/checkout.html')
 
@@ -210,11 +286,11 @@ def handlerequest(request):
         try:
             client.utility.verify_payment_signature(params_dict)
             
-            # If signature verified, find the order and mark as Paid
+            # If signature verified, find the order and mark as Completed
             order = Order.objects.get(razorpay_order_id=razorpay_order_id)
             order.razorpay_payment_id = razorpay_payment_id
             order.razorpay_signature = razorpay_signature
-            order.payment_status = "Paid"
+            order.payment_status = "Completed"
             order.save()
             
             # Create payment update record
