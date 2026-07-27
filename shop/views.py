@@ -81,7 +81,7 @@ def search(request):
 
 # 1.5 Main Landing Page View
 def home(request):
-    return render(request, 'shop/home.html')
+    return index(request)
 
 # 2. About Page View
 def about(request):
