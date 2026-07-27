@@ -3,9 +3,25 @@ from django.contrib import messages
 from .models import BlogPost, BlogComment  # FIXED: Cleaned up duplicate/incorrect class imports
 
 def index(request):
-    # FIXED: Updated to BlogPost matching your models configuration
-    posts = BlogPost.objects.all().order_by('-pub_date')  
-    return render(request, 'blog/index.html', {'posts': posts})
+    # 1. Fetch the active category parameter from the URL query string
+    selected_category = request.GET.get('category', '').strip()
+    
+    # 2. Get all distinct categories currently in the database to keep the nav dynamic
+    all_categories = BlogPost.objects.values_list('category', flat=True).distinct()
+    
+    # 3. Filter posts if a specific category is selected; otherwise, fetch all
+    if selected_category:
+        myposts = BlogPost.objects.filter(category__iexact=selected_category).order_by('-pub_date')
+    else:
+        myposts = BlogPost.objects.all().order_by('-pub_date')
+        
+    params = {
+        'myposts': myposts,
+        'posts': myposts,
+        'all_categories': all_categories,
+        'selected_category': selected_category
+    }
+    return render(request, 'blog/index.html', params)
 
 def blogpost(request, post_id=None):
     if post_id is None:

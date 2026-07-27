@@ -57,15 +57,21 @@
 {% block body %}
 <div class="container my-5">
   
-  <!-- 🧭 Aesthetic Category Sub-Navigation Matrix -->
+  <!-- 🧭 Dynamic Category Sub-Navigation Matrix -->
   <div class="d-flex flex-wrap gap-4 border-bottom pb-3 mb-5 overflow-x-auto select-none">
-    <a href="#" class="category-link active">All Stories</a>
-    <a href="#" class="category-link">World</a>
-    <a href="#" class="category-link">Technology</a>
-    <a href="#" class="category-link">Design</a>
-    <a href="#" class="category-link">Culture</a>
-    <a href="#" class="category-link">Business</a>
-    <a href="#" class="category-link">Science</a>
+    
+    <!-- "All Stories" Universal Reset Link -->
+    <a href="/blog/" class="category-link {% if not selected_category %}active{% endif %}">
+      All Stories
+    </a>
+
+    <!-- Loop through every distinct category available in the database -->
+    {% for cat in all_categories %}
+      <a href="/blog/?category={{ cat }}" class="category-link {% if selected_category == cat %}active{% endif %}">
+        {{ cat }}
+      </a>
+    {% endfor %}
+    
   </div>
 
   <!-- 🚀 Featured Editorial Pinned Post -->
