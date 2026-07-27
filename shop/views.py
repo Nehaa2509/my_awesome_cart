@@ -1,4 +1,4 @@
-import json  # FIXED: Added missing import for handling JSON tracking payloads
+import json  # FIXED: Handles JSON tracking payloads cleanly
 import math
 import razorpay
 from django.shortcuts import render, get_object_or_404, redirect
@@ -23,11 +23,16 @@ def index(request):
         allProds.append([prod, range(1, nSlides), nSlides])
 
     context = {'allProds': allProds}
+    if len(allProds) == 0 or len(allProds[0][0]) == 0:
+        context['message'] = "No products found in the store."
     return render(request, 'shop/index.html', context)
 
 def searchMatch(query, item):
-    return query.lower() in item.product_name.lower() or query.lower() in item.description.lower()
-
+    if query.lower() in item.product_name.lower() or query.lower() in item.description.lower(): 
+        return True
+    else:
+        return False
+     
 def search(request):
     query = request.GET.get('query', '')
     allProds = []
@@ -39,10 +44,16 @@ def search(request):
         prod = [item for item in prodtemp if searchMatch(query, item)]   
         n = len(prod)
         nSlides = n // 4 + math.ceil((n / 4) - (n // 4))
-        allProds.append([prod, range(1, nSlides), nSlides])
+        if len(prod) != 0:
+            allProds.append([prod, range(1, nSlides), nSlides])
 
     context = {'allProds': allProds}
-    return render(request, 'shop/index.html', context)
+    
+    # NEW FEATURE: Injects the error message flag if no query results match
+    if len(allProds) == 0:
+        context['message'] = "Please match your query correctly. No products found matching your search criteria."
+        
+    return render(request, 'shop/search.html', context)
 
 # 1.5 Main Landing Page View
 def home(request):
@@ -70,7 +81,7 @@ def tracker(request):
                 except Exception:
                     update_list = [{'text': 'Your order has been placed successfully!', 'time': 'Just now'}]
                 
-                # FIXED: Now dumping 'update_list' (the dictionary array) instead of the raw 'updates' model objects collection
+                # FIXED: Safely passing the string-serialized 'update_list' array directly down
                 response_data = [update_list, order[0].items_json]
                 return HttpResponse(json.dumps(response_data), content_type="application/json")
             else:
