@@ -271,48 +271,62 @@ def checkout(request):
 
 @csrf_exempt
 def handlerequest(request):
-    if request.method == "POST":
-        razorpay_payment_id = request.POST.get('razorpay_payment_id', '')
-        razorpay_order_id = request.POST.get('razorpay_order_id', '')
-        razorpay_signature = request.POST.get('razorpay_signature', '')
-        
-        # Verify payment signature
-        params_dict = {
-            'razorpay_order_id': razorpay_order_id,
-            'razorpay_payment_id': razorpay_payment_id,
-            'razorpay_signature': razorpay_signature
-        }
-        
+    if request.method == 'POST':
         try:
-            client.utility.verify_payment_signature(params_dict)
+            if request.content_type == 'application/json':
+                data = json.loads(request.body)
+            else:
+                data = request.POST
             
-            # If signature verified, find the order and mark as Completed
-            order = Order.objects.get(razorpay_order_id=razorpay_order_id)
+            razorpay_order_id = data.get('razorpay_order_id')
+            razorpay_payment_id = data.get('razorpay_payment_id')
+            razorpay_signature = data.get('razorpay_signature')
+            internal_order_id = data.get('order_id')
+
+            # Build formal parameters checklist for validation engine
+            params_dict = {
+                'razorpay_order_id': razorpay_order_id,
+                'razorpay_payment_id': razorpay_payment_id,
+                'razorpay_signature': razorpay_signature
+            }
+
+            # Cryptographic identity validation check using Razorpay Client utils
+            client.utility.verify_payment_signature(params_dict)
+
+            # Retrieve internal records matching payment tracking specifications
+            if internal_order_id:
+                order = Order.objects.get(order_id=internal_order_id, razorpay_order_id=razorpay_order_id)
+            else:
+                order = Order.objects.get(razorpay_order_id=razorpay_order_id)
+            
+            # Update fulfillment status across system layers atomically
             order.razorpay_payment_id = razorpay_payment_id
             order.razorpay_signature = razorpay_signature
             order.payment_status = "Completed"
-            order.save()
-            
-            # Create payment update record
+            order.save(update_fields=['razorpay_payment_id', 'razorpay_signature', 'payment_status'])
+
             update = OrderUpdate(order_id=order.order_id, update_desc="The Order payment has been successfully received!")
             update.save()
-            
-            # Generate and return PDF Invoice
+
+            # Render the relational PDF buffer created in utils.py
             pdf_buffer = generate_invoice_pdf(order)
+            
             response = HttpResponse(pdf_buffer.getvalue(), content_type='application/pdf')
-            response['Content-Disposition'] = f'attachment; filename="Invoice_{order.order_id}.pdf"'
+            response['Content-Disposition'] = f'attachment; filename="Invoice_BWD_{order.order_id}.pdf"'
             return response
+
+        except razorpay.errors.SignatureVerificationError:
+            if 'internal_order_id' in locals() and internal_order_id:
+                Order.objects.filter(order_id=internal_order_id).update(payment_status="Failed")
+            return JsonResponse({'success': False, 'error': 'Security signature check rejected.'}, status=400)
+            
+        except Order.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Target order configuration untraceable.'}, status=404)
             
         except Exception as e:
-            try:
-                order = Order.objects.get(razorpay_order_id=razorpay_order_id)
-                order.payment_status = "Failed"
-                order.save()
-            except Exception:
-                pass
-            return HttpResponse(f"Payment verification failed! Error: {str(e)}")
-            
-    return HttpResponse("Invalid request method.")
+            return JsonResponse({'success': False, 'error': str(e)}, status=500)
+
+    return HttpResponse("Method Not Allowed", status=405)
 
 # 7. Contact Us View
 def contact(request):

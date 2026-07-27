@@ -3,6 +3,10 @@
 
 {% block title %} Checkout - My Awesome Cart {% endblock %}
 
+{% block head %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+{% endblock %}
+
 {% block body %}
 <div class="container my-5">
   
@@ -37,7 +41,7 @@
     <div class="col-12 mt-5" id="address-section">
       <h3 class="fw-bold text-dark mb-4">Step 2 - Enter Address & Other Details</h3>
       <div class="bg-white p-4 border rounded-3 shadow-sm">
-        <form action="/shop/checkout/" method="post" class="row g-3">
+        <form action="/shop/checkout/" method="post" id="checkout-form" class="row g-3">
           {% csrf_token %}
           
           <input type="hidden" name="itemsJson" id="itemsJson">
@@ -96,66 +100,194 @@
 {% endblock %}
 
 {% block js %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
 {% if thank %}
 localStorage.clear();
 {% endif %}
 
-// 1. Load the updated 3-element Cart State Matrix from LocalStorage
-let checkCart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
-console.log("Current Checkout Cart State:", checkCart);
+// Helper validation routine to scan token identifiers
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// 1. Fetch & Render ID-based Cart Items
+let localCart = JSON.parse(localStorage.getItem('cart') || '{}');
+for (let k in localCart) {
+    if (Array.isArray(localCart[k])) {
+        localCart[k] = localCart[k][0];
+    }
+}
+localStorage.setItem('cart', JSON.stringify(localCart));
 
 let itemsContainer = $('#items');
 itemsContainer.empty();
 
-let totalItemsCount = 0;
-let totalTotalPrice = 0;
-
-if ($.isEmptyObject(checkCart)) {
-    let emptyStr = `<div class="alert alert-warning my-2 text-center" role="alert">
-                      Your cart is currently empty! Please add some items from the shop before checking out.
-                    </div>`;
-    itemsContainer.append(emptyStr);
+if (Object.keys(localCart).length === 0) {
+    itemsContainer.append(`
+        <div class="alert alert-warning my-2 text-center" role="alert">
+            Your cart is currently empty! Please add some items from the shop before checking out.
+        </div>
+    `);
     $('#address-section').hide();
 } else {
-    // 2. Loop through array data to display titles, quantities, and individual prices
-    for (let item in checkCart) {
-        let qty = checkCart[item][0]; 
-        let name = checkCart[item][1];
-        let price = checkCart[item][2] || 0; 
-        
-        let itemTotalPrice = qty * price;
-        totalItemsCount += qty;
-        totalTotalPrice += itemTotalPrice;
-        
-        let mystr = `<li class="list-group-item d-flex justify-content-between align-items-center px-3 py-3 border-bottom">
-                        <div>
-                            <span class="text-dark fw-medium">${name}</span>
-                            <small class="text-muted d-block">₹${price} each</small>
-                        </div>
-                        <div class="text-end">
-                            <span class="badge bg-primary rounded-pill px-3 py-2 fs-6">Qty: ${qty}</span>
-                            <span class="text-primary fw-bold d-block mt-1">₹${itemTotalPrice}</span>
-                        </div>
-                     </li>`;
-        itemsContainer.append(mystr);
-    }
-    
-    // 3. Append summary total row at the bottom of the checkout table card layout
-    let totalRowStr = `<li class="list-group-item d-flex justify-content-between align-items-center px-3 py-3 bg-light border rounded mt-3">
-                        <span class="text-dark fw-bold fs-5">Total Grand Bill Amount:</span>
-                        <span class="text-success fw-bold fs-4">₹${totalTotalPrice}</span>
-                       </li>`;
-    itemsContainer.append(totalRowStr);
+    $.ajax({
+        url: '/shop/search/?query=',
+        headers: {'x-requested-with': 'XMLHttpRequest'},
+        success: function(products) {
+            let totalItemsCount = 0;
+            let totalTotalPrice = 0;
+            itemsContainer.empty();
+
+            products.forEach(function(product) {
+                let pid = product.id.toString();
+                if (localCart[pid] !== undefined) {
+                    let qty = parseInt(localCart[pid]);
+                    let price = product.price;
+                    let itemTotal = qty * price;
+
+                    totalItemsCount += qty;
+                    totalTotalPrice += itemTotal;
+
+                    itemsContainer.append(`
+                        <li class="list-group-item d-flex justify-content-between align-items-center px-3 py-3 border-bottom">
+                            <div>
+                                <span class="text-dark fw-medium">${product.product_name}</span>
+                                <small class="text-muted d-block">₹${price} each</small>
+                            </div>
+                            <div class="text-end">
+                                <span class="badge bg-primary rounded-pill px-3 py-2 fs-6">Qty: ${qty}</span>
+                                <span class="text-primary fw-bold d-block mt-1">₹${itemTotal}</span>
+                            </div>
+                        </li>
+                    `);
+                }
+            });
+
+            itemsContainer.append(`
+                <li class="list-group-item d-flex justify-content-between align-items-center px-3 py-3 bg-light border rounded mt-3">
+                    <span class="text-dark fw-bold fs-5">Total Grand Bill Amount:</span>
+                    <span class="text-success fw-bold fs-4">₹${totalTotalPrice}</span>
+                </li>
+            `);
+
+            const badge = document.getElementById('cart') || document.getElementById('cart-badge');
+            if (badge) badge.innerHTML = totalItemsCount;
+        }
+    });
 }
 
-// 4. Send clean payload bundle down to hidden field for views.py orders parsing
-$('#itemsJson').val(JSON.stringify(checkCart));
+// 2. Dynamic AJAX Payment Handshake
+document.getElementById('checkout-form').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-// 5. Sync total item sum indicator directly to your global navbar badge
-let cartBadge = document.getElementById('cart');
-if (cartBadge) {
-    cartBadge.innerHTML = totalItemsCount;
+    const currentCart = JSON.parse(localStorage.getItem('cart') || '{}');
+    if (Object.keys(currentCart).length === 0) {
+        alert("Your shopping cart is completely empty!");
+        return;
+    }
+
+    const orderPayload = {
+        cart: currentCart,
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        address1: document.getElementById('address1').value,
+        address2: document.getElementById('address2').value,
+        city: document.getElementById('city').value,
+        state: document.getElementById('state').value,
+        zip_code: document.getElementById('zip_code').value,
+        phone: document.getElementById('phone').value
+    };
+
+    fetch('/shop/checkout/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify(orderPayload)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            var options = {
+                "key": data.razorpay_key,
+                "amount": data.amount,
+                "currency": "INR",
+                "name": "Birdwing E-Store",
+                "description": "Secure Order Checkout Payment",
+                "order_id": data.razorpay_order_id,
+                "handler": function (response) {
+                    verifyPaymentSignature(response, data.order_id);
+                },
+                "prefill": {
+                    "name": orderPayload.name,
+                    "email": orderPayload.email,
+                    "contact": orderPayload.phone
+                },
+                "theme": {
+                    "color": "#232F3E"
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+        } else {
+            alert("Checkout validation rejected: " + data.error);
+        }
+    })
+    .catch(error => console.error("Pipeline breakdown:", error));
+});
+
+// 3. Post-Purchase Signature Receiver & PDF Streamer
+function verifyPaymentSignature(rzpResponse, orderId) {
+    const payload = {
+        razorpay_order_id: rzpResponse.razorpay_order_id,
+        razorpay_payment_id: rzpResponse.razorpay_payment_id,
+        razorpay_signature: rzpResponse.razorpay_signature,
+        order_id: orderId
+    };
+
+    fetch('/shop/handlerequest/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(response => {
+        if (response.ok) {
+            localStorage.removeItem('cart');
+            if (typeof updateCartBadge === 'function') updateCartBadge();
+            return response.blob();
+        }
+        throw new Error('Fulfillment processing rejected.');
+    })
+    .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Invoice_BWD_${orderId}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        
+        window.location.href = "/shop/tracker/?status=success";
+    })
+    .catch(error => {
+        alert("Payment completed but order fulfillment errored. Please contact support.");
+        console.error(error);
+    });
 }
 </script>
 {% endblock %}

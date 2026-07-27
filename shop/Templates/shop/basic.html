@@ -136,6 +136,65 @@
           }
         });
       });
+    <!-- Secure Client-Side Cart Engine -->
+    <script>
+      // Initialize or fetch the structural ID-based cart matrix
+      if (localStorage.getItem('cart') == null) {
+          var cart = {};
+      } else {
+          try {
+              cart = JSON.parse(localStorage.getItem('cart'));
+              // Clean out legacy array structures if they exist from older migrations
+              for (let key in cart) {
+                  if (Array.isArray(cart[key])) {
+                      cart[key] = cart[key][0]; // Convert [qty, name, price] to just qty
+                  }
+              }
+              localStorage.setItem('cart', JSON.stringify(cart));
+          } catch(e) {
+              var cart = {};
+          }
+      }
+
+      // Function to update item count badges across UI layers
+      function updateCartBadge() {
+          let totalItems = 0;
+          for (let item in cart) {
+              totalItems += parseInt(cart[item]);
+          }
+          const badge = document.getElementById('cart') || document.getElementById('cart-badge');
+          if (badge) {
+              badge.innerHTML = totalItems;
+          }
+      }
+
+      // Handles incrementing and initial additions securely via Product IDs
+      function addToCart(productId) {
+          productId = productId.toString();
+          if (cart[productId] !== undefined) {
+              cart[productId] = cart[productId] + 1;
+          } else {
+              cart[productId] = 1;
+          }
+          localStorage.setItem('cart', JSON.stringify(cart));
+          updateCartBadge();
+      }
+
+      // Handles decrements or clearing items from the persistent layer
+      function decrementCart(productId) {
+          productId = productId.toString();
+          if (cart[productId] !== undefined) {
+              cart[productId] = cart[productId] - 1;
+              if (cart[productId] <= 0) {
+                  delete cart[productId];
+              }
+              localStorage.setItem('cart', JSON.stringify(cart));
+              updateCartBadge();
+          }
+      }
+
+      // Initialize layout counts on DOM load completion
+      document.addEventListener('DOMContentLoaded', updateCartBadge);
     </script>
   </body>
 </html>
