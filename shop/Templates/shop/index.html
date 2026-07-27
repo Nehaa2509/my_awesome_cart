@@ -79,14 +79,14 @@
               <div class="bg-light p-2 rounded-2 mb-1" style="height: 120px; display: flex; align-items: center; justify-content: center;">
                 <img src="/media/{{ p.image }}" class="img-fluid" style="max-height: 100px; object-fit: contain;" alt="{{ p.product_name }}">
               </div>
-              <span class="d-block text-truncate text-muted small px-1 fw-medium" id="namepr{{ p.id }}">{{ p.product_name }}</span>
-              <span class="d-block text-primary small fw-bold mb-2">₹<span id="pricepr{{ p.id }}">{{ p.price }}</span></span>
+              <span class="d-block text-truncate text-muted small px-1 fw-medium">{{ p.product_name }}</span>
+              <span class="d-block text-primary small fw-bold mb-2">₹{{ p.price }}</span>
             </a>
           </div>
           {% endfor %}
         </div>
         
-        <a href="/shop/search/?query={{ product.0.category }}" class="btn btn-link text-start text-primary p-0 mt-3 small fw-semibold text-decoration-none">See more choices &rarr;</a>
+        <a href="/shop/search/?query={{ product.0.category }}" class="btn btn-link text-start text-primary p-0 mt-3 small fw-semibold text-decoration-none">See more choices →</a>
       </div>
     </div>
     {% endfor %}
