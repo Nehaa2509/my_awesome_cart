@@ -27,6 +27,8 @@ class Contact(models.Model):
         return self.name
 
 
+from django.utils.timezone import now
+
 # 3. Orders Model (FIXED SYNTAX)
 class Order(models.Model):
     order_id = models.AutoField(primary_key=True)       
@@ -44,6 +46,7 @@ class Order(models.Model):
     razorpay_payment_id = models.CharField(max_length=100, default="", blank=True)
     razorpay_signature = models.CharField(max_length=200, default="", blank=True)
     payment_status = models.CharField(max_length=20, default="Pending")
+    timestamp = models.DateField(default=now)
 
     def __str__(self):
         return f"Order {self.order_id} by {self.name}"

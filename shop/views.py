@@ -301,7 +301,9 @@ def handle_logout(request):
 
 # 9. Velouria Analytics Custom Admin Console View
 from django.contrib.admin.views.decorators import staff_member_required
-from django.db.models import Sum
+from django.contrib.auth.decorators import user_passes_test
+from django.db.models import Sum, Count
+from django.db.models.functions import TruncDate
 
 @staff_member_required(login_url='/admin/login/')
 def admin_dashboard(request):
@@ -326,3 +328,56 @@ def admin_dashboard(request):
         'total_contacts': Contact.objects.count(),
     }
     return render(request, 'admin/dashboard.html', context)
+
+# 10. Executive Performance Analytics Dashboard View
+@user_passes_test(lambda u: u.is_staff, login_url='/shop/')
+def admin_analytics_dashboard(request):
+    # 1. Compute Lifetime Total Sales Value & Order Volumes (Only for Successful Payments)
+    sales_metrics = Order.objects.filter(payment_status="Paid").aggregate(
+        total_revenue=Sum('amount'),
+        successful_orders=Count('order_id')
+    )
+    
+    # Fallback to zero values if no sales have been processed yet
+    total_revenue = sales_metrics['total_revenue'] or 0
+    successful_orders = sales_metrics['successful_orders'] or 0
+
+    # 2. Track Order Dispersal for Funnel Calculations
+    total_checkout_attempts = Order.objects.count()
+    failed_orders = Order.objects.filter(payment_status="Failed").count()
+    pending_orders = Order.objects.filter(payment_status="Pending").count()
+    
+    # 3. Calculate Conversion Rates Baseline
+    conversion_rate = 0
+    if total_checkout_attempts > 0:
+        conversion_rate = round((successful_orders / total_checkout_attempts) * 100, 2)
+
+    # 4. Extract Historical Time-Series Sales Data (Last 7 Days) for Chart.js
+    daily_sales_data = (
+        Order.objects.filter(payment_status="Paid")
+        .annotate(date=TruncDate('timestamp'))
+        .values('date')
+        .annotate(daily_revenue=Sum('amount'), daily_count=Count('order_id'))
+        .order_by('-date')[:7]
+    )
+
+    # Parse query collections into clean arrays for JavaScript ingestion
+    chart_labels = []
+    chart_revenue = []
+    
+    # Reverse the collection loop to render chronologically left-to-right on the chart canvas
+    for entry in reversed(list(daily_sales_data)):
+        chart_labels.append(entry['date'].strftime('%b %d') if entry['date'] else 'Unknown')
+        chart_revenue.append(float(entry['daily_revenue'] or 0))
+
+    context = {
+        'total_revenue': total_revenue,
+        'successful_orders': successful_orders,
+        'failed_orders': failed_orders,
+        'pending_orders': pending_orders,
+        'total_checkout_attempts': total_checkout_attempts,
+        'conversion_rate': conversion_rate,
+        'chart_labels': json.dumps(chart_labels),
+        'chart_revenue': json.dumps(chart_revenue),
+    }
+    return render(request, 'shop/admin_analytics.html', context)
