@@ -1,84 +1,177 @@
-{% extends "blog/basic.html" %}
+{% extends "shop/basic.html" %}
 {% load static %}
 
-{% block title %} My Awesome Cart - Blog Home {% endblock %}
+{% block title %} Our Journal - My Awesome Cart {% endblock %}
+
+{% block css %}
+<style>
+  body {
+    background-color: #fdf6f9; /* Ultra-light pinkish-white canvas */
+    color: #6b443a;
+  }
+  
+  .blog-hero-card {
+    background: linear-gradient(135deg, #6b443a 0%, #3d231e 100%);
+    border-radius: 16px;
+    padding: 3.5rem;
+    color: #fdf6f9;
+  }
+  
+  .journal-card {
+    background-color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
+  }
+  
+  .journal-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(107, 68, 58, 0.08) !important;
+  }
+  
+  .category-link {
+    color: #6b443a;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.05rem;
+    padding: 0.25rem 0;
+    transition: color 0.2s;
+  }
+  
+  .category-link:hover, .category-link.active {
+    color: #f09fc1;
+    border-bottom: 2px solid #f09fc1;
+  }
+
+  .sidebar-box {
+    background-color: #edd7c2;
+    border-radius: 12px;
+    padding: 2rem;
+    color: #6b443a;
+  }
+</style>
+{% endblock %}
 
 {% block body %}
-<div class="container mt-4">
+<div class="container my-5">
   
-  <!-- Featured Hero Banner Card: Automatically uses the newest post (Index 0) -->
+  <!-- 🧭 Aesthetic Category Sub-Navigation Matrix -->
+  <div class="d-flex flex-wrap gap-4 border-bottom pb-3 mb-5 overflow-x-auto select-none">
+    <a href="#" class="category-link active">All Stories</a>
+    <a href="#" class="category-link">World</a>
+    <a href="#" class="category-link">Technology</a>
+    <a href="#" class="category-link">Design</a>
+    <a href="#" class="category-link">Culture</a>
+    <a href="#" class="category-link">Business</a>
+    <a href="#" class="category-link">Science</a>
+  </div>
+
+  <!-- 🚀 Featured Editorial Pinned Post -->
   {% if posts.0 %}
-  <div class="p-4 p-md-5 mb-4 rounded text-bg-dark bg-dark">
-    <div class="col-md-12 px-0">
-      <h1 class="display-4 fst-italic">{{ posts.0.title }}</h1>
-      <p class="lead my-3">{{ posts.0.content | safe | slice:"0:300" }}...</p>
-      <p class="lead mb-0">
-        <a href="{% url 'blogpost' posts.0.post_id %}" class="text-white fw-bold text-decoration-none">Continue reading...</a>
+  <div class="blog-hero-card shadow-sm mb-5">
+    <div class="col-md-8 px-0">
+      <span class="badge mb-3 px-3 py-2 rounded-pill fw-bold" style="background-color: #98f0e3; color: #6b443a;">PINNED EDITORIAL</span>
+      <h1 class="display-4 fw-bold mb-3" style="font-family: 'Playfair Display', serif;">{{ posts.0.title }}</h1>
+      <p class="lead my-3 opacity-90">{{ posts.0.chead }}</p>
+      <p class="lead mb-0 mt-4">
+        <a href="{% url 'blogpost' posts.0.post_id %}" class="btn fw-bold px-4 py-2 rounded-pill" style="background-color: #f09fc1; color: #6b443a; text-decoration: none;">Continue Reading →</a>
+      </p>
+    </div>
+  </div>
+  {% else %}
+  <div class="blog-hero-card shadow-sm mb-5">
+    <div class="col-md-8 px-0">
+      <span class="badge mb-3 px-3 py-2 rounded-pill fw-bold" style="background-color: #98f0e3; color: #6b443a;">PINNED EDITORIAL</span>
+      <h1 class="display-4 fw-bold mb-3" style="font-family: 'Playfair Display', serif;">The Art of Deconstruction: Designing Capsule 01</h1>
+      <p class="lead my-3 opacity-90">A look inside the design studio as we map out the core elements, heavyweight materials, and raw color architecture behind our latest physical drop.</p>
+      <p class="lead mb-0 mt-4">
+        <a href="#" class="btn fw-bold px-4 py-2 rounded-pill" style="background-color: #f09fc1; color: #6b443a; text-decoration: none;">Continue Reading →</a>
       </p>
     </div>
   </div>
   {% endif %}
 
-  <!-- Two Column Sub-Featured Grid Layout: Dynamically pulls Index 1 and Index 2 -->
-  <div class="row mb-2">
-    {% if posts.1 %}
-    <div class="col-md-6">
-      <div class="card flex-md-row mb-4 shadow-sm h-md-250 border rounded bg-white">
-        <div class="card-body d-flex flex-column align-items-start p-4">
-          <strong class="d-inline-block mb-2 text-primary">{{ posts.1.category }}</strong>
-          <h3 class="mb-0 fw-bold text-dark">{{ posts.1.title }}</h3>
-          <div class="mb-1 text-muted small">{{ posts.1.pub_date }}</div>
-          <p class="card-text mb-auto text-secondary">{{ posts.1.content | safe | slice:"0:150" }}...</p>
-          <a href="{% url 'blogpost' posts.1.post_id %}" class="text-decoration-none mt-2">Continue reading...</a>
-        </div>
-      </div>
-    </div>
-    {% endif %}
+  <!-- 📐 Main Layout Grid -->
+  <div class="row g-5">
+    
+    <!-- Left Column: Journal Archive Loop Stream -->
+    <div class="col-12 col-lg-8">
+      <h3 class="pb-4 mb-4 border-bottom fw-bold" style="font-family: 'Playfair Display', serif;">From the Firehose</h3>
 
-    {% if posts.2 %}
-    <div class="col-md-6">
-      <div class="card flex-md-row mb-4 shadow-sm h-md-250 border rounded bg-white">
-        <div class="card-body d-flex flex-column align-items-start p-4">
-          <strong class="d-inline-block mb-2 text-success">{{ posts.2.category }}</strong>
-          <h3 class="mb-0 fw-bold text-dark">{{ posts.2.title }}</h3>
-          <div class="mb-1 text-muted small">{{ posts.2.pub_date }}</div>
-          <p class="card-text mb-auto text-secondary">{{ posts.2.content | safe | slice:"0:150" }}...</p>
-          <a href="{% url 'blogpost' posts.2.post_id %}" class="text-decoration-none mt-2">Continue reading</a>
+      {% for post in posts %}
+      <article class="journal-card p-4 shadow-sm mb-4">
+        <span class="d-inline-block mb-2 text-uppercase small fw-bold" style="color: #f09fc1;">Editorial</span>
+        <h3 class="fw-bold mb-2"><a href="{% url 'blogpost' post.post_id %}" class="text-decoration-none" style="color: #6b443a;">{{ post.title }}</a></h3>
+        {% if post.chead %}
+        <div class="fw-semibold mb-2" style="color: #8c5b4f;">{{ post.chead }}</div>
+        {% endif %}
+        <div class="mb-3 text-muted small">{{ post.pub_date }} by <span class="fw-semibold">{{ post.author }}</span></div>
+        <p class="text-secondary">{{ post.content | safe | slice:"0:250" }}...</p>
+        <a href="{% url 'blogpost' post.post_id %}" class="text-decoration-none fw-bold small" style="color: #6b443a;">Read full article &rarr;</a>
+      </article>
+      {% empty %}
+      <article class="journal-card p-4 shadow-sm mb-4">
+        <span class="d-inline-block mb-2 text-uppercase small fw-bold" style="color: #f09fc1;">Technology</span>
+        <h3 class="fw-bold mb-2"><a href="#" class="text-decoration-none" style="color: #6b443a;">Welcome to Our Awesome Blog!</a></h3>
+        <div class="mb-3 text-muted small">July 14, 2026 by <span class="fw-semibold">Admin</span></div>
+        <p class="text-secondary">This is the main body content of our very first blog post. Django makes it extremely easy to build robust web applications...</p>
+        <a href="#" class="text-decoration-none fw-bold small" style="color: #6b443a;">Read full article &rarr;</a>
+      </article>
+      {% endfor %}
+      
+      <!-- Dynamic Pagination Buffer -->
+      <nav class="blog-pagination mt-5 d-flex gap-2">
+        <a class="btn btn-outline-dark rounded-pill px-4 btn-sm disabled" href="#">Older</a>
+        <a class="btn btn-outline-dark rounded-pill px-4 btn-sm" href="#">Newer</a>
+      </nav>
+    </div>
+
+    <!-- Right Column: Interactive Editorial Sidebar -->
+    <div class="col-12 col-lg-4">
+      <div class="position-sticky" style="top: 6rem;">
+        
+        <!-- About Box Element -->
+        <div class="sidebar-box mb-4 shadow-sm">
+          <h5 class="fw-bold mb-2" style="font-family: 'Playfair Display', serif;">About the Journal</h5>
+          <p class="mb-0 small lh-relaxed">Customize this section to tell your visitors a little bit about your publication, writers, content, or something else entirely.</p>
         </div>
+
+        <!-- Recent Posts Widget -->
+        <div class="p-4 rounded-3 bg-white border mb-4 shadow-sm">
+          <h5 class="fw-bold mb-3 text-dark" style="font-family: 'Playfair Display', serif;">Recent Discoveries</h5>
+          <ul class="list-unstyled mb-0">
+            {% for post in posts|slice:":3" %}
+            <li class="mb-3 pb-2 border-bottom">
+              <a class="text-decoration-none fw-semibold d-block text-truncate mb-1" style="color: #6b443a;" href="{% url 'blogpost' post.post_id %}">{{ post.title }}</a>
+              <small class="text-muted">{{ post.pub_date }}</small>
+            </li>
+            {% empty %}
+            <li class="mb-3 pb-2 border-bottom">
+              <a class="text-decoration-none fw-semibold d-block text-truncate mb-1" style="color: #6b443a;" href="#">Example blog post title</a>
+              <small class="text-muted">January 15, 2026</small>
+            </li>
+            <li>
+              <a class="text-decoration-none fw-semibold d-block text-truncate mb-1" style="color: #6b443a;" href="#">This is another blog post title</a>
+              <small class="text-muted">January 14, 2026</small>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <!-- Social Channels Matrix -->
+        <div class="p-4 rounded-3 bg-white border shadow-sm">
+          <h5 class="fw-bold mb-3 text-dark" style="font-family: 'Playfair Display', serif;">Elsewhere</h5>
+          <div class="d-flex flex-column gap-2 small fw-bold">
+            <a href="https://github.com" target="_blank" class="text-decoration-none" style="color: #6b443a;">✨ GitHub</a>
+            <a href="https://facebook.com" target="_blank" class="text-decoration-none" style="color: #6b443a;">🔵 Facebook</a>
+          </div>
+        </div>
+
       </div>
     </div>
-    {% endif %}
+
   </div>
-
-  <h3 class="pb-4 mb-4 fst-italic border-bottom text-dark mt-5">From the Firehose</h3>
-
-  <!-- DYNAMIC LOGIC LOOP: Loops through all blog posts smoothly -->
-  {% for post in posts %}
-    <article class="blog-post mb-5">
-      <h2 class="blog-post-title text-dark fw-bold mb-1">
-        <a href="{% url 'blogpost' post.post_id %}" class="text-decoration-none text-dark">{{ post.title }}</a>
-      </h2>
-      <p class="blog-post-meta text-muted">{{ post.pub_date }} by <a href="#" class="text-decoration-none fw-medium text-secondary">{{ post.author }}</a></p>
-      
-      <p>{{ post.content | safe | slice:"0:300" }}...</p>
-      
-      <p class="mt-2">
-        <a href="{% url 'blogpost' post.post_id %}" class="btn btn-sm btn-outline-primary rounded-pill px-3">Continue reading...</a>
-      </p>
-    </article>
-  {% empty %}
-    <!-- Static Fallback text if database has no articles yet -->
-    <article class="blog-post mb-5">
-      <h2 class="blog-post-title text-dark fw-bold mb-1">Welcome to Our Awesome Blog!</h2>
-      <p class="blog-post-meta text-muted">No posts available yet. Check back soon!</p>
-    </article>
-  {% endfor %}
-
-  <!-- Pagination System (Fixed Text Labels) -->
-  <nav class="blog-pagination my-4" aria-label="Pagination">
-    <a class="btn btn-outline-primary rounded-pill px-4" href="#">Older</a>
-    <a class="btn btn-outline-secondary rounded-pill px-4 disabled">Newer</a>
-  </nav>
-
-</div>     
+</div>
 {% endblock %}

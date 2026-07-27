@@ -7,7 +7,7 @@ from django.utils.timezone import now
 # =========================================================================
 class BlogPost(models.Model):
     post_id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=200)
     chead = models.CharField(max_length=500, default="")
     author = models.CharField(max_length=100, default="")
     content = models.CharField(max_length=5000, default="")

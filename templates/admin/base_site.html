@@ -4,90 +4,120 @@
 
 {% block branding %}
 <div id="site-name">
-  <a href="{% url 'admin:index' %}" style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; font-weight: 700; color: #ffffff; text-decoration: none; display: flex; align-items: center; gap: 8px;">
-    <span>✨</span> {{ site_header|default:_('Django administration') }}
+  <a href="{% url 'admin:index' %}" class="brand-link" style="font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: #ffffff; text-decoration: none; display: flex; align-items: center; gap: 10px;">
+    <span class="brand-icon">🛍️</span> {{ site_header|default:_('Django administration') }}
   </a>
 </div>
 {% endblock %}
 
 {% block nav-global %}{% endblock %}
 
-{% block extrahead %}
+{% block extrastyle %}
 {{ block.super }}
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
 <style>
   /* =========================================================================
-     NATIVE DJANGO ADMIN CSS VARIABLE OVERRIDES (THEME COLOR PALETTE)
+     HIGH-END GLASSMORPHIC THEME FOR DJANGO ADMIN
+     Color Palette:
+     - #f09fc1 : Bright, soft pink
+     - #fdf6f9 : Ultra-light pinkish-white (body background)
+     - #6b443a : Deep reddish-brown (headings, text, headers)
+     - #edd7c2 : Warm light sandy beige (cards, borders, table headers)
+     - #98f0e3 : Vibrant light turquoise / mint green (accents, highlights)
      ========================================================================= */
-  :root, [data-theme="light"], [data-theme="dark"] {
+
+  /* Override Django Native Admin CSS Variables across ALL modes */
+  :root, html[data-theme="light"], html[data-theme="dark"], html {
     --primary: #6b443a !important;
-    --secondary: #e99fc1 !important;
-    --accent: #96f0e3 !important;
-    
+    --secondary: #edd7c2 !important;
     --header-bg: #6b443a !important;
     --header-color: #ffffff !important;
-    --header-link-color: #edd7c2 !important;
-    
-    --breadcrumbs-bg: #edd7c2 !important;
-    --breadcrumbs-color: #6b443a !important;
-    --breadcrumbs-link-color: #6b443a !important;
-    
+    --header-link-color: #98f0e3 !important;
     --body-bg: #fdf6f9 !important;
     --body-fg: #6b443a !important;
-    --body-quiet-color: #8c5a4d !important;
-    --body-loud-color: #4a2e27 !important;
-    
-    --darkfiltered-bg: #edd7c2 !important;
-    
-    --link-color: #6b443a !important;
-    --link-hover-color: #d887ab !important;
-    --link-selected-color: #e99fc1 !important;
-    
+    --body-quiet-color: #8c5b4f !important;
+    --link-fg: #6b443a !important;
+    --link-hover-color: #f09fc1 !important;
+    --link-selected-fg: #f09fc1 !important;
     --hairline-color: #edd7c2 !important;
     --border-color: #edd7c2 !important;
-    
-    --button-bg: #e99fc1 !important;
-    --button-hover-bg: #d887ab !important;
+    --breadcrumbs-bg: #edd7c2 !important;
+    --breadcrumbs-link-fg: #6b443a !important;
+    --breadcrumbs-fg: #6b443a !important;
+    --accent: #98f0e3 !important;
+    --selected-bg: rgba(240, 157, 193, 0.15) !important;
+    --selected-row: rgba(240, 157, 193, 0.15) !important;
+    --button-bg: #f09fc1 !important;
+    --button-hover-bg: #e58bb1 !important;
     --button-fg: #ffffff !important;
-    
-    --default-button-bg: #96f0e3 !important;
-    --default-button-hover-bg: #76dfd1 !important;
-    --default-button-fg: #6b443a !important;
-
-    --font-family-primary: 'Poppins', system-ui, -apple-system, sans-serif !important;
+    --close-button-bg: #6b443a !important;
+    --close-button-hover-bg: #f09fc1 !important;
+    --message-success-bg: #98f0e3 !important;
+    --darkmode-bg: #fdf6f9 !important;
   }
 
   body {
     font-family: 'Poppins', system-ui, -apple-system, sans-serif !important;
     background-color: #fdf6f9 !important;
+    background-image: 
+      radial-gradient(circle at 10% 20%, rgba(240, 157, 193, 0.08) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(152, 240, 227, 0.08) 0%, transparent 40%) !important;
     color: #6b443a !important;
+    min-height: 100vh;
   }
 
-  /* Header Navbar */
+  h1, h2, h3, .brand-font {
+    font-family: 'Playfair Display', Georgia, serif !important;
+  }
+
+  /* 1. Glassmorphic Sticky Header Navbar */
   #header {
-    background-color: #6b443a !important;
+    background: rgba(107, 68, 58, 0.95) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
     color: #ffffff !important;
-    padding: 14px 24px !important;
-    box-shadow: 0 4px 15px rgba(107, 68, 58, 0.2) !important;
+    padding: 16px 28px !important;
+    box-shadow: 0 4px 20px rgba(107, 68, 58, 0.2) !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+    border-bottom: 2px solid #edd7c2 !important;
   }
 
-  #header a:link, #header a:visited {
-    color: #edd7c2 !important;
+  #user-tools {
+    font-weight: 500 !important;
+    font-size: 0.92rem !important;
   }
 
-  #header a:hover {
-    color: #96f0e3 !important;
+  #user-tools a {
+    color: #98f0e3 !important;
+    transition: color 0.2s ease !important;
   }
 
-  /* Modules & Cards */
+  #user-tools a:hover {
+    color: #f09fc1 !important;
+  }
+
+  /* 2. Glassmorphic Cards & Modules */
+  #container {
+    background: transparent !important;
+  }
+
   .module {
-    background: #ffffff !important;
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
     border: 1px solid #edd7c2 !important;
-    border-radius: 12px !important;
-    box-shadow: 0 4px 12px rgba(107, 68, 58, 0.05) !important;
-    margin-bottom: 24px !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 30px rgba(107, 68, 58, 0.06) !important;
+    margin-bottom: 28px !important;
     overflow: hidden !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+  }
+
+  .module:hover {
+    box-shadow: 0 12px 35px rgba(107, 68, 58, 0.1) !important;
   }
 
   .module h2, .module caption, .inline-group h2 {
@@ -95,60 +125,166 @@
     color: #6b443a !important;
     font-family: 'Playfair Display', serif !important;
     font-weight: 700 !important;
-    font-size: 1.1rem !important;
-    padding: 12px 16px !important;
+    font-size: 1.15rem !important;
+    padding: 14px 20px !important;
+    letter-spacing: 0.3px !important;
+    border-bottom: 1px solid rgba(107, 68, 58, 0.1) !important;
   }
 
-  /* Table Headers & Rows */
-  table thead th {
+  /* 3. High-End Tables & Data Grids */
+  table {
+    width: 100% !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+  }
+
+  #result_list th {
     background: #edd7c2 !important;
     color: #6b443a !important;
     font-weight: 600 !important;
-    border-bottom: 2px solid rgba(107, 68, 58, 0.1) !important;
+    font-size: 0.88rem !important;
+    padding: 14px 16px !important;
+    border-bottom: 2px solid rgba(107, 68, 58, 0.12) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
   }
 
-  table tbody tr:hover {
-    background-color: rgba(233, 159, 193, 0.12) !important;
+  #result_list td, #result_list th {
+    padding: 14px 16px !important;
+    border-bottom: 1px solid rgba(237, 215, 194, 0.6) !important;
   }
 
-  /* Action Buttons */
+  #result_list tr {
+    transition: background-color 0.2s ease !important;
+  }
+
+  #result_list tr:hover {
+    background-color: rgba(152, 240, 227, 0.2) !important;
+  }
+
+  tr.row1 { background-color: #ffffff !important; }
+  tr.row2 { background-color: rgba(253, 246, 249, 0.7) !important; }
+
+  /* 4. Action Buttons & Input Styling */
   .button, input[type=submit], input[type=button], .submit-row input, a.button {
-    background: #e99fc1 !important;
+    background: #f09fc1 !important;
     border: none !important;
     color: #ffffff !important;
     font-weight: 600 !important;
-    border-radius: 20px !important;
-    padding: 8px 20px !important;
-    transition: all 0.2s ease !important;
+    border-radius: 50px !important;
+    padding: 10px 24px !important;
+    font-size: 0.9rem !important;
+    transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1) !important;
     cursor: pointer !important;
+    box-shadow: 0 4px 14px rgba(240, 157, 193, 0.4) !important;
   }
 
   .button:hover, input[type=submit]:hover, input[type=button]:hover, .submit-row input:hover {
-    background: #d887ab !important;
-    transform: translateY(-1px) !important;
+    background: #e58bb1 !important;
+    transform: translateY(-2px) scale(1.02) !important;
+    box-shadow: 0 6px 18px rgba(240, 157, 193, 0.55) !important;
   }
 
   .button.default, input[type=submit].default {
-    background: #96f0e3 !important;
+    background: #98f0e3 !important;
     color: #6b443a !important;
+    box-shadow: 0 4px 14px rgba(152, 240, 227, 0.4) !important;
   }
 
   .button.default:hover, input[type=submit].default:hover {
-    background: #76dfd1 !important;
+    background: #83e4d6 !important;
+    box-shadow: 0 6px 18px rgba(152, 240, 227, 0.6) !important;
   }
 
-  /* Breadcrumbs */
+  .deletelink, .deletelink:link, .deletelink:visited {
+    background: #6b443a !important;
+    color: #ffffff !important;
+    border-radius: 50px !important;
+    padding: 8px 18px !important;
+  }
+
+  .deletelink:hover {
+    background: #e95959 !important;
+  }
+
+  /* 5. Inputs & Select Controls */
+  input[type=text], input[type=password], input[type=email], select, textarea {
+    border: 1px solid #edd7c2 !important;
+    border-radius: 10px !important;
+    padding: 10px 14px !important;
+    font-family: 'Poppins', sans-serif !important;
+    background-color: #ffffff !important;
+    color: #6b443a !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+  }
+
+  input[type=text]:focus, input[type=password]:focus, select:focus, textarea:focus {
+    border-color: #f09fc1 !important;
+    outline: none !important;
+    box-shadow: 0 0 0 4px rgba(240, 157, 193, 0.25) !important;
+  }
+
+  /* 6. Breadcrumbs Strip */
   div.breadcrumbs {
     background: #edd7c2 !important;
     color: #6b443a !important;
-    border-radius: 8px !important;
-    padding: 10px 16px !important;
-    margin-bottom: 20px !important;
+    border-radius: 12px !important;
+    padding: 12px 20px !important;
+    margin-bottom: 24px !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
   }
 
   div.breadcrumbs a {
     color: #6b443a !important;
     font-weight: 600 !important;
+  }
+
+  div.breadcrumbs a:hover {
+    color: #f09fc1 !important;
+  }
+
+  /* 7. Sidebar Filter Menu */
+  #changelist-filter {
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid #edd7c2 !important;
+    border-radius: 16px !important;
+    padding: 18px !important;
+    box-shadow: 0 8px 30px rgba(107, 68, 58, 0.06) !important;
+  }
+
+  #changelist-filter h2 {
+    background: #6b443a !important;
+    color: #ffffff !important;
+    border-radius: 10px !important;
+    padding: 10px 14px !important;
+    font-size: 0.95rem !important;
+    margin-bottom: 12px !important;
+  }
+
+  #changelist-filter li.selected a {
+    color: #f09fc1 !important;
+    font-weight: 700 !important;
+  }
+
+  /* Navigation Sidebar (Django 3.1+) */
+  #nav-sidebar {
+    background: rgba(255, 255, 255, 0.75) !important;
+    border-right: 1px solid #edd7c2 !important;
+  }
+
+  .nav-sidebar th {
+    background: #edd7c2 !important;
+    color: #6b443a !important;
+  }
+
+  /* Action Bar */
+  .actions {
+    background: rgba(237, 215, 194, 0.4) !important;
+    padding: 12px 18px !important;
+    border-radius: 12px !important;
+    margin-bottom: 20px !important;
   }
 </style>
 {% endblock %}

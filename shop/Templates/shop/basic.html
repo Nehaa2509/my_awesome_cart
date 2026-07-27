@@ -147,6 +147,62 @@
       border-color: var(--color-pink);
       box-shadow: 0 0 0 0.25rem rgba(233, 159, 193, 0.25);
     }
+
+    /* Skeleton Placeholder Pulses during loading phases */
+    .skeleton-loading-box {
+      background: linear-gradient(90deg, #edd7c2 25%, #fdf6f9 50%, #edd7c2 75%);
+      background-size: 200% 100%;
+      animation: loadingPulse 1.5s infinite;
+    }
+
+    @keyframes loadingPulse {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* 🏷️ Banner Footer Custom Styling Matrix */
+    .footer-banner-link {
+      color: #fdf6f9;
+      text-decoration: none;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      letter-spacing: 0.1rem;
+    }
+
+    .footer-banner-link:hover {
+      color: #98f0e3;
+      transform: translateY(-2px);
+    }
+
+    /* 🔄 Infinite Typographic Marquee Canvas Overlays */
+    .footer-bg-marquee-wrapper {
+      position: absolute;
+      top: 15%;
+      left: 0;
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+
+    .footer-marquee-text {
+      font-family: 'Playfair Display', sans-serif;
+      font-weight: 800;
+      font-size: 8rem;
+      color: #fdf6f9;
+      display: inline-block;
+      animation: marqueeScroll 24s linear infinite;
+    }
+
+    @keyframes marqueeScroll {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(-50%, 0, 0); }
+    }
+
+    .select-none {
+      user-select: none;
+      -webkit-user-select: none;
+    }
   </style>
 
   {% block css %}{% endblock %}
@@ -198,14 +254,12 @@
           <button class="btn btn-mint" type="submit">Search</button>
         </form>
 
-        <button type="button" class="btn btn-secondary mx-2" id="popcart" data-bs-container="body"
-          data-bs-toggle="popover" data-bs-placement="bottom" data-bs-html="true" data-bs-content="Bottom popover">
+        <button type="button" class="btn btn-secondary mx-2" id="popcart" onclick="openShopifyCartDrawer()">
           Cart (<span id="cart">0</span>)
         </button>
 
         {% if user.is_authenticated %}
         <span class="navbar-text me-2 small text-light fw-medium">Hi, {{ user.username }}</span>
-        <a href="/shop/orders/" class="btn btn-sm btn-nude rounded-pill px-3 me-1">My Orders</a>
         <a href="/shop/logout/" class="btn btn-sm btn-outline-light rounded-pill px-3">Logout</a>
         {% else %}
         <a href="/shop/login/" class="btn btn-sm btn-outline-light rounded-pill px-3 me-1">Login</a>
@@ -217,7 +271,91 @@
   </nav>
   {% endblock %}
 
+  <!-- 🛒 Shopify-Style Slide-Out Cart Drawer -->
+  <div id="shopifyCartDrawer" class="position-fixed top-0 end-0 h-100 bg-white shadow-lg" style="width: 400px; z-index: 2050; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); border-left: 1px solid #edd7c2;">
+    <!-- Header Control -->
+    <div class="d-flex justify-content-between align-items-center p-3 text-white" style="background-color: #6b443a;">
+      <span class="fw-bold tracking-wider uppercase small">Your Bag</span>
+      <button id="closeCartDrawerBtn" class="btn-close btn-close-white" style="cursor: pointer; font-size: 0.8rem;"></button>
+    </div>
+    
+    <!-- Dynamic Cart Items Target Container -->
+    <div id="drawerCartItemsList" class="p-3 overflow-y-auto" style="height: calc(100% - 210px); background-color: #fdf6f9;">
+      <!-- Items dynamically injected via JavaScript -->
+    </div>
+
+    <!-- Sticky Conversion Footer Panel -->
+    <div class="position-absolute bottom-0 w-100 p-3 bg-white border-top">
+      <!-- Free Shipping Progress Tracker -->
+      <div class="mb-3">
+        <div class="d-flex justify-content-between small fw-bold mb-1">
+          <span id="shippingProgressText" style="color: #6b443a;">Spend ₹500 more for FREE shipping</span>
+        </div>
+        <div class="progress rounded-0" style="height: 6px; background-color: #edd7c2;">
+          <div id="shippingProgressBar" class="progress-bar" role="progressbar" style="width: 0%; background-color: #98f0e3; transition: width 0.4s ease;"></div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between mb-3 fw-bold text-dark">
+        <span class="small uppercase tracking-wider">Subtotal</span>
+        <span id="drawerCartSubtotal" style="color: #6b443a;">₹0.00</span>
+      </div>
+      <a href="/shop/checkout/" class="btn w-100 fw-bold rounded-0 py-3 text-uppercase small tracking-widest" style="background-color: #98f0e3; color: #6b443a; border: none;">Proceed to Checkout</a>
+    </div>
+  </div>
+
   {% block body %}{% endblock %}
+
+  <!-- 🏷️ Premium Banner-Style Footer Layout -->
+  <footer class="footer-banner-container position-relative overflow-hidden w-100" style="background-color: #6b443a; border-top: 4px solid #f09fc1; margin-top: 5rem;">
+    
+    <!-- Massive Background Marquee Text Structure -->
+    <div class="footer-bg-marquee-wrapper d-none d-md-block select-none">
+      <div class="footer-marquee-text">AWESOME CAPSULE DROP SYSTEM &bull; VELOURIA OPERATIONS &bull; AWESOME CAPSULE DROP SYSTEM &bull; VELOURIA OPERATIONS &bull; </div>
+    </div>
+
+    <div class="container position-relative py-5 px-4 text-white" style="z-index: 5;">
+      <div class="row g-4 align-items-center">
+        
+        <!-- Column 1: Heavy Editorial Identity Block -->
+        <div class="col-12 col-md-6 text-center text-md-start">
+          <h2 class="display-5 fw-bold mb-2 text-uppercase" style="font-family: 'Playfair Display', sans-serif; color: #fdf6f9; letter-spacing: -0.05rem;">
+            My Awesome Cart
+          </h2>
+          <p class="small mb-0" style="color: #edd7c2; opacity: 0.8; letter-spacing: 0.05rem;">
+            ENGINEERED EXPERIENCES &bull; INTERACTION READY SYSTEM
+          </p>
+        </div>
+
+        <!-- Column 2: Minimalist Navigation Action Links -->
+        <div class="col-12 col-md-6">
+          <div class="d-flex flex-wrap justify-content-center justify-content-md-end gap-4 text-uppercase fw-bold small">
+            <a href="/shop/" class="footer-banner-link">Store</a>
+            <a href="/shop/tracker/" class="footer-banner-link">Track Order</a>
+            <a href="/blog/" class="footer-banner-link">Our Journal</a>
+            <a href="/shop/contact/" class="footer-banner-link">Get Help</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Divider Line -->
+      <hr class="my-4" style="border-color: rgba(237, 215, 194, 0.2);">
+
+      <!-- Bottom Row: Dynamic Copyright Info Buffer -->
+      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center base-footer-text gap-2">
+        <span class="small" style="color: #edd7c2; opacity: 0.6;">
+          &copy; 2026 Velouria Platform. Built with weightless Django components.
+        </span>
+        
+        <!-- Utility Pills Bar -->
+        <div class="d-flex gap-3">
+          <span class="badge rounded-pill px-3 py-2" style="background-color: #96f0e3; color: #6b443a; font-weight: bold;">FREE SHIPPING OVER ₹500</span>
+          <span class="badge rounded-pill px-3 py-2" style="background-color: #f09fc1; color: #6b443a; font-weight: bold;">SECURE GATEWAY VIA RAZORPAY</span>
+        </div>
+      </div>
+    </div>
+  </footer>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -290,6 +428,116 @@
           $dropdown.hide();
         }
       });
+    });
+
+    // ⚡ 2. The Interactive Free-Shipping Calculator Engine
+    function openShopifyCartDrawer() {
+      const drawer = document.getElementById('shopifyCartDrawer');
+      if (drawer) drawer.style.transform = 'translateX(0)';
+    }
+
+    function updateShopifyDrawer(currentCart) {
+      let totalItems = 0;
+      let subtotalAmount = 0;
+      let itemsContainer = $('#drawerCartItemsList');
+      if (itemsContainer.length) {
+        itemsContainer.empty();
+      }
+
+      for (var item in currentCart) {
+        let qty = currentCart[item][0];
+        let name = currentCart[item][1];
+        let price = currentCart[item][2] || 0;
+        
+        if (qty > 0) {
+          totalItems += qty;
+          subtotalAmount += (qty * price);
+
+          if (itemsContainer.length) {
+            itemsContainer.append(`
+              <div class="d-flex gap-3 align-items-center mb-3 p-3 bg-white border rounded-3 position-relative shadow-sm" data-item-id="${item}">
+                <div class="flex-grow-1">
+                  <span class="d-block fw-bold small text-dark text-truncate" style="max-width: 180px;">${name}</span>
+                  <span class="d-block text-muted small mt-1">₹${price} each</span>
+                  
+                  <!-- ➕/➖ Dynamic Shopify-Style Quantity Interface -->
+                  <div class="d-flex align-items-center mt-2">
+                    <div class="input-group standard-quantity-adjuster" style="max-width: 110px; height: 32px;">
+                      <button class="btn btn-outline-secondary btn-sm rounded-0 count-decrement-btn" type="button" style="border-color: #edd7c2; color: #6b443a;">−</button>
+                      <input type="text" class="form-control form-control-sm text-center bg-white rounded-0 fw-bold item-count-display" value="${qty}" readonly style="border-color: #edd7c2; color: #6b443a; font-size: 0.85rem;">
+                      <button class="btn btn-outline-secondary btn-sm rounded-0 count-increment-btn" type="button" style="border-color: #edd7c2; color: #6b443a;">+</button>
+                    </div>
+                  </div>
+                </div>
+                <span class="fw-bold small align-self-start mt-1" style="color: #6b443a;">₹${qty * price}</span>
+              </div>
+            `);
+          }
+        }
+      }
+
+      // Handle Shopify-Style Shipping Thresholds dynamically
+      const targetThreshold = 500;
+      if (subtotalAmount >= targetThreshold) {
+        $('#shippingProgressText').html('🎉 You qualify for <strong>FREE SHIPPING</strong>!');
+        $('#shippingProgressBar').css('width', '100%');
+      } else {
+        let balanceNeeded = targetThreshold - subtotalAmount;
+        $('#shippingProgressText').html(`Add <strong>₹${balanceNeeded}</strong> more for <strong>FREE SHIPPING</strong>`);
+        let progressPercentage = (subtotalAmount / targetThreshold) * 100;
+        $('#shippingProgressBar').css('width', progressPercentage + '%');
+      }
+
+      // Sync pricing updates globally across templates
+      if(document.getElementById('cart')) { document.getElementById('cart').innerHTML = totalItems; }
+      if(document.getElementById('drawerCartSubtotal')) { document.getElementById('drawerCartSubtotal').innerText = '₹' + subtotalAmount.toFixed(2); }
+      localStorage.setItem('cart', JSON.stringify(currentCart));
+    }
+
+    // Drawer Interaction Events
+    $(document).on('click', '.cart', function(e) {
+      const drawer = document.getElementById('shopifyCartDrawer');
+      if (drawer) drawer.style.transform = 'translateX(0)';
+    });
+
+    $(document).on('click', '#closeCartDrawerBtn', function() {
+      const drawer = document.getElementById('shopifyCartDrawer');
+      if (drawer) drawer.style.transform = 'translateX(100%)';
+    });
+
+    // ➕ Increment Action Click Listener
+    $(document).on('click', '.count-increment-btn', function() {
+      let itemContainer = $(this).closest('[data-item-id]');
+      let itemId = itemContainer.data('item-id');
+      
+      let currentCart = JSON.parse(localStorage.getItem('cart')) || {};
+      
+      if (currentCart[itemId] !== undefined) {
+        currentCart[itemId][0] += 1;
+        updateShopifyDrawer(currentCart);
+        
+        if (typeof updateCart === "function") { updateCart(currentCart); }
+      }
+    });
+
+    // ➖ Decrement Action Click Listener
+    $(document).on('click', '.count-decrement-btn', function() {
+      let itemContainer = $(this).closest('[data-item-id]');
+      let itemId = itemContainer.data('item-id');
+      
+      let currentCart = JSON.parse(localStorage.getItem('cart')) || {};
+      
+      if (currentCart[itemId] !== undefined) {
+        currentCart[itemId][0] -= 1;
+        
+        if (currentCart[itemId][0] <= 0) {
+          delete currentCart[itemId];
+        }
+        
+        updateShopifyDrawer(currentCart);
+        
+        if (typeof updateCart === "function") { updateCart(currentCart); }
+      }
     });
   </script>
 

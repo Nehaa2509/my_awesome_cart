@@ -49,20 +49,149 @@
     background-size: 50%;
   }
 
-  .carousel-indicators [data-bs-target] {
-    background-color: var(--primary-color);
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
+  /* 🏷️ Hero Banner Frame Matrix Styling */
+  .hero-banner-card {
+    min-height: 380px;
+    position: relative;
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
   }
 
-  .carousel-inner {
-    padding: 15px 0;
+  @media (max-width: 576px) {
+    .hero-banner-card {
+      min-height: 300px;
+    }
+  }
+
+  /* Custom Minimalist Navigation Arrows */
+  .carousel-control-prev-hero,
+  .carousel-control-next-hero {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 6%;
+    padding: 0;
+    color: #6b443a;
+    text-align: center;
+    background: none;
+    border: 0;
+    opacity: 0.5;
+    transition: opacity 0.15s ease;
+  }
+
+  .carousel-control-prev-hero { left: 1rem; }
+  .carousel-control-next-hero { right: 1rem; }
+
+  .carousel-control-prev-hero:hover,
+  .carousel-control-next-hero:hover {
+    opacity: 1;
+    color: #f09fc1;
+    text-decoration: none;
+    outline: 0;
+  }
+
+  .carousel-arrow-icon {
+    font-size: 3.5rem;
+    font-weight: 200;
+    line-height: 1;
+  }
+
+  /* Customizing Bottom Navigation Indicators */
+  #heroBannerSlider .carousel-indicators [data-bs-target] {
+    background-color: #6b443a !important;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin: 0 5px;
+    border: none;
+    opacity: 0.3;
+  }
+
+  #heroBannerSlider .carousel-indicators .active {
+    opacity: 1 !important;
+    background-color: #f09fc1 !important;
+    width: 24px;
+    border-radius: 5px;
+    transition: width 0.3s ease;
   }
 </style>
 {% endblock %}
 
 {% block body %}
+<!-- ✨ Premium Promotional Hero Banner Slider -->
+<div id="heroBannerSlider" class="carousel slide mb-4" data-bs-ride="carousel" data-bs-interval="4000">
+  <!-- Interactive Navigation Indicators -->
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#heroBannerSlider" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#heroBannerSlider" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#heroBannerSlider" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+
+  <!-- Carousel Slides Inner Wrapper -->
+  <div class="carousel-inner p-0">
+    
+    <!-- Slide 1: Seasonal Special Code Offer -->
+    <div class="carousel-item active">
+      <div class="hero-banner-card d-flex align-items-center" style="background: linear-gradient(135deg, #fdf6f9 0%, #edd7c2 100%);">
+        <div class="container py-5 px-4 px-md-5">
+          <div class="row align-items-center">
+            <div class="col-12 col-md-7 text-center text-md-start">
+              <span class="badge mb-2 px-3 py-2 rounded-pill uppercase fw-bold" style="background-color: #f09fc1; color: #6b443a; letter-spacing: 0.1rem;">Limited Offer</span>
+              <h1 class="display-4 fw-bold mb-3" style="color: #6b443a;">Unlock Weightless Savings</h1>
+              <p class="lead mb-4 text-muted">Get <strong>Free Shipping</strong> on orders over ₹500. Use code <span class="fw-bold px-2 py-1 rounded" style="background-color: #98f0e3; color: #6b443a;">AWESOME</span> at checkout.</p>
+              <a href="/shop/search/?query=Gaming" class="btn btn-lg fw-bold px-4 rounded-pill" style="background-color: #6b443a; color: #fdf6f9;">Shop Flash Sales</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2: Premium Streetwear Capsule Drop -->
+    <div class="carousel-item">
+      <div class="hero-banner-card d-flex align-items-center" style="background: linear-gradient(135deg, #6b443a 0%, #3d231e 100%);">
+        <div class="container py-5 px-4 px-md-5">
+          <div class="row align-items-center">
+            <div class="col-12 col-md-7 text-center text-md-start text-white">
+              <span class="badge mb-2 px-3 py-2 rounded-pill uppercase fw-bold" style="background-color: #98f0e3; color: #6b443a; letter-spacing: 0.1rem;">New Arrival</span>
+              <h1 class="display-4 fw-bold mb-3" style="color: #fdf6f9;">The Next Capsule Drop</h1>
+              <p class="lead mb-4" style="color: #edd7c2;">Experience high-fashion aesthetic layouts with minimalist structures and bold styling.</p>
+              <a href="/shop/search/?query=Shoes" class="btn btn-lg fw-bold px-4 rounded-pill" style="background-color: #f09fc1; color: #6b443a;">Explore The Drop</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: Tech & Electronics Showcase -->
+    <div class="carousel-item">
+      <div class="hero-banner-card d-flex align-items-center" style="background: linear-gradient(135deg, #fdf6f9 0%, #98f0e3 100%);">
+        <div class="container py-5 px-4 px-md-5">
+          <div class="row align-items-center">
+            <div class="col-12 col-md-7 text-center text-md-start">
+              <span class="badge mb-2 px-3 py-2 rounded-pill uppercase fw-bold" style="background-color: #6b443a; color: #98f0e3; letter-spacing: 0.1rem;">Tech Zone</span>
+              <h1 class="display-4 fw-bold mb-3" style="color: #6b443a;">Upgrade Your Dynamic Setup</h1>
+              <p class="lead mb-4 text-muted">Browse studio microphones, high-definition webcams, and premium gear elements.</p>
+              <a href="/shop/search/?query=Microphone" class="btn btn-lg fw-bold px-4 rounded-pill" style="background-color: #6b443a; color: #fdf6f9;">View Electronics</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Directional Slider Control Arrows -->
+  <button class="carousel-control-prev-hero" type="button" data-bs-target="#heroBannerSlider" data-bs-slide="prev">
+    <span class="carousel-arrow-icon">‹</span>
+  </button>
+  <button class="carousel-control-next-hero" type="button" data-bs-target="#heroBannerSlider" data-bs-slide="next">
+    <span class="carousel-arrow-icon">›</span>
+  </button>
+</div>
+
 <div class="container my-5">
 
   {% for product, range, nSlides in allProds %}
@@ -134,6 +263,19 @@
     </div>
   </div>
   {% endfor %}
+
+  <!-- Shopify-Style Trust Architecture Badge Row -->
+  <div class="d-flex flex-wrap justify-content-center gap-3 mt-5 text-uppercase tracking-wider select-none small fw-bold text-center">
+    <div class="px-3 py-2 rounded-pill shadow-sm" style="background-color: #fdf6f9; color: #6b443a; font-size: 0.75rem; border: 1px solid #edd7c2;">
+      📦 Free Shipping Over ₹500
+    </div>
+    <div class="px-3 py-2 rounded-pill shadow-sm" style="background-color: #fdf6f9; color: #6b443a; font-size: 0.75rem; border: 1px solid #edd7c2;">
+      🔒 Secure Checkout via Razorpay
+    </div>
+    <div class="px-3 py-2 rounded-pill shadow-sm" style="background-color: #fdf6f9; color: #6b443a; font-size: 0.75rem; border: 1px solid #edd7c2;">
+      ⚡ Instant Status Tracking Logs
+    </div>
+  </div>
 </div>
 {% endblock %}
 
@@ -208,9 +350,12 @@
     }
 
     localStorage.setItem('cart', JSON.stringify(currentCart));
-    document.getElementById('cart').innerHTML = totalItems;
+    if (document.getElementById('cart')) { document.getElementById('cart').innerHTML = totalItems; }
 
     updatePopover(currentCart);
+    if (typeof updateShopifyDrawer === 'function') {
+      updateShopifyDrawer(currentCart);
+    }
   }
 
   // 4. Modifier delegation action: Decrement click handler

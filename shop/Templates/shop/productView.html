@@ -75,6 +75,19 @@
         <span id="divpr{{product.id}}" class="col p-0">
           <button id="pr{{product.id}}" class="btn btn-primary w-100 cart"> Add To Cart </button>
         </span>
+      </div>
+
+      <!-- Shopify-Style Trust Architecture Badge Row -->
+      <div class="d-flex flex-column gap-2 mt-4 text-uppercase tracking-wider select-none small fw-bold text-center">
+        <div class="px-3 py-2 rounded-pill shadow-sm" style="background-color: #fdf6f9; color: #6b443a; font-size: 0.75rem; border: 1px solid #edd7c2;">
+          📦 Free Shipping Over ₹500
+        </div>
+        <div class="px-3 py-2 rounded-pill shadow-sm" style="background-color: #fdf6f9; color: #6b443a; font-size: 0.75rem; border: 1px solid #edd7c2;">
+          🔒 Secure Checkout via Razorpay
+        </div>
+        <div class="px-3 py-2 rounded-pill shadow-sm" style="background-color: #fdf6f9; color: #6b443a; font-size: 0.75rem; border: 1px solid #edd7c2;">
+          ⚡ Instant Status Tracking Logs
+        </div>
       </div> 
     </div>
     
@@ -181,9 +194,12 @@ function updateCart(currentCart) {
   }
 
   localStorage.setItem('cart', JSON.stringify(currentCart));
-  document.getElementById('cart').innerHTML = totalItems;
+  if (document.getElementById('cart')) { document.getElementById('cart').innerHTML = totalItems; }
   
   updatePopover(currentCart);
+  if (typeof updateShopifyDrawer === 'function') {
+    updateShopifyDrawer(currentCart);
+  }
 }
 
 // 4. Modifier delegation action: Decrement click handler

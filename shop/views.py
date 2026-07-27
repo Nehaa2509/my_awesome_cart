@@ -321,12 +321,3 @@ def handleLogout(request):
     logout(request)
     messages.info(request, "You have been logged out successfully.")
     return redirect('/shop/')
-
-# 8. User Orders & Profile Dashboard View (Prompt 5)
-@login_required(login_url='/shop/login/')
-def orders_profile(request):
-    user_orders = Order.objects.filter(email=request.user.email).order_by('-order_id')
-    if not user_orders.exists():
-        user_orders = Order.objects.filter(name__icontains=request.user.username).order_by('-order_id')
-    
-    return render(request, 'shop/orders_profile.html', {'orders': user_orders})
