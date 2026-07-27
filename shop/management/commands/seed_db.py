@@ -1,15 +1,16 @@
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 from shop.models import Product
+from blog.models import BlogPost
 
 
 class Command(BaseCommand):
-    help = 'Instantly seeds the database with core categories and starter lookbook products'
+    help = 'Instantly seeds the database with core categories, starter products, and blog posts'
 
     def handle(self, *args, **kwargs):
         self.stdout.write(self.style.WARNING('Initializing database seed sequence...'))
 
-        # ⚡ Catalog dataset — field names matched to Product model exactly
+        # ⚡ Product catalog dataset
         starter_products = [
             # --- GAMING CATEGORY ---
             {
@@ -66,8 +67,32 @@ class Command(BaseCommand):
             },
         ]
 
-        created_count = 0
+        # 📰 Blog post dataset
+        starter_posts = [
+            {
+                "title": "Welcome to Our Awesome Blog!",
+                "chead": "This is the subheading of the first post",
+                "category": "General",
+                "content": "This is the main body content of our very first blog post. Django makes it extremely easy to build robust web applications with dynamic content systems.",
+                "author": "Admin"
+            },
+            {
+                "title": "The Art of Deconstruction: Designing Capsule 01",
+                "chead": "A look inside the design studio as we map out core elements and materials.",
+                "category": "Design",
+                "content": "Exploring the raw color architecture, heavyweight materials, and physical design philosophy behind our latest seasonal capsule release.",
+                "author": "Velouria Studio"
+            },
+            {
+                "title": "Behind the Frame: Engineering Fluid Interactions",
+                "chead": "How we built a frictionless, zero-latency digital storefront experience.",
+                "category": "Technology",
+                "content": "Leveraging minimal front-end architectures and asynchronous state machines to power zero-latency shopping experiences.",
+                "author": "Engineering Team"
+            }
+        ]
 
+        created_prods = 0
         for item in starter_products:
             product, created = Product.objects.get_or_create(
                 product_name=item["product_name"],
@@ -82,11 +107,29 @@ class Command(BaseCommand):
                 },
             )
             if created:
-                created_count += 1
-                self.stdout.write(self.style.SUCCESS(f'  [OK] Seeded: {product.product_name}'))
+                created_prods += 1
+                self.stdout.write(self.style.SUCCESS(f'  [OK] Seeded Product: {product.product_name}'))
             else:
-                self.stdout.write(self.style.NOTICE(f'  [--] Skip (already exists): {product.product_name}'))
+                self.stdout.write(self.style.NOTICE(f'  [--] Skip Product (exists): {product.product_name}'))
+
+        created_posts = 0
+        for post_item in starter_posts:
+            post, created = BlogPost.objects.get_or_create(
+                title=post_item["title"],
+                defaults={
+                    "chead": post_item["chead"],
+                    "category": post_item["category"],
+                    "content": post_item["content"],
+                    "author": post_item["author"],
+                    "pub_date": timezone.now().date(),
+                },
+            )
+            if created:
+                created_posts += 1
+                self.stdout.write(self.style.SUCCESS(f'  [OK] Seeded Post: {post.title} ({post.category})'))
+            else:
+                self.stdout.write(self.style.NOTICE(f'  [--] Skip Post (exists): {post.title}'))
 
         self.stdout.write(
-            self.style.SUCCESS(f'\nData ingestion complete! {created_count} new product(s) added.')
+            self.style.SUCCESS(f'\nData ingestion complete! {created_prods} product(s) & {created_posts} blog post(s) added.')
         )
