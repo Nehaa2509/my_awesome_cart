@@ -5,7 +5,12 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from .models import Product, Contact, Order, OrderUpdate  # FIXED: Unified to use 'Order' consistently
+from .utils import generate_invoice_pdf
 
 # Initialize Razorpay Client
 client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
@@ -35,6 +40,23 @@ def searchMatch(query, item):
      
 def search(request):
     query = request.GET.get('query', '')
+    
+    # Instant Search AJAX handler
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        results = []
+        if len(query) > 0:
+            products = Product.objects.all()
+            for item in products:
+                if searchMatch(query, item):
+                    results.append({
+                        'id': item.id,
+                        'product_name': item.product_name,
+                        'category': item.category,
+                        'price': item.price,
+                        'image': item.image.url if item.image else ''
+                    })
+        return HttpResponse(json.dumps(results), content_type="application/json")
+        
     allProds = []
     catprods = Product.objects.values('category', 'id')
     cats = {item['category'] for item in catprods}
@@ -95,9 +117,18 @@ def tracker(request):
 # 5. Product Detail View
 def productview(request, myid):
     product = get_object_or_404(Product, id=myid)
-    return render(request, 'shop/productView.html', {'product': product})
+    
+    # Increment views count
+    product.views += 1
+    product.save()
+    
+    # Fetch top 4 recommended products in the same category
+    recommendations = Product.objects.filter(category=product.category).exclude(id=product.id).order_by('-views')[:4]
+    
+    return render(request, 'shop/productView.html', {'product': product, 'recommendations': recommendations})
 
 # 6. Checkout View
+@login_required(login_url='/shop/login/')
 def checkout(request):
     if request.method == "POST":
         items_json = request.POST.get('itemsJson', '')
@@ -190,7 +221,11 @@ def handlerequest(request):
             update = OrderUpdate(order_id=order.order_id, update_desc="The Order payment has been successfully received!")
             update.save()
             
-            return render(request, 'shop/checkout.html', {'thank': True, 'id': order.order_id})
+            # Generate and return PDF Invoice
+            pdf_buffer = generate_invoice_pdf(order)
+            response = HttpResponse(pdf_buffer.getvalue(), content_type='application/pdf')
+            response['Content-Disposition'] = f'attachment; filename="Invoice_{order.order_id}.pdf"'
+            return response
             
         except Exception as e:
             try:
@@ -217,3 +252,49 @@ def contact(request):
         return render(request, 'shop/contact.html', {'thank': True})
         
     return render(request, 'shop/contact.html')
+
+# 8. Authentication Views
+def handle_signup(request):
+    if request.method == "POST":
+        username = request.POST.get('username', '')
+        email = request.POST.get('email', '')
+        pass1 = request.POST.get('pass1', '')
+        pass2 = request.POST.get('pass2', '')
+        
+        if pass1 != pass2:
+            messages.error(request, "Passwords do not match")
+            return redirect('/shop/signup/')
+            
+        try:
+            myuser = User.objects.create_user(username, email, pass1)
+            myuser.save()
+            messages.success(request, "Your account has been successfully created. Please login.")
+            return redirect('/shop/login/')
+        except Exception:
+            messages.error(request, "Username already taken or invalid details")
+            return redirect('/shop/signup/')
+            
+    return render(request, 'shop/signup.html')
+
+def handle_login(request):
+    if request.method == "POST":
+        loginusername = request.POST.get('loginusername', '')
+        loginpassword = request.POST.get('loginpassword', '')
+        next_url = request.POST.get('next', '/shop/')
+        
+        user = authenticate(username=loginusername, password=loginpassword)
+        if user is not None:
+            login(request, user)
+            messages.success(request, "Successfully logged in")
+            return redirect(next_url)
+        else:
+            messages.error(request, "Invalid credentials, please try again")
+            return redirect(f'/shop/login/?next={next_url}')
+            
+    next_url = request.GET.get('next', '/shop/')
+    return render(request, 'shop/login.html', {'next': next_url})
+
+def handle_logout(request):
+    logout(request)
+    messages.success(request, "Successfully logged out")
+    return redirect('/shop/')

@@ -86,6 +86,26 @@
 
   </div>
 </div> 
+
+{% if recommendations %}
+<div class="container my-5 pt-4 border-top">
+  <h4 class="fw-bold mb-4">Customers Who Viewed This Also Viewed</h4>
+  <div class="row g-4">
+    {% for rec in recommendations %}
+    <div class="col-6 col-md-3">
+      <div class="card product-card h-100 shadow-sm border-0 bg-white">
+        <img src="/media/{{rec.image}}" class="card-img-top" alt="{{rec.product_name}}" style="height: 180px; object-fit: cover;">
+        <div class="card-body d-flex flex-column p-3">
+          <h6 class="card-title fw-bold text-dark mb-1 text-truncate" title="{{rec.product_name}}">{{rec.product_name}}</h6>
+          <p class="text-success fw-semibold small mb-2">₹{{rec.price}}</p>
+          <a href="/shop/products/{{rec.id}}" class="btn btn-outline-primary btn-sm mt-auto w-100 stretched-link">View Item</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
 {% endblock %}   
 
 {% block js %}

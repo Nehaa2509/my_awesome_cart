@@ -1,0 +1,57 @@
+{% extends "shop/basic.html" %}
+
+{% block title %}Sign Up - My Awesome Cart{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-5">
+                    <h2 class="fw-bold mb-4 text-center">Create an Account</h2>
+                    
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form action="/shop/signup/" method="POST">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="username" class="form-label text-muted small fw-bold text-uppercase">Username</label>
+                            <input type="text" class="form-control form-control-lg" id="username" name="username" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label text-muted small fw-bold text-uppercase">Email Address</label>
+                            <input type="email" class="form-control form-control-lg" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="pass1" class="form-label text-muted small fw-bold text-uppercase">Password</label>
+                                <input type="password" class="form-control form-control-lg" id="pass1" name="pass1" required>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label for="pass2" class="form-label text-muted small fw-bold text-uppercase">Confirm Password</label>
+                                <input type="password" class="form-control form-control-lg" id="pass2" name="pass2" required>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold">Sign Up</button>
+                    </form>
+                    
+                    <div class="mt-4 text-center">
+                        <p class="text-muted">Already have an account? <a href="/shop/login/" class="text-decoration-none fw-semibold">Log In</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

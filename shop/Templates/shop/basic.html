@@ -6,7 +6,33 @@
     <title>{% block title %}{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     
-    {% block css %}{% endblock %}
+    {% block css %}
+    <style>
+      /* Floating Navigation Header System */
+      .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 1030;
+        backdrop-filter: blur(8px);
+        background-color: rgba(33, 37, 41, 0.95) !important; /* Premium Amazon Dark Slate tint */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      /* Antigravity Micro-Lift Animations */
+      .card, .btn {
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06) !important;
+      }
+
+      .hover-bg-light:hover {
+        background-color: #f8f9fa !important;
+      }
+    </style>
+    {% endblock %}
   </head>
   <body>
     {% load static %}
@@ -37,14 +63,21 @@
             </li>
           </ul>
           
-          <form method = "get" action = "/shop/search/" class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search products..." aria-label="Search" name = "query" id = "query"/>
+          <form method="get" action="/shop/search/" class="d-flex position-relative" role="search" id="searchForm">
+            <input class="form-control me-2" type="search" placeholder="Search products..." aria-label="Search" name="query" id="query" autocomplete="off"/>
             <button class="btn btn-outline-success" type="submit">Search</button>
+            <div id="autocomplete-results" class="position-absolute bg-white border rounded shadow-sm text-start" style="display:none; z-index:1050; width:calc(100% - 85px); top:100%; left:0; max-height: 400px; overflow-y: auto;"></div>
           </form>
           
           <button type="button" class="btn btn-secondary mx-2" id="popcart" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-html="true" data-bs-content="Bottom popover">
             Cart (<span id="cart">0</span>)
           </button>
+          
+          {% if user.is_authenticated %}
+            <a href="/shop/logout/" class="btn btn-outline-danger mx-1">Logout ({{ user.username }})</a>
+          {% else %}
+            <a href="/shop/login/" class="btn btn-outline-primary mx-1">Login</a>
+          {% endif %}
 
         </div>
       </div>
@@ -57,5 +90,52 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     
     {% block js %}{% endblock %}
+    
+    <!-- Instant Search JS -->
+    <script>
+      $(document).ready(function() {
+        $('#query').on('input', function() {
+          let query = $(this).val();
+          if (query.length > 0) {
+            $.ajax({
+              url: '/shop/search/',
+              data: { 'query': query },
+              headers: {'x-requested-with': 'XMLHttpRequest'},
+              success: function(data) {
+                let resultsContainer = $('#autocomplete-results');
+                resultsContainer.empty();
+                if (data.length > 0) {
+                  data.forEach(function(item) {
+                    resultsContainer.append(`
+                      <a href="/shop/products/${item.id}" class="text-decoration-none text-dark d-block p-2 border-bottom hover-bg-light">
+                        <div class="d-flex align-items-center">
+                          <img src="${item.image}" width="40" height="40" class="me-2 rounded" style="object-fit: cover;">
+                          <div style="line-height: 1.2;">
+                            <div class="fw-bold" style="font-size: 14px;">${item.product_name}</div>
+                            <div class="text-muted" style="font-size: 12px;">${item.category} &bull; ₹${item.price}</div>
+                          </div>
+                        </div>
+                      </a>
+                    `);
+                  });
+                  resultsContainer.show();
+                } else {
+                  resultsContainer.append('<div class="p-3 text-muted text-center small">No products found</div>');
+                  resultsContainer.show();
+                }
+              }
+            });
+          } else {
+            $('#autocomplete-results').hide();
+          }
+        });
+
+        $(document).on('click', function(e) {
+          if (!$(e.target).closest('#searchForm').length) {
+            $('#autocomplete-results').hide();
+          }
+        });
+      });
+    </script>
   </body>
 </html>
