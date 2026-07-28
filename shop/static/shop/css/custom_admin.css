@@ -111,14 +111,33 @@ h1, h2, h3, h4, h5, h6, .brand-text, .card-header h5, .card-title, #site-name {
     padding: 14px 20px !important;
 }
 
-/* Card Links Readability */
+/* 🟤 Model Names & Dashboard Card Links in Rich Espresso Brown */
 .card-body a, 
+.card-body th a,
+.card-body td a,
 .module a, 
 td a:link, 
 td a:visited,
-.card a:not(.btn):not(.brand-link):not(.nav-link) {
+th a:link,
+th a:visited,
+.table a,
+.table th a,
+.table td a,
+.model-name a,
+.content-wrapper a:not(.btn):not(.brand-link):not(.nav-link) {
     color: #6b443a !important;
     font-weight: 600 !important;
+    text-decoration: none !important;
+}
+
+.card-body a:hover, 
+.card-body th a:hover,
+.card-body td a:hover,
+.table a:hover,
+.model-name a:hover,
+.content-wrapper a:not(.btn):not(.brand-link):not(.nav-link):hover {
+    color: #4a2d26 !important;
+    text-decoration: underline !important;
 }
 
 /* 📊 4. Responsive Minimalist Data Tables */
