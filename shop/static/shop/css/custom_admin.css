@@ -846,3 +846,51 @@ div.actions select option,
     background-color: #f09fc1 !important;
     color: #ffffff !important;
 }
+
+/* =========================================================================
+   🗳️ LIGHT BACKGROUND CHECKBOXES WITH DARK CHECKMARK OVERRIDES
+   ========================================================================= */
+
+/* Native Checkboxes */
+input[type="checkbox"],
+.action-checkbox-column input[type="checkbox"],
+#action-toggle,
+.action-select,
+.vCheckboxLabel input[type="checkbox"] {
+    accent-color: #6b443a !important; /* Modern browsers native dark tick color */
+    width: 18px !important;
+    height: 18px !important;
+    background-color: #ffffff !important;
+    border: 2px solid #6b443a !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    vertical-align: middle !important;
+}
+
+input[type="checkbox"]:checked,
+.action-checkbox-column input[type="checkbox"]:checked,
+#action-toggle:checked,
+.action-select:checked {
+    background-color: #ffffff !important; /* Pure light background */
+    border-color: #6b443a !important;
+}
+
+/* Custom Bootstrap / AdminLTE Control Checkboxes */
+.custom-control-input ~ .custom-control-label::before,
+.custom-checkbox .custom-control-label::before,
+.icheck-primary input[type="checkbox"] + label::before {
+    background-color: #ffffff !important;
+    border: 2px solid #6b443a !important;
+    border-radius: 4px !important;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before,
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #ffffff !important;
+    border-color: #6b443a !important;
+}
+
+.custom-control-input:checked ~ .custom-control-label::after,
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%236b443a' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e") !important;
+}
