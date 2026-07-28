@@ -37,6 +37,13 @@ body.dark-mode,
   font-family: var(--font-sans) !important;
 }
 
+/* 🌸 Override Bootstrap Cold Gray Tertiary Background to Apothecary Warm Cream */
+.bg-body-tertiary,
+[data-bs-theme="light"] .bg-body-tertiary {
+  --bs-bg-opacity: 1;
+  background-color: var(--color-canvas) !important;
+}
+
 h1, h2, h3, h4, h5, h6, 
 .brand-text, 
 .card-title, 
