@@ -1,413 +1,306 @@
 /* =========================================================================
-   🌸 Sneha's Boutique Admin Theme — Apothecary / Luxe Theme Specification
-   Primary Dark: #3C2321 | Canvas: #FBF5F0 | Surface: #FFFFFF
-   Accent: #5E3A33 | Secondary: #7EA898 | Soft Highlight: #F9E4E0 | Text: #2B1E1C
+   BOUTIQUE GLASSMORPHIC THEME FOR DJANGO JAZZMIN / ADMINLTE
+   Palette: #f09fc1 (Pink), #fdf6f9 (Nude Base), #6b443a (Earth Brown), #edd7c2 (Sand)
    ========================================================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
 
-/* 🎨 Palette Tokens */
-:root, html[data-theme="light"], html[data-bs-theme="light"], html {
-  --color-primary-dark: #3C2321;   /* Deep Espresso Header */
-  --color-canvas: #FBF5F0;         /* Warm Cream Body */
-  --color-surface: #FFFFFF;        /* Pure White Card */
-  --color-accent: #5E3A33;         /* Muted Warm Brown Buttons & Controls */
-  --color-secondary-mint: #7EA898; /* Sage Mint Badges & Highlights */
-  --color-soft-peach: #F9E4E0;     /* Peach Tint Row Hover & Pills */
-  --color-text-cocoa: #2B1E1C;     /* Dark Cocoa Text */
-  --color-border-nude: #EAE1D9;     /* Soft Nude Border */
-  --color-header-row: #F5ECE5;     /* Table Header Row */
-  --color-row-alt: #FAF6F2;        /* Alternate Table Row */
-  
-  --font-serif: 'Playfair Display', Georgia, serif;
-  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --radius-card: 12px;
-  --radius-pill: 20px;
+/* 🌌 1. Global Typography & Ambient Backgrounds */
+body,
+body.dark-mode,
+.content-wrapper,
+.dark-mode .content-wrapper {
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif !important;
+    background-color: #fdf6f9 !important;
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(240, 157, 193, 0.06) 0%, transparent 45%),
+        radial-gradient(circle at 90% 80%, rgba(152, 240, 227, 0.06) 0%, transparent 45%) !important;
+    background-attachment: fixed !important;
+    color: #6b443a !important;
 }
 
-/* 🌿 Body & Layout Canvas with Asymmetric Radial Ambient Glow Panels */
-body, 
-body.dark-mode, 
-.content-wrapper, 
-.dark-mode .content-wrapper, 
-.main-footer,
-.dark-mode .main-footer {
-  background-color: var(--color-canvas) !important;
-  background-image: 
-    radial-gradient(circle at 10% 20%, rgba(240, 157, 193, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(152, 240, 227, 0.08) 0%, transparent 40%) !important;
-  background-attachment: fixed !important;
-  color: var(--color-text-cocoa) !important;
-  font-family: var(--font-sans) !important;
-}
-
-/* 🌸 Override Bootstrap Cold Gray Tertiary Background to Apothecary Warm Cream */
+/* 🌸 Override Bootstrap Cold Gray Tertiary Background to Boutique Nude Base */
 .bg-body-tertiary,
 [data-bs-theme="light"] .bg-body-tertiary {
-  --bs-bg-opacity: 1;
-  background-color: var(--color-canvas) !important;
+    --bs-bg-opacity: 1;
+    background-color: #fdf6f9 !important;
 }
 
-h1, h2, h3, h4, h5, h6, 
-.brand-text, 
-.card-title, 
-.login-logo,
-.module h2, 
-.inline-group h2,
-#site-name {
-  font-family: var(--font-serif) !important;
-  letter-spacing: 0.02rem;
+h1, h2, h3, h4, h5, h6, .brand-text, .card-header h5, .card-title, #site-name {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-weight: 700 !important;
+    color: #6b443a !important;
 }
 
-/* 👑 Header & Main Navigation (#header & .main-header) */
-#header,
+/* 🧭 2. Sticky Glassmorphic Top Navbar Layer Override */
 .main-header,
+.app-header.navbar, 
+#jazzy-navbar,
 .dark-mode .main-header {
-  background: var(--color-primary-dark) !important;
-  color: var(--color-canvas) !important;
-  padding: 14px 20px !important;
-  border-bottom: 2px solid var(--color-accent) !important;
-  box-shadow: 0 4px 18px rgba(60, 35, 33, 0.15) !important;
+    background: rgba(107, 68, 58, 0.96) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-bottom: 2px solid #edd7c2 !important;
+    box-shadow: 0 4px 20px rgba(107, 68, 58, 0.15) !important;
+    padding: 0.6rem 1.5rem !important;
 }
 
-#header a:link, 
-#header a:visited,
-.main-header .nav-link, 
-.main-header .navbar-brand {
-  color: #FFFFFF !important;
-  font-weight: 600;
+.main-header .nav-link,
+.main-header .navbar-brand,
+.app-header.navbar .nav-link, 
+#jazzy-navbar .nav-link {
+    color: #ffffff !important;
+    font-weight: 500 !important;
+    transition: color 0.2s ease !important;
 }
 
 .main-header .nav-link:hover,
-#header a:hover {
-  color: var(--color-secondary-mint) !important;
+.app-header.navbar .nav-link:hover, 
+#jazzy-navbar .nav-link:hover {
+    color: #98f0e3 !important;
 }
 
-/* 🏛️ Sidebar Panel */
-.main-sidebar,
-.dark-mode .main-sidebar {
-  background: var(--color-surface) !important;
-  border-right: 1px solid var(--color-border-nude) !important;
-  box-shadow: 4px 0 20px rgba(60, 35, 33, 0.04) !important;
+/* 🔍 Navbar Search Bars Utility Overrides */
+.app-header .form-control-navbar,
+.main-header .form-control {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid rgba(237, 215, 194, 0.3) !important;
+    color: #ffffff !important;
+    border-radius: 30px 0 0 30px !important;
 }
 
-.brand-link {
-  background: var(--color-primary-dark) !important;
-  border-bottom: 2px solid var(--color-accent) !important;
+.app-header .form-control-navbar::placeholder,
+.main-header .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
 }
 
-.brand-link .brand-text {
-  color: #FFFFFF !important;
-  font-family: var(--font-serif) !important;
-  font-weight: 700;
+.app-header .btn-navbar {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    border: 1px solid rgba(237, 215, 194, 0.3) !important;
+    color: #ffffff !important;
+    border-radius: 0 30px 30px 0 !important;
 }
 
-.sidebar .nav-link {
-  color: var(--color-text-cocoa) !important;
-  border-radius: var(--radius-pill) !important;
-  font-weight: 500;
-  margin: 4px 10px !important;
-  padding: 8px 16px !important;
-  transition: all 0.2s ease-in-out;
-}
-
-.sidebar .nav-link:hover {
-  background-color: var(--color-soft-peach) !important;
-  color: var(--color-primary-dark) !important;
-  transform: translateX(3px);
-}
-
-.sidebar .nav-link.active {
-  background-color: var(--color-accent) !important;
-  color: #FFFFFF !important;
-  font-weight: 600 !important;
-  box-shadow: 0 4px 12px rgba(60, 35, 33, 0.15) !important;
-}
-
-/* 📦 Module Cards & Content Containers */
-.module, 
-div.inline-group,
-.card, 
-.content-wrapper .card,
+/* 🗂️ 3. Premium Glass Cards (Replacing Old .module Containers) */
+.card,
+.module,
 .dark-mode .card,
 .dark-mode .modal-content,
 [data-bs-theme="dark"] {
-  background: var(--color-surface) !important;
-  border-radius: var(--radius-card) !important;
-  border: 1px solid var(--color-border-nude) !important;
-  box-shadow: 0 4px 15px rgba(60, 35, 33, 0.05) !important;
-  overflow: hidden;
-  margin-bottom: 20px !important;
-  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(237, 215, 194, 0.7) !important;
+    border-radius: 18px !important;
+    box-shadow: 0 8px 30px rgba(107, 68, 58, 0.04) !important;
+    overflow: hidden !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+    margin-bottom: 1.5rem !important;
 }
 
-.module:hover, .card:hover {
-  transform: translateY(-3px) !important;
-  box-shadow: 0 10px 25px rgba(60, 35, 33, 0.09) !important;
+.card:hover, .module:hover {
+    box-shadow: 0 12px 35px rgba(107, 68, 58, 0.08) !important;
+    transform: translateY(-2px) !important;
 }
 
-.module h2, 
-.inline-group h2,
 .card-header,
+.module h2,
 .dark-mode .card-header {
-  background: var(--color-accent) !important;
-  color: #FFFFFF !important;
-  font-family: var(--font-serif) !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.5px;
-  padding: 12px 18px !important;
-  border-bottom: none !important;
+    background: #edd7c2 !important;
+    border-bottom: 1px solid rgba(107, 68, 58, 0.1) !important;
+    padding: 14px 20px !important;
 }
 
-.card-title {
-  color: #FFFFFF !important;
-  font-family: var(--font-serif) !important;
-  font-weight: 600 !important;
+/* Card Links Readability */
+.card-body a, 
+.module a, 
+td a:link, 
+td a:visited,
+.card a:not(.btn):not(.brand-link):not(.nav-link) {
+    color: #6b443a !important;
+    font-weight: 600 !important;
 }
 
-/* 📊 Data Tables & Result Lists */
-#result_list, .table {
-  border-radius: 8px;
-  overflow: hidden;
-  color: var(--color-text-cocoa) !important;
-  width: 100%;
+/* 📊 4. Responsive Minimalist Data Tables */
+.table,
+#result_list,
+.dark-mode .table {
+    color: #6b443a !important;
+    margin-bottom: 0 !important;
+    width: 100%;
 }
 
-#result_list th, 
-.table thead th,
+.table th,
+#result_list th,
 .dark-mode .table th {
-  background-color: var(--color-header-row) !important;
-  color: var(--color-primary-dark) !important;
-  font-weight: 600 !important;
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  letter-spacing: 0.06rem;
-  padding: 12px 18px !important;
-  border-bottom: 2px solid var(--color-border-nude) !important;
+    background: rgba(237, 215, 194, 0.4) !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    font-size: 0.8rem !important;
+    letter-spacing: 0.6px;
+    border-bottom: 2px solid rgba(107, 68, 58, 0.1) !important;
+    padding: 12px 16px !important;
+    color: #6b443a !important;
 }
 
-#result_list tr.row1,
-.table tbody tr:nth-of-type(odd) {
-  background-color: var(--color-surface) !important;
-}
-
-#result_list tr.row2,
-.table tbody tr:nth-of-type(even) {
-  background-color: var(--color-row-alt) !important;
-}
-
-#result_list tr:hover, 
-.table tbody tr:hover,
-.table-hover tbody tr:hover {
-  background-color: var(--color-soft-peach) !important;
-}
-
-.table td, 
+.table td,
+#result_list td,
 .dark-mode .table td {
-  padding: 12px 18px !important;
-  vertical-align: middle !important;
-  border-top: 1px solid var(--color-border-nude) !important;
-  color: var(--color-text-cocoa) !important;
+    padding: 14px 16px !important;
+    border-bottom: 1px solid rgba(237, 215, 194, 0.3) !important;
+    vertical-align: middle !important;
+    color: #6b443a !important;
 }
 
-/* 🔘 Buttons & Action Controls */
-.button, 
-input[type=submit], 
-input[type=button], 
-.submit-row input,
-.btn-primary, 
-.btn-success, 
-.btn-info,
-.addlink,
-.changelink {
-  background: var(--color-accent) !important;
-  color: #FFFFFF !important;
-  border: none !important;
-  border-radius: var(--radius-pill) !important; /* Pill shape */
-  padding: 8px 18px !important;
-  font-weight: 500 !important;
-  transition: all 0.2s ease !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 6px !important;
+.table tbody tr, #result_list tr {
+    transition: background-color 0.2s ease !important;
 }
 
-.button:hover, 
-input[type=submit]:hover, 
-.submit-row input:hover,
-.btn-primary:hover, 
-.btn-success:hover, 
-.addlink:hover {
-  background: var(--color-primary-dark) !important;
-  color: #FFFFFF !important;
-  transform: translateY(-1px) !important;
-  box-shadow: 0 4px 10px rgba(60, 35, 33, 0.15) !important;
+.table tbody tr:hover, #result_list tr:hover {
+    background-color: rgba(152, 240, 227, 0.15) !important;
+}
+
+/* ⚡ 5. High-Contrast Pills & Rounded Micro-Interaction Action Buttons */
+.btn-success.addlink,
+a.addlink,
+.btn-primary,
+.button {
+    background-color: #98f0e3 !important;
+    border: none !important;
+    color: #6b443a !important;
+    font-weight: 600 !important;
+    border-radius: 30px !important;
+    padding: 6px 16px !important;
+    font-size: 0.8rem !important;
+    box-shadow: 0 4px 10px rgba(152, 240, 227, 0.3) !important;
+    transition: all 0.2s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    text-decoration: none !important;
+}
+
+.btn-success.addlink:hover,
+a.addlink:hover,
+.btn-primary:hover,
+.button:hover {
+    background-color: #83e4d6 !important;
+    color: #6b443a !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 14px rgba(152, 240, 227, 0.45) !important;
+}
+
+.btn-info.changelink,
+a.changelink,
+.btn-secondary {
+    background-color: #f09fc1 !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    border-radius: 30px !important;
+    padding: 6px 16px !important;
+    font-size: 0.8rem !important;
+    box-shadow: 0 4px 10px rgba(240, 157, 193, 0.3) !important;
+    transition: all 0.2s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    text-decoration: none !important;
+}
+
+.btn-info.changelink:hover,
+a.changelink:hover,
+.btn-secondary:hover {
+    background-color: #e58bb1 !important;
+    color: #ffffff !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 14px rgba(240, 157, 193, 0.45) !important;
 }
 
 /* Delete Action Controls */
 .button.deletelink,
 .deletelink,
 .btn-danger {
-  background: #C85A5A !important;
-  border-color: #C85A5A !important;
-  color: #FFFFFF !important;
-  border-radius: var(--radius-pill) !important;
+    background-color: #C85A5A !important;
+    border: none !important;
+    color: #ffffff !important;
+    border-radius: 30px !important;
+    padding: 6px 16px !important;
 }
 
-.button.deletelink:hover, .btn-danger:hover {
-  background: #a84444 !important;
-  color: #FFFFFF !important;
+/* 👥 6. Sidebar Command Navigation Architecture Overrides */
+.main-sidebar,
+#jazzy-sidebar,
+.dark-mode .main-sidebar {
+    background: #ffffff !important;
+    border-right: 1px solid #edd7c2 !important;
+    box-shadow: 4px 0 20px rgba(107, 68, 58, 0.03) !important;
 }
 
-/* =========================================================================
-   🚨 READY-TO-USE SPECIFIC FIXES (Legibility, Pill Buttons, Grid Layout)
-   ========================================================================= */
-
-/* --- 1. Fix Legibility & Link Colors --- */
-
-/* Main content table/card links */
-.card-body a, 
-.module a, 
-td a:link, 
-td a:visited,
-.card a:not(.btn):not(.brand-link):not(.nav-link) {
-    color: #3C2321 !important; /* Rich cocoa text for light backgrounds */
-    font-weight: 600 !important;
+.brand-link,
+.sidebar-brand, 
+#jazzy-logo {
+    background: #6b443a !important;
+    border-bottom: 2px solid #edd7c2 !important;
 }
 
-/* Dark card background text fallback */
-.card-dark a, 
-.bg-dark a {
-    color: #FBF5F0 !important;
-}
-
-/* Left Sidebar text readability */
-.main-sidebar .nav-header {
-    color: #8C6A63 !important; /* Brighter accent color for category titles */
+.brand-link .brand-text,
+.sidebar-brand .brand-text {
+    color: #ffffff !important;
     font-weight: 700 !important;
-    text-transform: uppercase;
 }
 
-.main-sidebar .nav-link {
-    color: #2B1E1C !important;
+.user-panel {
+    border-bottom: 1px solid rgba(237, 215, 194, 0.6) !important;
+    padding: 12px 16px !important;
 }
 
-
-/* --- 2. Fix Add / Change Pill Buttons --- */
-
-/* Base Pill Button Style */
-.card-body .btn, 
-.module .button, 
-a.addlink, 
-a.changelink {
-    border-radius: 20px !important;
-    padding: 4px 14px !important;
-    font-size: 0.82rem !important;
+.user-panel .info a {
+    color: #6b443a !important;
     font-weight: 600 !important;
-    display: inline-block !important;
-    margin: 2px 4px !important;
-    text-decoration: none !important;
+}
+
+.nav-sidebar .nav-header {
+    color: #a6847c !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    font-size: 0.75rem !important;
+    letter-spacing: 0.8px;
+    padding: 1.5rem 1rem 0.5rem !important;
+}
+
+.sidebar a,
+.nav-sidebar .nav-link {
+    color: #6b443a !important;
+    border-radius: 8px !important;
+    margin: 2px 8px !important;
+    font-weight: 500 !important;
     transition: all 0.2s ease !important;
 }
 
-/* Add Button (Primary Action - Solid Filled) */
-a.addlink, 
-.btn-success, 
-.btn-primary {
-    background-color: #5E3A33 !important;
-    color: #FFFFFF !important;
-    border: 1px solid #5E3A33 !important;
+.nav-sidebar .nav-link i,
+.sidebar a i {
+    color: #f09fc1 !important; /* Soft accents on dashboard app nodes */
 }
 
-a.addlink:hover,
-.btn-success:hover,
-.btn-primary:hover {
-    background-color: #3C2321 !important;
-    color: #FFFFFF !important;
+.sidebar .nav-link:hover,
+.nav-sidebar .nav-link:hover {
+    background-color: rgba(237, 215, 194, 0.4) !important;
+    color: #6b443a !important;
 }
 
-/* Change Button (Secondary Action - Outline Style) */
-a.changelink, 
-.btn-info, 
-.btn-secondary {
-    background-color: transparent !important;
-    color: #5E3A33 !important;
-    border: 1px solid #5E3A33 !important;
+.sidebar .nav-link.active,
+.nav-sidebar .nav-link.active {
+    background-color: #edd7c2 !important;
+    color: #6b443a !important;
+    font-weight: 700 !important;
 }
 
-a.changelink:hover,
-.btn-info:hover,
-.btn-secondary:hover {
-    background-color: #F9E4E0 !important;
-    color: #3C2321 !important;
-}
-
-
-/* --- 3. Fix Layout Spacing & Card Collisions --- */
-
-/* Clean grid for dashboard modules */
-.content-wrapper .row {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    gap: 20px !important;
-    margin: 0 !important;
-}
-
-.content-wrapper .col-lg-6, 
-.content-wrapper .col-md-12 {
-    flex: 1 1 45% !important;
-    max-width: 100% !important;
-}
-
-/* Clean up card margins */
-.card, .module {
-    margin-bottom: 0 !important;
-    height: 100% !important;
-    box-shadow: 0 4px 12px rgba(60, 35, 33, 0.08) !important;
-}
-
-
-/* 🔗 Links & Accents */
-a:link, a:visited {
-  color: var(--color-accent) !important;
-  text-decoration: none;
-}
-
-a:hover {
-  color: var(--color-primary-dark) !important;
-  text-decoration: underline;
-}
-
-/* 🏷️ Status Badges & Pills */
-.badge-success, .badge-info {
-  background-color: var(--color-secondary-mint) !important;
-  color: #FFFFFF !important;
-  font-weight: 600;
-  border-radius: var(--radius-pill);
-  padding: 0.4rem 0.85rem;
-}
-
-.badge-warning {
-  background-color: var(--color-soft-peach) !important;
-  color: var(--color-primary-dark) !important;
-  font-weight: 600;
-  border-radius: var(--radius-pill);
-  padding: 0.4rem 0.85rem;
-}
-
-/* 🔐 Admin Login Box */
-.login-page {
-  background: linear-gradient(135deg, var(--color-canvas) 0%, #EAE1D9 50%, var(--color-soft-peach) 100%) !important;
-}
-
-.login-box .card {
-  border-radius: 20px !important;
-  box-shadow: 0 15px 35px rgba(60, 35, 33, 0.12) !important;
-}
-
-.login-logo a {
-  font-family: var(--font-serif) !important;
-  color: var(--color-primary-dark) !important;
-  font-weight: 700 !important;
+/* 🏁 7. Footer Strip System Bounds */
+.main-footer,
+.app-footer,
+.dark-mode .main-footer {
+    background-color: #ffffff !important;
+    border-top: 1px solid #edd7c2 !important;
+    color: #a6847c !important;
 }
