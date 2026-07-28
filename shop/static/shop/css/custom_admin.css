@@ -925,3 +925,65 @@ input[type="checkbox"]:checked::after,
 .custom-checkbox .custom-control-input:checked ~ .custom-control-label::after {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%236b443a' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e") !important;
 }
+
+/* =========================================================================
+   HEADER NAVBAR & SEARCH ALIGNMENT FIXES
+   ========================================================================= */
+
+/* 1. Fix Top Navbar Spacing & Text Alignment */
+#jazzy-navbar .navbar-nav {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important; /* Space out nav items cleanly */
+}
+
+#jazzy-navbar .nav-link {
+    white-space: nowrap !important; /* Prevent text from wrapping into 2 lines */
+    padding: 6px 12px !important;
+    font-size: 0.9rem !important;
+    line-height: 1.2 !important;
+}
+
+/* 2. Fix Search Boxes Squeezing / Overlapping */
+#jazzy-navbar form.d-flex {
+    flex: 1 1 200px !important; /* Allow search boxes to expand proportionally */
+    max-width: 240px !important;
+    margin: 0 4px !important;
+}
+
+#jazzy-navbar .input-group {
+    width: 100% !important;
+    display: flex !important;
+    flex-wrap: nowrap !important; /* Keep search input and search icon on 1 row */
+}
+
+#jazzy-navbar .form-control-navbar {
+    font-size: 0.82rem !important;
+    padding: 6px 12px !important;
+    text-overflow: ellipsis !important; /* Gracefully truncate placeholder text if screen is narrow */
+    white-space: nowrap !important;
+    height: 34px !important;
+}
+
+#jazzy-navbar .btn-navbar {
+    height: 34px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 12px !important;
+}
+
+/* 3. Fix Table Column Alignment in Main Content Area */
+.app-content table th, 
+.app-content table td {
+    vertical-align: middle !important;
+    text-align: left !important;
+    white-space: nowrap !important;
+}
+
+/* Align Checkboxes neatly with text */
+.app-content table td input[type="checkbox"], 
+.app-content table th input[type="checkbox"] {
+    margin: 0 !important;
+    vertical-align: middle !important;
+}
