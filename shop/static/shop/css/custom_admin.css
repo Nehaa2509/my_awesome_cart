@@ -1,16 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+/* =========================================================================
+   🌸 Sneha's Boutique Admin Theme — High-End SaaS Luxury Styling
+   Matching Frontend Design System (Playfair Display, #6b443a, #edd7c2, #98f0e3, #f09fc1)
+   ========================================================================= */
 
-body {
-  font-family: 'Plus Jakarta Sans', sans-serif !important;
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+/* 🌿 Global Typography & Base Palette */
+body, .content-wrapper, .main-footer {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
   background-color: #fdf6f9 !important;
   color: #332420 !important;
 }
 
-/* Header Navbar */
+h1, h2, h3, h4, h5, h6, .brand-text, .card-title, .login-logo {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  letter-spacing: -0.01rem;
+}
+
+/* 👑 Main Header Navbar */
 .main-header {
   background: linear-gradient(135deg, #6b443a 0%, #4a2d26 100%) !important;
   border-bottom: 1px solid #edd7c2 !important;
-  box-shadow: 0 4px 15px rgba(107, 68, 58, 0.15) !important;
+  box-shadow: 0 4px 20px rgba(107, 68, 58, 0.18) !important;
 }
 
 .main-header .nav-link, 
@@ -19,45 +30,82 @@ body {
   font-weight: 600;
 }
 
-.main-header .navbar-brand {
-  font-family: 'Playfair Display', serif !important;
-  letter-spacing: 0.05rem;
+.main-header .nav-link:hover {
+  color: #98f0e3 !important;
 }
 
-/* Sidebar Styling */
+.main-header .navbar-brand {
+  font-family: 'Playfair Display', serif !important;
+  font-weight: 700;
+  letter-spacing: 0.04rem;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: #fdf6f9 !important;
+}
+
+/* 🏛️ Sidebar Styling */
 .main-sidebar {
   background-color: #ffffff !important;
   border-right: 1px solid #edd7c2 !important;
-  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.02) !important;
+  box-shadow: 4px 0 20px rgba(107, 68, 58, 0.04) !important;
+}
+
+.brand-link {
+  background-color: #6b443a !important;
+  border-bottom: 1px solid #edd7c2 !important;
+  color: #fdf6f9 !important;
+}
+
+.brand-link .brand-text {
+  color: #fdf6f9 !important;
+  font-weight: 700;
+}
+
+.sidebar .nav-header {
+  color: #9e7a70 !important;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.1rem !important;
+  text-transform: uppercase;
+  font-weight: 700 !important;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem !important;
 }
 
 .sidebar a {
   color: #6b443a !important;
-  border-radius: 8px;
+  border-radius: 10px;
   font-weight: 500;
-  transition: all 0.2s ease;
+  margin: 0.15rem 0.5rem;
+  transition: all 0.22s ease-in-out;
 }
 
 .sidebar .nav-link:hover {
   background-color: #fdf6f9 !important;
   color: #6b443a !important;
-  transform: translateX(4px);
+  border-left: 3px solid #f09fc1 !important;
+  transform: translateX(3px);
 }
 
 .sidebar .nav-link.active {
   background-color: #edd7c2 !important;
-  color: #6b443a !important;
+  color: #4a2d26 !important;
   font-weight: 700 !important;
-  box-shadow: 0 2px 8px rgba(107, 68, 58, 0.1) !important;
+  box-shadow: 0 4px 12px rgba(107, 68, 58, 0.12) !important;
 }
 
-/* Cards & Panels */
+/* 💳 Content Cards & Dashboard Panels */
 .card {
   border: 1px solid #edd7c2 !important;
-  border-radius: 14px !important;
-  box-shadow: 0 4px 20px rgba(107, 68, 58, 0.04) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 6px 24px rgba(107, 68, 58, 0.05) !important;
   background-color: #ffffff !important;
   overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+  box-shadow: 0 10px 30px rgba(107, 68, 58, 0.08) !important;
 }
 
 .card-header {
@@ -70,7 +118,48 @@ body {
   padding: 1rem 1.25rem !important;
 }
 
-/* Table Design */
+.card-title {
+  color: #6b443a !important;
+  font-weight: 700 !important;
+}
+
+/* 📊 Stat Boxes (Dashboard Widgets) */
+.small-box {
+  border-radius: 16px !important;
+  box-shadow: 0 6px 20px rgba(107, 68, 58, 0.08) !important;
+  overflow: hidden;
+  transition: transform 0.25s ease;
+}
+
+.small-box:hover {
+  transform: translateY(-4px);
+}
+
+.small-box.bg-info {
+  background: linear-gradient(135deg, #98f0e3 0%, #6cdac9 100%) !important;
+  color: #1b5e52 !important;
+}
+
+.small-box.bg-success {
+  background: linear-gradient(135deg, #edd7c2 0%, #e5c3a6 100%) !important;
+  color: #4a2d26 !important;
+}
+
+.small-box.bg-warning {
+  background: linear-gradient(135deg, #f09fc1 0%, #e285ac 100%) !important;
+  color: #5c1836 !important;
+}
+
+.small-box.bg-danger {
+  background: linear-gradient(135deg, #6b443a 0%, #4a2d26 100%) !important;
+  color: #fdf6f9 !important;
+}
+
+.small-box .inner h3, .small-box .inner p {
+  color: inherit !important;
+}
+
+/* 📊 Table Design Grid */
 .table {
   color: #332420 !important;
 }
@@ -80,44 +169,45 @@ body {
   color: #6b443a !important;
   font-weight: 700 !important;
   text-transform: uppercase;
-  font-size: 0.75rem;
+  font-size: 0.73rem;
   letter-spacing: 0.08rem;
   border-bottom: 2px solid #edd7c2 !important;
-  padding: 0.85rem 1rem !important;
+  padding: 0.9rem 1.1rem !important;
 }
 
 .table td {
   vertical-align: middle !important;
   border-top: 1px solid #f5eaef !important;
-  padding: 0.85rem 1rem !important;
+  padding: 0.9rem 1.1rem !important;
+  font-size: 0.92rem;
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
-  background-color: rgba(253, 246, 249, 0.4) !important;
+  background-color: rgba(253, 246, 249, 0.45) !important;
 }
 
 .table-hover tbody tr:hover {
-  background-color: #fdf6f9 !important;
+  background-color: #fcf0f5 !important;
 }
 
-/* Buttons */
+/* 🔘 Buttons */
 .btn-primary, .btn-success, .btn-info {
   background-color: #6b443a !important;
   border-color: #6b443a !important;
   color: #fdf6f9 !important;
   border-radius: 30px !important;
-  padding: 0.5rem 1.25rem !important;
+  padding: 0.5rem 1.3rem !important;
   font-weight: 600 !important;
   letter-spacing: 0.03rem;
-  box-shadow: 0 4px 10px rgba(107, 68, 58, 0.15) !important;
+  box-shadow: 0 4px 12px rgba(107, 68, 58, 0.18) !important;
   transition: all 0.25s ease !important;
 }
 
 .btn-primary:hover, .btn-success:hover, .btn-info:hover {
   background-color: #4a2d26 !important;
   border-color: #4a2d26 !important;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(107, 68, 58, 0.25) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(107, 68, 58, 0.28) !important;
 }
 
 .btn-secondary, .btn-outline-secondary {
@@ -133,13 +223,14 @@ body {
   color: #4a2d26 !important;
 }
 
-/* Badges */
+/* 🏷️ Status Badges */
 .badge-success, .badge-info {
   background-color: #98f0e3 !important;
   color: #1b5e52 !important;
   font-weight: 700;
   border-radius: 20px;
-  padding: 0.35rem 0.75rem;
+  padding: 0.4rem 0.85rem;
+  letter-spacing: 0.03rem;
 }
 
 .badge-warning {
@@ -147,7 +238,7 @@ body {
   color: #6b443a !important;
   font-weight: 700;
   border-radius: 20px;
-  padding: 0.35rem 0.75rem;
+  padding: 0.4rem 0.85rem;
 }
 
 .badge-danger {
@@ -155,21 +246,51 @@ body {
   color: #722043 !important;
   font-weight: 700;
   border-radius: 20px;
-  padding: 0.35rem 0.75rem;
+  padding: 0.4rem 0.85rem;
 }
 
-/* Login Page Styling */
+/* ✏️ Form Controls & Inputs */
+.form-control, select, textarea {
+  border: 1px solid #edd7c2 !important;
+  border-radius: 10px !important;
+  background-color: #ffffff !important;
+  color: #332420 !important;
+  padding: 0.55rem 0.9rem !important;
+  transition: all 0.2s ease;
+}
+
+.form-control:focus, select:focus, textarea:focus {
+  border-color: #f09fc1 !important;
+  box-shadow: 0 0 0 0.2rem rgba(240, 159, 193, 0.25) !important;
+}
+
+/* 🔐 Admin Login Page Styling */
 .login-page {
   background: linear-gradient(135deg, #fdf6f9 0%, #edd7c2 50%, #f09fc1 100%) !important;
 }
 
+.login-box {
+  width: 420px !important;
+}
+
 .login-box .card {
-  border-radius: 20px !important;
-  box-shadow: 0 15px 35px rgba(107, 68, 58, 0.15) !important;
+  border-radius: 24px !important;
+  border: 1px solid #edd7c2 !important;
+  box-shadow: 0 20px 40px rgba(107, 68, 58, 0.15) !important;
+  padding: 1rem;
 }
 
 .login-logo a {
   font-family: 'Playfair Display', serif !important;
   color: #6b443a !important;
   font-weight: 700 !important;
+  font-size: 2.2rem !important;
+}
+
+/* 🦶 Footer */
+.main-footer {
+  background-color: #ffffff !important;
+  border-top: 1px solid #edd7c2 !important;
+  color: #6b443a !important;
+  font-size: 0.85rem;
 }
