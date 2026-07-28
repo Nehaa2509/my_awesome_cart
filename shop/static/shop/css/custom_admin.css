@@ -426,3 +426,61 @@ input[name="_continue"] {
     border: none !important;
     color: #ffffff !important;
 }
+
+/* =========================================================================
+   /* --- Fix Dark Tables & Inner Container Backgrounds --- */
+   ========================================================================= */
+
+/* 1. Target Jazzmin / AdminLTE inner table cards & wrappers */
+.app-content .card .card-body,
+.content-wrapper .card .card-body,
+.app-content table,
+.content-wrapper table,
+.app-content tbody,
+.content-wrapper tbody,
+.app-content tr,
+.content-wrapper tr,
+.app-content td,
+.content-wrapper td,
+.app-content .table-responsive,
+.content-wrapper .table-responsive,
+.app-content .card-dark,
+.content-wrapper .card-dark,
+.app-content .bg-dark,
+.content-wrapper .bg-dark,
+.app-content .table-dark,
+.content-wrapper .table-dark {
+    background-color: rgba(255, 255, 255, 0.7) !important;
+    color: #6b443a !important;
+    border-color: #edd7c2 !important;
+}
+
+/* 2. Text and link visibility for Groups, Users, and other model rows */
+.app-content td a, 
+.content-wrapper td a, 
+.app-content th a, 
+.content-wrapper th a, 
+.app-content tr td, 
+.content-wrapper tr td, 
+.app-content tr th,
+.content-wrapper tr th {
+    color: #6b443a !important;
+    font-weight: 600 !important;
+    background: transparent !important;
+}
+
+/* 3. Subtle hover effect on rows */
+.app-content table tr:hover,
+.content-wrapper table tr:hover,
+.app-content table tr:hover td,
+.content-wrapper table tr:hover td {
+    background-color: rgba(240, 157, 193, 0.15) !important;
+}
+
+/* 4. Fix row highlight behind 'Groups' and 'Users' text specifically */
+.app-content table td:first-child,
+.content-wrapper table td:first-child {
+    background-color: transparent !important;
+    border-radius: 8px 0 0 8px;
+}
+
