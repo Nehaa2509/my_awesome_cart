@@ -538,4 +538,122 @@ div.actions {
     font-weight: 600 !important;
 }
 
+/* =========================================================================
+   COMPREHENSIVE LIGHT MODE OVERRIDES FOR DJANGO ADMIN / JAZZMIN
+   ========================================================================= */
+
+/* 1. Top Navbar Header & Navigation Links */
+#jazzy-navbar,
+.app-header,
+nav.navbar,
+.navbar-dark,
+.bg-brown {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(10px) !important;
+    border-bottom: 2px solid #edd7c2 !important;
+    color: #6b443a !important;
+}
+
+#jazzy-navbar a,
+#jazzy-navbar .nav-link,
+#jazzy-navbar .navbar-brand {
+    color: #6b443a !important;
+    font-weight: 600 !important;
+}
+
+#jazzy-navbar a:hover,
+#jazzy-navbar .nav-link:hover {
+    color: #f09fc1 !important;
+}
+
+/* Navbar Top Search Bar Inputs */
+#jazzy-navbar .form-control-navbar,
+#jazzy-navbar input[type="search"] {
+    background-color: #ffffff !important;
+    color: #6b443a !important;
+    border: 1px solid #edd7c2 !important;
+    border-radius: 20px 0 0 20px !important;
+}
+
+#jazzy-navbar .btn-navbar {
+    background-color: #f09fc1 !important;
+    color: #ffffff !important;
+    border: 1px solid #f09fc1 !important;
+    border-radius: 0 20px 20px 0 !important;
+}
+
+/* 2. Top-Left Brand Logo Header */
+.sidebar-brand,
+.brand-link,
+#jazzy-logo {
+    background-color: #fdf6f9 !important;
+    color: #6b443a !important;
+    border-bottom: 1px solid #edd7c2 !important;
+}
+
+.brand-text,
+#jazzy-logo .brand-text {
+    color: #6b443a !important;
+    font-weight: 700 !important;
+}
+
+/* 3. Filter Buttons & Dropdowns (Category, Pub Date, Actions Bar) */
+select,
+.form-select,
+.form-control,
+.actions select,
+#changelist-filter select,
+.btn-secondary,
+.dropdown-toggle,
+.select2-container--default .select2-selection--single {
+    background-color: #ffffff !important;
+    color: #6b443a !important;
+    border: 1px solid #edd7c2 !important;
+    border-radius: 20px !important;
+    box-shadow: none !important;
+}
+
+/* Fix dropdown options when opened */
+select option,
+.dropdown-menu {
+    background-color: #ffffff !important;
+    color: #6b443a !important;
+}
+
+/* Action Bar Container behind 'Go' button */
+.actions,
+#changelist-form .actions {
+    background-color: #ffffff !important;
+    border: 1px solid #edd7c2 !important;
+    border-radius: 12px !important;
+    color: #6b443a !important;
+}
+
+/* 4. Green 'Add' Button (Convert to Theme Pink/Mint) */
+a.addlink,
+.btn-success,
+a.btn-success {
+    background-color: #f09fc1 !important;
+    border-color: #f09fc1 !important;
+    color: #ffffff !important;
+    border-radius: 20px !important;
+    font-weight: 600 !important;
+}
+
+a.addlink:hover,
+.btn-success:hover {
+    background-color: #e58bb1 !important;
+    border-color: #e58bb1 !important;
+}
+
+/* 5. Clean up any remaining dark background utilities */
+.bg-dark,
+.bg-body-dark,
+.navbar-dark,
+[data-bs-theme="dark"] {
+    background-color: transparent !important;
+    color: #6b443a !important;
+}
+
+
 
