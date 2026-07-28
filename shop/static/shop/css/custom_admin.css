@@ -2872,3 +2872,14 @@ p.paginator,
     border-radius: 0 20px 20px 0 !important;
     padding: 0 12px !important;
 }
+
+/* =========================================================================
+   🚫 REMOVE DEFAULT ADMINLTE BRAND LOGO IMAGE
+   ========================================================================= */
+.brand-image,
+.sidebar-brand img,
+.brand-link img,
+#jazzy-logo img,
+img[src*="AdminLTELogo"] {
+    display: none !important;
+}
