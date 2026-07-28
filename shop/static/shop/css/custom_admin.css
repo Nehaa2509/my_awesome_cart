@@ -987,3 +987,151 @@ input[type="checkbox"]:checked::after,
     margin: 0 !important;
     vertical-align: middle !important;
 }
+
+/* =========================================================================
+   PERFECT ALIGNMENT & BOX SPACING FIXES
+   ========================================================================= */
+
+/* 1. Fix Breadcrumbs ("Home / Shop / Contacts") Alignment */
+.breadcrumb, 
+ol.breadcrumb, 
+div.float-sm-end .breadcrumb {
+    display: inline-flex !important;
+    align-items: center !important;
+    background: #edd7c2 !important;
+    border-radius: 50px !important;
+    padding: 6px 18px !important;
+    margin: 0 !important;
+    border: none !important;
+}
+
+.breadcrumb-item, 
+.breadcrumb-item a {
+    color: #6b443a !important;
+    font-weight: 600 !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 4px !important;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: #6b443a !important;
+    padding: 0 6px !important;
+}
+
+/* 2. Fix Header Search Input Boxes Squeezing */
+#jazzy-navbar form.d-flex {
+    flex: 1 1 auto !important;
+    max-width: 200px !important;
+    margin: 0 4px !important;
+}
+
+#jazzy-navbar .input-group {
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+}
+
+#jazzy-navbar .form-control-navbar {
+    height: 36px !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 20px 0 0 20px !important;
+    font-size: 0.82rem !important;
+    padding: 6px 12px !important;
+}
+
+#jazzy-navbar .form-control-navbar::placeholder {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+#jazzy-navbar .btn-navbar {
+    height: 36px !important;
+    background: rgba(255, 255, 255, 0.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: #ffffff !important;
+    border-radius: 0 20px 20px 0 !important;
+    padding: 0 12px !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* 3. Fix Main Search Bar & Add Contact Button Vertical Alignment */
+#changelist-search, 
+.changelist-form-container form,
+#toolbar form {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+}
+
+#changelist-search input[type="text"], 
+#searchbar {
+    height: 38px !important;
+    border-radius: 20px !important;
+    border: 1px solid #edd7c2 !important;
+    padding: 0 16px !important;
+    margin: 0 !important;
+    flex: 1 !important;
+}
+
+#changelist-search input[type="submit"],
+.btn-search {
+    height: 38px !important;
+    border-radius: 20px !important;
+    margin: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Align 'Add contact' button on the same horizontal row */
+.object-tools, 
+a.addlink, 
+.btn-success {
+    height: 38px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    border-radius: 20px !important;
+    padding: 0 18px !important;
+    white-space: nowrap !important;
+}
+
+/* 4. Fix Action Bar Alignment (Dropdown + Go Button + Selection Counter) */
+.actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 10px 16px !important;
+    border-radius: 12px !important;
+    background: #ffffff !important;
+    border: 1px solid #edd7c2 !important;
+}
+
+.actions select {
+    height: 34px !important;
+    border-radius: 20px !important;
+    padding: 0 12px !important;
+    margin: 0 !important;
+}
+
+.actions button, 
+.actions input[type="submit"], 
+.actions .button {
+    height: 34px !important;
+    border-radius: 20px !important;
+    padding: 0 18px !important;
+    margin: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+}
+
+.actions span.action-counter {
+    margin: 0 0 0 auto !important;
+    font-weight: 600 !important;
+    color: #6b443a !important;
+}
