@@ -1,0 +1,175 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  background-color: #fdf6f9 !important;
+  color: #332420 !important;
+}
+
+/* Header Navbar */
+.main-header {
+  background: linear-gradient(135deg, #6b443a 0%, #4a2d26 100%) !important;
+  border-bottom: 1px solid #edd7c2 !important;
+  box-shadow: 0 4px 15px rgba(107, 68, 58, 0.15) !important;
+}
+
+.main-header .nav-link, 
+.main-header .navbar-brand {
+  color: #fdf6f9 !important;
+  font-weight: 600;
+}
+
+.main-header .navbar-brand {
+  font-family: 'Playfair Display', serif !important;
+  letter-spacing: 0.05rem;
+}
+
+/* Sidebar Styling */
+.main-sidebar {
+  background-color: #ffffff !important;
+  border-right: 1px solid #edd7c2 !important;
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.02) !important;
+}
+
+.sidebar a {
+  color: #6b443a !important;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.sidebar .nav-link:hover {
+  background-color: #fdf6f9 !important;
+  color: #6b443a !important;
+  transform: translateX(4px);
+}
+
+.sidebar .nav-link.active {
+  background-color: #edd7c2 !important;
+  color: #6b443a !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 8px rgba(107, 68, 58, 0.1) !important;
+}
+
+/* Cards & Panels */
+.card {
+  border: 1px solid #edd7c2 !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 20px rgba(107, 68, 58, 0.04) !important;
+  background-color: #ffffff !important;
+  overflow: hidden;
+}
+
+.card-header {
+  background-color: #fdf6f9 !important;
+  border-bottom: 1px solid #edd7c2 !important;
+  color: #6b443a !important;
+  font-family: 'Playfair Display', serif !important;
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 1rem 1.25rem !important;
+}
+
+/* Table Design */
+.table {
+  color: #332420 !important;
+}
+
+.table thead th {
+  background-color: #fdf6f9 !important;
+  color: #6b443a !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.08rem;
+  border-bottom: 2px solid #edd7c2 !important;
+  padding: 0.85rem 1rem !important;
+}
+
+.table td {
+  vertical-align: middle !important;
+  border-top: 1px solid #f5eaef !important;
+  padding: 0.85rem 1rem !important;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(253, 246, 249, 0.4) !important;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #fdf6f9 !important;
+}
+
+/* Buttons */
+.btn-primary, .btn-success, .btn-info {
+  background-color: #6b443a !important;
+  border-color: #6b443a !important;
+  color: #fdf6f9 !important;
+  border-radius: 30px !important;
+  padding: 0.5rem 1.25rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.03rem;
+  box-shadow: 0 4px 10px rgba(107, 68, 58, 0.15) !important;
+  transition: all 0.25s ease !important;
+}
+
+.btn-primary:hover, .btn-success:hover, .btn-info:hover {
+  background-color: #4a2d26 !important;
+  border-color: #4a2d26 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(107, 68, 58, 0.25) !important;
+}
+
+.btn-secondary, .btn-outline-secondary {
+  background-color: #edd7c2 !important;
+  border-color: #edd7c2 !important;
+  color: #6b443a !important;
+  border-radius: 30px !important;
+  font-weight: 600 !important;
+}
+
+.btn-secondary:hover {
+  background-color: #e2c4a8 !important;
+  color: #4a2d26 !important;
+}
+
+/* Badges */
+.badge-success, .badge-info {
+  background-color: #98f0e3 !important;
+  color: #1b5e52 !important;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 0.35rem 0.75rem;
+}
+
+.badge-warning {
+  background-color: #edd7c2 !important;
+  color: #6b443a !important;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 0.35rem 0.75rem;
+}
+
+.badge-danger {
+  background-color: #f09fc1 !important;
+  color: #722043 !important;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 0.35rem 0.75rem;
+}
+
+/* Login Page Styling */
+.login-page {
+  background: linear-gradient(135deg, #fdf6f9 0%, #edd7c2 50%, #f09fc1 100%) !important;
+}
+
+.login-box .card {
+  border-radius: 20px !important;
+  box-shadow: 0 15px 35px rgba(107, 68, 58, 0.15) !important;
+}
+
+.login-logo a {
+  font-family: 'Playfair Display', serif !important;
+  color: #6b443a !important;
+  font-weight: 700 !important;
+}

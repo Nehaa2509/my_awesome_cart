@@ -151,20 +151,24 @@ RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET', 'vYJVMaXp5zoB82XsQDd
 JAZZMIN_SETTINGS = {
     "site_title": "Sneha's Boutique Admin",
     "site_header": "Boutique Dashboard",
-    "site_brand": "MyAwesomeCart Backend",
+    "site_brand": "MyAwesomeCart",
     "welcome_sign": "Welcome back to the Capsule Management Matrix, Sneha",
-    "search_model": ["shop.Product", "blog.BlogPost"],
+    "search_model": ["shop.Product", "blog.BlogPost", "shop.Order"],
     "topmenu_links": [
         {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
-        {"name": "View Live Storefront", "url": "/"},
+        {"name": "Live Storefront", "url": "/shop/"},
+        {"name": "Editorial Journal", "url": "/blog/"},
     ],
     "show_sidebar": True,
     "navigation_expanded": True,
+    "custom_css": "shop/css/custom_admin.css",
     "icons": {
         "auth.user": "fas fa-users-cog",
-        "shop.Product": "fas fa-pump-soap",  # Curated skincare icon
+        "shop.Product": "fas fa-spa",
         "shop.Order": "fas fa-shopping-bag",
-        "blog.BlogPost": "fas fa-pen-fancy",
+        "shop.Contact": "fas fa-envelope-open-text",
+        "shop.OrderUpdate": "fas fa-truck-loading",
+        "blog.BlogPost": "fas fa-feather-alt",
         "blog.BlogComment": "fas fa-comments",
     },
 }
