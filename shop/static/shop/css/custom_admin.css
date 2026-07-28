@@ -1,11 +1,10 @@
 /* =========================================================================
-   🌸 Sneha's Boutique Admin Theme — High-End SaaS Luxury Styling
-   Matching Frontend Design System (Playfair Display, #6b443a, #edd7c2, #98f0e3, #f09fc1)
+   🌸 Sneha's Boutique Admin Theme — High-End SaaS UI/UX Specification
    ========================================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
-/* 🎨 Design System Token Palette */
+/* 🎨 1. Root Tokens Matrix */
 :root, html[data-theme="light"], html[data-bs-theme="light"], html {
   --color-cream: #fdf6f9;
   --color-espresso: #6b443a;
@@ -20,13 +19,14 @@
   --color-card-bg: #ffffff;
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  
   --radius-card: 16px;
-  --radius-pill: 30px;
-  --shadow-card: 0 6px 24px rgba(107, 68, 58, 0.05);
-  --shadow-card-hover: 0 10px 30px rgba(107, 68, 58, 0.1);
+  --radius-pill: 9999px;
+  --shadow-floating: 0 10px 30px rgba(107, 68, 58, 0.08);
+  --shadow-floating-hover: 0 16px 36px rgba(107, 68, 58, 0.14);
 }
 
-/* 🌿 Global Typography & Base Palette (Enforces Light Boutique Palette Even If Dark Mode Triggered) */
+/* 🌿 Global Typography & Page Background */
 body, 
 body.dark-mode, 
 .content-wrapper, 
@@ -43,42 +43,76 @@ h1, h2, h3, h4, h5, h6, .brand-text, .card-title, .login-logo {
   letter-spacing: -0.01rem;
 }
 
-/* ☀️ Prevent AdminLTE / Jazzmin Dark Mode Overrides */
+/* =========================================================================
+   ✨ REQUIREMENT 1: Minimalist & Floating UI Elements
+   ========================================================================= */
+
+/* Elevated Section Cards (Shop, Blog, Authentication) */
+.card, 
+.content-wrapper .card,
 .dark-mode .card,
 .dark-mode .modal-content,
-.dark-mode .main-sidebar,
-.dark-mode .nav-sidebar .nav-link,
 [data-bs-theme="dark"] {
+  border: 1px solid rgba(237, 215, 194, 0.6) !important;
+  border-radius: var(--radius-card) !important;
+  box-shadow: var(--shadow-floating) !important;
   background-color: #ffffff !important;
-  color: #332420 !important;
+  color: var(--color-text-main) !important;
+  overflow: hidden;
+  margin-bottom: 1.5rem !important;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease !important;
 }
 
+/* Gentle Floating Hover Effect */
+.card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: var(--shadow-floating-hover) !important;
+}
+
+.card-header,
 .dark-mode .card-header {
-  background-color: #fdf6f9 !important;
-  color: #6b443a !important;
-  border-bottom: 1px solid #edd7c2 !important;
+  background-color: var(--color-cream) !important;
+  border-bottom: 1px solid var(--color-nude) !important;
+  color: var(--color-espresso) !important;
+  font-family: var(--font-serif) !important;
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 1.1rem 1.4rem !important;
 }
 
-.dark-mode .table, 
-.dark-mode .table td, 
-.dark-mode .table th {
-  background-color: transparent !important;
-  color: #332420 !important;
-}
-
+/* Rounded search bars & input fields */
+.form-control, 
+select, 
+textarea,
 .dark-mode .form-control,
 .dark-mode select,
 .dark-mode textarea {
+  border: 1px solid var(--color-nude) !important;
+  border-radius: 12px !important;
   background-color: #ffffff !important;
-  color: #332420 !important;
-  border: 1px solid #edd7c2 !important;
+  color: var(--color-text-main) !important;
+  padding: 0.6rem 1rem !important;
+  font-size: 0.92rem;
+  transition: all 0.2s ease;
 }
 
-/* 👑 Main Header Navbar */
-.main-header {
-  background: linear-gradient(135deg, var(--color-espresso) 0%, var(--color-espresso-dark) 100%) !important;
-  border-bottom: 1px solid var(--color-nude) !important;
-  box-shadow: 0 4px 20px rgba(107, 68, 58, 0.18) !important;
+.form-control:focus, select:focus, textarea:focus {
+  border-color: var(--color-pink) !important;
+  box-shadow: 0 0 0 0.25rem rgba(240, 159, 193, 0.25) !important;
+}
+
+/* =========================================================================
+   🔮 REQUIREMENT 2: Refined Color Palette & Translucent Glassmorphism
+   ========================================================================= */
+
+/* Top Navigation Bar with Glassmorphic Blur */
+.main-header,
+.dark-mode .main-header {
+  background: rgba(107, 68, 58, 0.94) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid rgba(237, 215, 194, 0.4) !important;
+  box-shadow: 0 6px 20px rgba(107, 68, 58, 0.15) !important;
 }
 
 .main-header .nav-link, 
@@ -88,266 +122,190 @@ h1, h2, h3, h4, h5, h6, .brand-text, .card-title, .login-logo {
 }
 
 .main-header .nav-link:hover {
-  color: #98f0e3 !important;
+  color: var(--color-mint) !important;
 }
 
-.main-header .navbar-brand {
-  font-family: 'Playfair Display', serif !important;
-  font-weight: 700;
-  letter-spacing: 0.04rem;
-}
-
-.navbar-light .navbar-nav .nav-link {
-  color: #fdf6f9 !important;
-}
-
-/* 🏛️ Sidebar Styling */
-.main-sidebar {
-  background-color: #ffffff !important;
-  border-right: 1px solid #edd7c2 !important;
+/* Translucent Sidebar Navigation Panel */
+.main-sidebar,
+.dark-mode .main-sidebar {
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border-right: 1px solid var(--color-nude) !important;
   box-shadow: 4px 0 20px rgba(107, 68, 58, 0.04) !important;
 }
 
 .brand-link {
-  background-color: #6b443a !important;
-  border-bottom: 1px solid #edd7c2 !important;
-  color: #fdf6f9 !important;
+  background: var(--color-espresso) !important;
+  border-bottom: 1px solid var(--color-nude) !important;
 }
 
 .brand-link .brand-text {
   color: #fdf6f9 !important;
   font-weight: 700;
+  font-family: var(--font-serif) !important;
 }
 
-.sidebar .nav-header {
-  color: #9e7a70 !important;
-  font-size: 0.72rem !important;
-  letter-spacing: 0.1rem !important;
-  text-transform: uppercase;
-  font-weight: 700 !important;
-  margin-top: 1rem;
-  padding: 0.5rem 1rem !important;
-}
+/* =========================================================================
+   📐 REQUIREMENT 3: Responsive Layout & Spacing
+   ========================================================================= */
 
-.sidebar a {
-  color: #6b443a !important;
-  border-radius: 10px;
+/* Generous Breathing Room on Sidebar Links */
+.sidebar .nav-link {
+  color: var(--color-espresso) !important;
+  border-radius: 12px !important;
   font-weight: 500;
-  margin: 0.15rem 0.5rem;
+  margin: 4px 10px !important;
+  padding: 10px 16px !important;
   transition: all 0.22s ease-in-out;
 }
 
 .sidebar .nav-link:hover {
-  background-color: #fdf6f9 !important;
-  color: #6b443a !important;
-  border-left: 3px solid #f09fc1 !important;
-  transform: translateX(3px);
+  background-color: var(--color-cream) !important;
+  color: var(--color-espresso) !important;
+  border-left: 3px solid var(--color-pink) !important;
+  transform: translateX(4px);
 }
 
 .sidebar .nav-link.active {
-  background-color: #edd7c2 !important;
-  color: #4a2d26 !important;
+  background-color: var(--color-nude) !important;
+  color: var(--color-espresso-dark) !important;
   font-weight: 700 !important;
   box-shadow: 0 4px 12px rgba(107, 68, 58, 0.12) !important;
 }
 
-/* 💳 Content Cards & Dashboard Panels */
-.card {
-  border: 1px solid #edd7c2 !important;
-  border-radius: 16px !important;
-  box-shadow: 0 6px 24px rgba(107, 68, 58, 0.05) !important;
-  background-color: #ffffff !important;
-  overflow: hidden;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.card:hover {
-  box-shadow: 0 10px 30px rgba(107, 68, 58, 0.08) !important;
-}
-
-.card-header {
-  background-color: #fdf6f9 !important;
-  border-bottom: 1px solid #edd7c2 !important;
-  color: #6b443a !important;
-  font-family: 'Playfair Display', serif !important;
-  font-size: 1.15rem;
-  font-weight: 700;
-  padding: 1rem 1.25rem !important;
-}
-
-.card-title {
-  color: #6b443a !important;
-  font-weight: 700 !important;
-}
-
-/* 📊 Stat Boxes (Dashboard Widgets) */
-.small-box {
-  border-radius: 16px !important;
-  box-shadow: 0 6px 20px rgba(107, 68, 58, 0.08) !important;
-  overflow: hidden;
-  transition: transform 0.25s ease;
-}
-
-.small-box:hover {
-  transform: translateY(-4px);
-}
-
-.small-box.bg-info {
-  background: linear-gradient(135deg, #98f0e3 0%, #6cdac9 100%) !important;
-  color: #1b5e52 !important;
-}
-
-.small-box.bg-success {
-  background: linear-gradient(135deg, #edd7c2 0%, #e5c3a6 100%) !important;
-  color: #4a2d26 !important;
-}
-
-.small-box.bg-warning {
-  background: linear-gradient(135deg, #f09fc1 0%, #e285ac 100%) !important;
-  color: #5c1836 !important;
-}
-
-.small-box.bg-danger {
-  background: linear-gradient(135deg, #6b443a 0%, #4a2d26 100%) !important;
-  color: #fdf6f9 !important;
-}
-
-.small-box .inner h3, .small-box .inner p {
-  color: inherit !important;
-}
-
-/* 📊 Table Design Grid */
-.table {
-  color: #332420 !important;
+/* Generous Table Row & Link Padding */
+.table,
+.dark-mode .table {
+  color: var(--color-text-main) !important;
+  margin-bottom: 0 !important;
 }
 
 .table thead th {
-  background-color: #fdf6f9 !important;
-  color: #6b443a !important;
+  background-color: var(--color-cream) !important;
+  color: var(--color-espresso) !important;
   font-weight: 700 !important;
   text-transform: uppercase;
   font-size: 0.73rem;
   letter-spacing: 0.08rem;
-  border-bottom: 2px solid #edd7c2 !important;
-  padding: 0.9rem 1.1rem !important;
+  border-bottom: 2px solid var(--color-nude) !important;
+  padding: 14px 18px !important;
 }
 
-.table td {
+.table td,
+.dark-mode .table td {
   vertical-align: middle !important;
-  border-top: 1px solid #f5eaef !important;
-  padding: 0.9rem 1.1rem !important;
+  border-top: 1px solid var(--color-nude-light) !important;
+  padding: 12px 18px !important;
   font-size: 0.92rem;
+  background-color: transparent !important;
+  color: var(--color-text-main) !important;
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
-  background-color: rgba(253, 246, 249, 0.45) !important;
+  background-color: rgba(253, 246, 249, 0.5) !important;
 }
 
 .table-hover tbody tr:hover {
   background-color: #fcf0f5 !important;
 }
 
-/* 🔘 Buttons */
-.btn-primary, .btn-success, .btn-info {
-  background-color: #6b443a !important;
-  border-color: #6b443a !important;
-  color: #fdf6f9 !important;
-  border-radius: 30px !important;
-  padding: 0.5rem 1.3rem !important;
+/* Responsive Grid Gap Spacing */
+.content-wrapper .content {
+  padding: 1.5rem !important;
+}
+
+/* =========================================================================
+   ✨ REQUIREMENT 4: Subtle Micro-Interactions & Sleek Pill Tags
+   ========================================================================= */
+
+/* Action Tags (Add / Change / Delete buttons into sleek pill-shaped tags) */
+.addlink, 
+.changelink, 
+.deletelink,
+.btn-primary, 
+.btn-success, 
+.btn-info,
+.btn-secondary,
+.btn-outline-secondary {
+  border-radius: var(--radius-pill) !important;
   font-weight: 600 !important;
-  letter-spacing: 0.03rem;
-  box-shadow: 0 4px 12px rgba(107, 68, 58, 0.18) !important;
-  transition: all 0.25s ease !important;
+  font-size: 0.82rem !important;
+  padding: 6px 16px !important;
+  letter-spacing: 0.02rem;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, background-color 0.22s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
 }
 
-.btn-primary:hover, .btn-success:hover, .btn-info:hover {
-  background-color: #4a2d26 !important;
-  border-color: #4a2d26 !important;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(107, 68, 58, 0.28) !important;
+/* Muted Luxury Tone Action Buttons */
+.btn-primary, .btn-success, .btn-info, .addlink {
+  background-color: var(--color-espresso) !important;
+  border-color: var(--color-espresso) !important;
+  color: var(--color-cream) !important;
+  box-shadow: 0 4px 12px rgba(107, 68, 58, 0.15) !important;
 }
 
-.btn-secondary, .btn-outline-secondary {
-  background-color: #edd7c2 !important;
-  border-color: #edd7c2 !important;
-  color: #6b443a !important;
-  border-radius: 30px !important;
-  font-weight: 600 !important;
+.btn-primary:hover, .btn-success:hover, .btn-info:hover, .addlink:hover {
+  background-color: var(--color-espresso-dark) !important;
+  border-color: var(--color-espresso-dark) !important;
+  color: #ffffff !important;
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 20px rgba(107, 68, 58, 0.25) !important;
 }
 
-.btn-secondary:hover {
+.changelink, .btn-secondary, .btn-outline-secondary {
+  background-color: var(--color-nude) !important;
+  border-color: var(--color-nude) !important;
+  color: var(--color-espresso) !important;
+}
+
+.changelink:hover, .btn-secondary:hover {
   background-color: #e2c4a8 !important;
-  color: #4a2d26 !important;
+  color: var(--color-espresso-dark) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 14px rgba(107, 68, 58, 0.15) !important;
 }
 
-/* 🏷️ Status Badges */
+/* Sleek Status Pill Badges */
 .badge-success, .badge-info {
-  background-color: #98f0e3 !important;
-  color: #1b5e52 !important;
+  background-color: var(--color-mint) !important;
+  color: var(--color-mint-dark) !important;
   font-weight: 700;
-  border-radius: 20px;
-  padding: 0.4rem 0.85rem;
-  letter-spacing: 0.03rem;
+  border-radius: var(--radius-pill);
+  padding: 0.4rem 0.9rem;
 }
 
 .badge-warning {
-  background-color: #edd7c2 !important;
-  color: #6b443a !important;
+  background-color: var(--color-nude) !important;
+  color: var(--color-espresso) !important;
   font-weight: 700;
-  border-radius: 20px;
-  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-pill);
+  padding: 0.4rem 0.9rem;
 }
 
 .badge-danger {
-  background-color: #f09fc1 !important;
-  color: #722043 !important;
+  background-color: var(--color-pink) !important;
+  color: var(--color-pink-dark) !important;
   font-weight: 700;
-  border-radius: 20px;
-  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-pill);
+  padding: 0.4rem 0.9rem;
 }
 
-/* ✏️ Form Controls & Inputs */
-.form-control, select, textarea {
-  border: 1px solid #edd7c2 !important;
-  border-radius: 10px !important;
-  background-color: #ffffff !important;
-  color: #332420 !important;
-  padding: 0.55rem 0.9rem !important;
-  transition: all 0.2s ease;
-}
-
-.form-control:focus, select:focus, textarea:focus {
-  border-color: #f09fc1 !important;
-  box-shadow: 0 0 0 0.2rem rgba(240, 159, 193, 0.25) !important;
-}
-
-/* 🔐 Admin Login Page Styling */
+/* Login Card Styling */
 .login-page {
   background: linear-gradient(135deg, #fdf6f9 0%, #edd7c2 50%, #f09fc1 100%) !important;
 }
 
-.login-box {
-  width: 420px !important;
-}
-
 .login-box .card {
   border-radius: 24px !important;
-  border: 1px solid #edd7c2 !important;
-  box-shadow: 0 20px 40px rgba(107, 68, 58, 0.15) !important;
-  padding: 1rem;
+  box-shadow: 0 20px 50px rgba(107, 68, 58, 0.16) !important;
 }
 
 .login-logo a {
-  font-family: 'Playfair Display', serif !important;
-  color: #6b443a !important;
+  font-family: var(--font-serif) !important;
+  color: var(--color-espresso) !important;
   font-weight: 700 !important;
-  font-size: 2.2rem !important;
-}
-
-/* 🦶 Footer */
-.main-footer {
-  background-color: #ffffff !important;
-  border-top: 1px solid #edd7c2 !important;
-  color: #6b443a !important;
-  font-size: 0.85rem;
 }
