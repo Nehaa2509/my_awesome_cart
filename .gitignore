@@ -14,7 +14,13 @@ __pycache__/
 
 # Static and media outputs
 staticfiles/
-media/
+media/*
+!media/shop/
+!media/shop/images/
+!media/shop/images/*
+!media/blog/
+!media/blog/images/
+!media/blog/images/*
 *.log
 
 # IDE & Editor settings
