@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Product, Contact, Order, OrderUpdate
+from .models import Product, Contact, Order, OrderUpdate, Wishlist
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
@@ -15,6 +15,13 @@ class ProductAdmin(admin.ModelAdmin):
     
     # ✏️ Allows changing prices and stock directly from the list view without clicking into the item page
     list_editable = ('price', 'stock')
+
+
+@admin.register(Wishlist)
+class WishlistAdmin(admin.ModelAdmin):
+    list_display = ('user', 'product', 'added_at')
+    search_fields = ('user__username', 'product__product_name')
+    list_filter = ('added_at',)
 
 
 @admin.register(Order)

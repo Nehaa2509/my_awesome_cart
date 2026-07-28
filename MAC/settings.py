@@ -165,6 +165,7 @@ JAZZMIN_SETTINGS = {
     "icons": {
         "auth.user": "fas fa-users-cog",
         "shop.Product": "fas fa-spa",
+        "shop.Wishlist": "fas fa-heart",
         "shop.Order": "fas fa-shopping-bag",
         "shop.Contact": "fas fa-envelope-open-text",
         "shop.OrderUpdate": "fas fa-truck-loading",
