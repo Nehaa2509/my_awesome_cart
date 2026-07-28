@@ -26,8 +26,13 @@
   --shadow-card-hover: 0 10px 30px rgba(107, 68, 58, 0.1);
 }
 
-/* 🌿 Global Typography & Base Palette */
-body, .content-wrapper, .main-footer {
+/* 🌿 Global Typography & Base Palette (Enforces Light Boutique Palette Even If Dark Mode Triggered) */
+body, 
+body.dark-mode, 
+.content-wrapper, 
+.dark-mode .content-wrapper, 
+.main-footer,
+.dark-mode .main-footer {
   font-family: var(--font-sans) !important;
   background-color: var(--color-cream) !important;
   color: var(--color-text-main) !important;
@@ -36,6 +41,37 @@ body, .content-wrapper, .main-footer {
 h1, h2, h3, h4, h5, h6, .brand-text, .card-title, .login-logo {
   font-family: var(--font-serif) !important;
   letter-spacing: -0.01rem;
+}
+
+/* ☀️ Prevent AdminLTE / Jazzmin Dark Mode Overrides */
+.dark-mode .card,
+.dark-mode .modal-content,
+.dark-mode .main-sidebar,
+.dark-mode .nav-sidebar .nav-link,
+[data-bs-theme="dark"] {
+  background-color: #ffffff !important;
+  color: #332420 !important;
+}
+
+.dark-mode .card-header {
+  background-color: #fdf6f9 !important;
+  color: #6b443a !important;
+  border-bottom: 1px solid #edd7c2 !important;
+}
+
+.dark-mode .table, 
+.dark-mode .table td, 
+.dark-mode .table th {
+  background-color: transparent !important;
+  color: #332420 !important;
+}
+
+.dark-mode .form-control,
+.dark-mode select,
+.dark-mode textarea {
+  background-color: #ffffff !important;
+  color: #332420 !important;
+  border: 1px solid #edd7c2 !important;
 }
 
 /* 👑 Main Header Navbar */
