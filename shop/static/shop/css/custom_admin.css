@@ -6,17 +6,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
 
 /* Apply Boutique Typography Matrix Globally */
-body, 
-body.dark-mode, 
-.app-wrapper, 
-.content-wrapper, 
-.dark-mode .content-wrapper, 
-.main-sidebar, 
-.table, 
+body,
+body.dark-mode,
+.app-wrapper,
+.content-wrapper,
+.dark-mode .content-wrapper,
+.main-sidebar,
+.table,
 .card-body,
 .main-footer {
     font-family: 'Poppins', system-ui, -apple-system, sans-serif !important;
-    background-color: #fdf6f9 !important; /* Soft light nude base */
+    background-color: #fdf6f9 !important;
+    /* Soft light nude base */
     color: #6b443a !important;
 }
 
@@ -27,7 +28,16 @@ body.dark-mode,
     background-color: #fdf6f9 !important;
 }
 
-h1, h2, h3, h4, h5, h6, .brand-text, .card-header h5, .card-title, #site-name {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.brand-text,
+.card-header h5,
+.card-title,
+#site-name {
     font-family: 'Playfair Display', Georgia, serif !important;
     font-weight: 700 !important;
     color: #6b443a !important;
@@ -35,11 +45,12 @@ h1, h2, h3, h4, h5, h6, .brand-text, .card-header h5, .card-title, #site-name {
 
 /* Glass Header Overrides */
 .main-header,
-.app-header.navbar, 
+.app-header.navbar,
 #jazzy-navbar,
 .bg-brown,
 .dark-mode .main-header {
-    background-color: #6b443a !important; /* Premium deep earth brown header */
+    background-color: #6b443a !important;
+    /* Premium deep earth brown header */
     border-bottom: 2px solid #edd7c2 !important;
     box-shadow: 0 4px 20px rgba(107, 68, 58, 0.15) !important;
 }
@@ -55,7 +66,8 @@ h1, h2, h3, h4, h5, h6, .brand-text, .card-header h5, .card-title, #site-name {
 .main-header .nav-link:hover,
 .app-header.navbar .nav-link:hover,
 #jazzy-navbar .nav-link:hover {
-    color: #98f0e3 !important; /* Mint accent highlight */
+    color: #98f0e3 !important;
+    /* Mint accent highlight */
 }
 
 /* Fix Admin Grid Cards */
@@ -73,7 +85,8 @@ h1, h2, h3, h4, h5, h6, .brand-text, .card-header h5, .card-title, #site-name {
     transition: transform 0.25s ease, box-shadow 0.25s ease !important;
 }
 
-.card:hover, .module:hover {
+.card:hover,
+.module:hover {
     box-shadow: 0 8px 25px rgba(107, 68, 58, 0.07) !important;
     transform: translateY(-2px) !important;
 }
@@ -87,11 +100,11 @@ h1, h2, h3, h4, h5, h6, .brand-text, .card-header h5, .card-title, #site-name {
 }
 
 /* Dashboard Model Links Readability */
-.card-body a, 
+.card-body a,
 .card-body th a,
 .card-body td a,
-.module a, 
-td a:link, 
+.module a,
+td a:link,
 td a:visited,
 th a:link,
 th a:visited,
@@ -105,7 +118,7 @@ th a:visited,
     text-decoration: none !important;
 }
 
-.card-body a:hover, 
+.card-body a:hover,
 .card-body th a:hover,
 .card-body td a:hover,
 .table a:hover,
@@ -146,7 +159,8 @@ th a:visited,
     color: #6b443a !important;
 }
 
-.table tbody tr:hover, #result_list tr:hover {
+.table tbody tr:hover,
+#result_list tr:hover {
     background-color: rgba(152, 240, 227, 0.15) !important;
 }
 
@@ -227,7 +241,7 @@ a.changelink:hover,
 }
 
 .brand-link,
-.sidebar-brand, 
+.sidebar-brand,
 #jazzy-logo {
     background: #6b443a !important;
     border-bottom: 2px solid #edd7c2 !important;
@@ -289,15 +303,16 @@ a.changelink:hover,
    ========================================================================= */
 
 /* 1. Sidebar Readability Fixes */
-.app-sidebar, 
-.sidebar-wrapper, 
+.app-sidebar,
+.sidebar-wrapper,
 #jazzy-sidebar {
     background-color: #ffffff !important;
     border-right: 1px solid #edd7c2 !important;
 }
 
 /* Sidebar Brand Header */
-.sidebar-brand, .brand-link {
+.sidebar-brand,
+.brand-link {
     background-color: #6b443a !important;
     color: #ffffff !important;
 }
@@ -341,14 +356,15 @@ a.changelink:hover,
 }
 
 /* 2. Form Labels & Body Text Contrast Fixes */
-body, 
-label, 
-.col-form-label, 
+body,
+label,
+.col-form-label,
 .form-group label,
-.help-block, 
-p, 
+.help-block,
+p,
 span {
-    color: #4a2e27 !important; /* Deep cocoa brown for sharp text legibility */
+    color: #4a2e27 !important;
+    /* Deep cocoa brown for sharp text legibility */
 }
 
 .help-block {
@@ -357,10 +373,10 @@ span {
 }
 
 /* Form Inputs */
-input[type=text], 
-input[type=password], 
-input[type=email], 
-select, 
+input[type=text],
+input[type=password],
+input[type=email],
+select,
 textarea {
     border: 1px solid #edd7c2 !important;
     border-radius: 8px !important;
@@ -413,7 +429,7 @@ input[name="_save"] {
 }
 
 /* Secondary Action Buttons */
-input[name="_addanother"], 
+input[name="_addanother"],
 input[name="_continue"] {
     background-color: #edd7c2 !important;
     border: 1px solid #d8beaa !important;
@@ -429,7 +445,7 @@ input[name="_continue"] {
 
 /* =========================================================================
    /* --- Fix Dark Tables & Inner Container Backgrounds --- */
-   ========================================================================= */
+=========================================================================*/
 
 /* 1. Target Jazzmin / AdminLTE inner table cards & wrappers */
 .app-content .card .card-body,
@@ -456,12 +472,12 @@ input[name="_continue"] {
 }
 
 /* 2. Text and link visibility for Groups, Users, and other model rows */
-.app-content td a, 
-.content-wrapper td a, 
-.app-content th a, 
-.content-wrapper th a, 
-.app-content tr td, 
-.content-wrapper tr td, 
+.app-content td a,
+.content-wrapper td a,
+.app-content th a,
+.content-wrapper th a,
+.app-content tr td,
+.content-wrapper tr td,
 .app-content tr th,
 .content-wrapper tr th {
     color: #6b443a !important;
@@ -486,7 +502,7 @@ input[name="_continue"] {
 
 /* =========================================================================
    /* --- Fix Dark Dropdowns, Action Bars, and Filter Elements --- */
-   ========================================================================= */
+=========================================================================*/
 
 /* 1. Filter Dropdowns & Input Fields */
 #changelist-filter select,
@@ -508,7 +524,7 @@ select option {
 }
 
 /* 2. Action Bar Background (The bar containing the action dropdown & 'Go' button) */
-.actions, 
+.actions,
 #changelist-form .actions,
 div.actions {
     background: #ffffff !important;
@@ -570,7 +586,8 @@ nav.navbar,
 #jazzy-navbar a:hover,
 #jazzy-navbar .nav-link:hover,
 .main-header .nav-link:hover {
-    color: #98f0e3 !important; /* Mint accent highlight on hover */
+    color: #98f0e3 !important;
+    /* Mint accent highlight on hover */
 }
 
 /* Navbar Top Search Bar Inputs */
@@ -786,72 +803,46 @@ label,
 }
 
 /* =========================================================================
-   🍦 SELECT2 & DROPDOWN ARROW LIGHT BACKGROUND OVERRIDES
+   /* --- Fix Bulk Actions Dropdown ('Delete selected contacts') --- */
    ========================================================================= */
 
-.select2-container--default .select2-selection--single,
-.select2-container--default .select2-selection--multiple,
-.select2-container--default .select2-selection--single .select2-selection__rendered,
-.select2-selection__arrow,
-.select2-selection__arrow b,
-.select2-dropdown,
-.select2-results,
-.select2-results__options,
-.select2-results__option,
-.select2-search--dropdown,
-.select2-search--dropdown .select2-search__field {
-    background-color: #ffffff !important;
-    background: #ffffff !important;
-    color: #6b443a !important;
-    border-color: #edd7c2 !important;
-}
-
-/* Select2 Arrow styling and color */
-.select2-container--default .select2-selection--single .select2-selection__arrow {
-    background-color: #ffffff !important;
-    border-left: 1px solid #edd7c2 !important;
-    height: 100% !important;
-    top: 0 !important;
-    right: 0 !important;
-    width: 26px !important;
-}
-
-.select2-container--default .select2-selection--single .select2-selection__arrow b {
-    border-color: #6b443a transparent transparent transparent !important;
-    border-style: solid !important;
-    border-width: 5px 4px 0 4px !important;
-}
-
-.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
-    border-color: transparent transparent #6b443a transparent !important;
-    border-width: 0 4px 5px 4px !important;
-}
-
-/* Select2 Option Hover & Active Highlight */
-.select2-container--default .select2-results__option--highlighted[aria-selected],
-.select2-container--default .select2-results__option--highlighted[aria-selected]:hover {
-    background-color: rgba(240, 157, 193, 0.25) !important;
-    color: #6b443a !important;
-}
-
-.select2-container--default .select2-results__option[aria-selected="true"] {
-    background-color: #edd7c2 !important;
-    color: #4a2d26 !important;
-    font-weight: 600 !important;
-}
-
-/* Native Select Elements & Option Items */
-select, 
-select.form-control,
-option,
+/* 1. The Select Box Container */
 .actions select,
-#changelist-filter select {
+div.actions select,
+#changelist-form .actions select {
     background-color: #ffffff !important;
     color: #6b443a !important;
     border: 1px solid #edd7c2 !important;
+    border-radius: 8px !important;
+    padding: 6px 12px !important;
 }
 
+/* 2. The Expanded Dropdown Menu Options */
+.actions select option,
+div.actions select option,
+#changelist-form .actions select option {
+    background-color: #ffffff !important;
+    color: #6b443a !important;
+    padding: 8px 12px !important;
+}
 
+/* 3. Hover / Highlighted Option State */
+.actions select option:hover,
+.actions select option:focus,
+.actions select option:active,
+.actions select option:checked {
+    background-color: #f09fc1 !important; /* Soft Pink highlight */
+    color: #ffffff !important;
+}
 
+/* 4. Select2 Dropdown Container (If Jazzmin uses Select2 for actions) */
+.select2-dropdown,
+.select2-container--default .select2-results__option {
+    background-color: #ffffff !important;
+    color: #6b443a !important;
+}
 
-
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #f09fc1 !important;
+    color: #ffffff !important;
+}
