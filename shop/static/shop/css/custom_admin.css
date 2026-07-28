@@ -249,6 +249,114 @@ input[type=submit]:hover,
   color: #FFFFFF !important;
 }
 
+/* =========================================================================
+   🚨 READY-TO-USE SPECIFIC FIXES (Legibility, Pill Buttons, Grid Layout)
+   ========================================================================= */
+
+/* --- 1. Fix Legibility & Link Colors --- */
+
+/* Main content table/card links */
+.card-body a, 
+.module a, 
+td a:link, 
+td a:visited,
+.card a:not(.btn):not(.brand-link):not(.nav-link) {
+    color: #3C2321 !important; /* Rich cocoa text for light backgrounds */
+    font-weight: 600 !important;
+}
+
+/* Dark card background text fallback */
+.card-dark a, 
+.bg-dark a {
+    color: #FBF5F0 !important;
+}
+
+/* Left Sidebar text readability */
+.main-sidebar .nav-header {
+    color: #8C6A63 !important; /* Brighter accent color for category titles */
+    font-weight: 700 !important;
+    text-transform: uppercase;
+}
+
+.main-sidebar .nav-link {
+    color: #2B1E1C !important;
+}
+
+
+/* --- 2. Fix Add / Change Pill Buttons --- */
+
+/* Base Pill Button Style */
+.card-body .btn, 
+.module .button, 
+a.addlink, 
+a.changelink {
+    border-radius: 20px !important;
+    padding: 4px 14px !important;
+    font-size: 0.82rem !important;
+    font-weight: 600 !important;
+    display: inline-block !important;
+    margin: 2px 4px !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Add Button (Primary Action - Solid Filled) */
+a.addlink, 
+.btn-success, 
+.btn-primary {
+    background-color: #5E3A33 !important;
+    color: #FFFFFF !important;
+    border: 1px solid #5E3A33 !important;
+}
+
+a.addlink:hover,
+.btn-success:hover,
+.btn-primary:hover {
+    background-color: #3C2321 !important;
+    color: #FFFFFF !important;
+}
+
+/* Change Button (Secondary Action - Outline Style) */
+a.changelink, 
+.btn-info, 
+.btn-secondary {
+    background-color: transparent !important;
+    color: #5E3A33 !important;
+    border: 1px solid #5E3A33 !important;
+}
+
+a.changelink:hover,
+.btn-info:hover,
+.btn-secondary:hover {
+    background-color: #F9E4E0 !important;
+    color: #3C2321 !important;
+}
+
+
+/* --- 3. Fix Layout Spacing & Card Collisions --- */
+
+/* Clean grid for dashboard modules */
+.content-wrapper .row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 20px !important;
+    margin: 0 !important;
+}
+
+.content-wrapper .col-lg-6, 
+.content-wrapper .col-md-12 {
+    flex: 1 1 45% !important;
+    max-width: 100% !important;
+}
+
+/* Clean up card margins */
+.card, .module {
+    margin-bottom: 0 !important;
+    height: 100% !important;
+    box-shadow: 0 4px 12px rgba(60, 35, 33, 0.08) !important;
+}
+
+
 /* 🔗 Links & Accents */
 a:link, a:visited {
   color: var(--color-accent) !important;
