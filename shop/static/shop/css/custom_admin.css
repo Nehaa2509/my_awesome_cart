@@ -1232,3 +1232,140 @@ a.addlink,
     border-radius: 50px !important;
     padding: 6px 16px !important;
 }
+
+/* =========================================================================
+   GROUPS PAGE & BREADCRUMB ALIGNMENT FIXES
+   ========================================================================= */
+
+/* 1. Remove Gray Background Highlight Behind Text Titles & Headings */
+h1, h2, h3, 
+.content-header h1, 
+#content-main h1, 
+.app-content h3,
+.app-content p,
+.app-content span {
+    background-color: transparent !important;
+    text-shadow: none !important;
+    color: #6b443a !important;
+}
+
+/* Fix "0 groups" text box container */
+#content-main .results, 
+.quiet, 
+p.paginator,
+.paginator {
+    background-color: #ffffff !important;
+    border: 1px solid #edd7c2 !important;
+    border-radius: 12px !important;
+    padding: 10px 16px !important;
+    color: #6b443a !important;
+    font-weight: 600 !important;
+    margin-top: 15px !important;
+}
+
+/* 2. Fix Breadcrumbs Pill ("Home / Authentication and Authorization / Groups") */
+.breadcrumb, 
+ol.breadcrumb, 
+div.float-sm-end .breadcrumb {
+    display: inline-flex !important;
+    align-items: center !important;
+    background: #edd7c2 !important;
+    border-radius: 50px !important;
+    padding: 8px 20px !important;
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(107, 68, 58, 0.08) !important;
+}
+
+.breadcrumb-item, 
+.breadcrumb-item a,
+.breadcrumb-item.active {
+    color: #6b443a !important;
+    font-weight: 600 !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 4px !important;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: #6b443a !important;
+    padding: 0 6px !important;
+    content: "/" !important;
+}
+
+/* 3. Fix "Add group" Button & Main Search Alignment */
+.object-tools, 
+a.addlink, 
+.btn-success {
+    background-color: #f09fc1 !important;
+    border: none !important;
+    color: #ffffff !important;
+    border-radius: 20px !important;
+    padding: 8px 20px !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    margin-top: 12px !important;
+    box-shadow: 0 4px 12px rgba(240, 157, 193, 0.3) !important;
+}
+
+a.addlink:hover, 
+.btn-success:hover {
+    background-color: #e58bb1 !important;
+}
+
+/* Main Search Input & Button Row */
+#changelist-search, 
+#toolbar form {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    width: 100% !important;
+}
+
+#changelist-search input[type="text"] {
+    height: 40px !important;
+    border-radius: 20px !important;
+    border: 1px solid #edd7c2 !important;
+    padding: 0 18px !important;
+    background: #ffffff !important;
+    flex: 1 !important;
+}
+
+#changelist-search input[type="submit"], 
+#changelist-search .btn {
+    height: 40px !important;
+    background-color: #f09fc1 !important;
+    color: #ffffff !important;
+    border-radius: 20px !important;
+    border: none !important;
+    padding: 0 22px !important;
+    font-weight: 600 !important;
+}
+
+/* 4. Fix Top Header Search Inputs (Squeezed 'Sea... Q' fields) */
+#jazzy-navbar form.d-flex {
+    flex: 1 1 180px !important;
+    min-width: 160px !important;
+    max-width: 220px !important;
+}
+
+#jazzy-navbar .form-control-navbar {
+    height: 34px !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 20px 0 0 20px !important;
+    font-size: 0.8rem !important;
+    padding: 4px 12px !important;
+}
+
+#jazzy-navbar .btn-navbar {
+    height: 34px !important;
+    background: rgba(255, 255, 255, 0.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: #ffffff !important;
+    border-radius: 0 20px 20px 0 !important;
+    padding: 0 12px !important;
+}
