@@ -283,3 +283,146 @@ a.changelink:hover,
     border-top: 1px solid #edd7c2 !important;
     color: #a6847c !important;
 }
+
+/* =========================================================================
+   REFINED GLASSMORPHIC & HIGH-CONTRAST DJANGO ADMIN OVERRIDES
+   ========================================================================= */
+
+/* 1. Sidebar Readability Fixes */
+.app-sidebar, 
+.sidebar-wrapper, 
+#jazzy-sidebar {
+    background-color: #ffffff !important;
+    border-right: 1px solid #edd7c2 !important;
+}
+
+/* Sidebar Brand Header */
+.sidebar-brand, .brand-link {
+    background-color: #6b443a !important;
+    color: #ffffff !important;
+}
+
+.sidebar-brand .brand-text {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+/* Sidebar Menu Links */
+.sidebar-menu .nav-link,
+.sidebar-wrapper a.nav-link,
+#jazzy-navigation .nav-link p {
+    color: #6b443a !important;
+    font-weight: 500 !important;
+}
+
+.sidebar-menu .nav-link:hover {
+    background-color: rgba(240, 157, 193, 0.15) !important;
+    color: #6b443a !important;
+}
+
+.sidebar-menu .nav-link.active {
+    background-color: #f09fc1 !important;
+    color: #ffffff !important;
+    border-radius: 8px !important;
+}
+
+.sidebar-menu .nav-link.active p,
+.sidebar-menu .nav-link.active i {
+    color: #ffffff !important;
+}
+
+/* Section Headers in Sidebar */
+.nav-header {
+    color: #6b443a !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    opacity: 0.8;
+}
+
+/* 2. Form Labels & Body Text Contrast Fixes */
+body, 
+label, 
+.col-form-label, 
+.form-group label,
+.help-block, 
+p, 
+span {
+    color: #4a2e27 !important; /* Deep cocoa brown for sharp text legibility */
+}
+
+.help-block {
+    opacity: 0.85 !important;
+    font-size: 0.85rem !important;
+}
+
+/* Form Inputs */
+input[type=text], 
+input[type=password], 
+input[type=email], 
+select, 
+textarea {
+    border: 1px solid #edd7c2 !important;
+    border-radius: 8px !important;
+    padding: 8px 12px !important;
+    color: #3C2321 !important;
+    background-color: #ffffff !important;
+}
+
+/* 3. Navigation Tabs (General, Personal info, etc.) */
+.nav-tabs {
+    border-bottom: 2px solid #edd7c2 !important;
+}
+
+.nav-tabs .nav-link {
+    color: #6b443a !important;
+    font-weight: 600 !important;
+    border: none !important;
+    padding: 10px 20px !important;
+    border-radius: 8px 8px 0 0 !important;
+    transition: all 0.2s ease !important;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #6b443a !important;
+    color: #ffffff !important;
+    box-shadow: 0 -2px 10px rgba(107, 68, 58, 0.15) !important;
+}
+
+.nav-tabs .nav-link:hover:not(.active) {
+    background-color: rgba(237, 215, 194, 0.4) !important;
+}
+
+/* 4. Action Sidebar Buttons (Save, Delete, History) */
+#jazzy-actions input[type=submit],
+#jazzy-actions .btn {
+    border-radius: 50px !important;
+    padding: 8px 20px !important;
+    font-weight: 600 !important;
+    margin-bottom: 6px !important;
+    width: 100% !important;
+    display: block !important;
+    text-align: center !important;
+}
+
+/* Main Save Button */
+input[name="_save"] {
+    background-color: #f09fc1 !important;
+    border: none !important;
+    color: #ffffff !important;
+}
+
+/* Secondary Action Buttons */
+input[name="_addanother"], 
+input[name="_continue"] {
+    background-color: #edd7c2 !important;
+    border: 1px solid #d8beaa !important;
+    color: #6b443a !important;
+}
+
+/* Delete Link */
+#jazzy-actions a.btn-danger {
+    background-color: #7a3535 !important;
+    border: none !important;
+    color: #ffffff !important;
+}
