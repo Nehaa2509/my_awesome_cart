@@ -1,101 +1,104 @@
 {% extends "shop/basic.html" %}
+{% load static %}
 
-{% block title %} {{product.product_name}} - My Awesome Cart{% endblock %}
+{% block title %} {{product.product_name}} — Detail Edition {% endblock %}
 
 {% block css %}
 <style>
-  /* Modern Styling Variables */
-  :root {
-    --primary-color: #0d6efd;
-    --hover-lift: -6px;
+  body { 
+    background-color: #fdf6f9; 
+    color: #6b443a; 
+  }
+  
+  /* 🖼️ Premium Asymmetric Image Display Panels */
+  .product-image-canvas {
+    background-color: #ffffff;
+    border: 1px solid #edd7c2;
+    border-radius: 24px;
+    padding: 3rem;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .product-image-canvas:hover {
+    transform: scale(1.02);
+  }
+  
+  /* 🏷️ Micro-Copy Styling Badges */
+  .stock-pill {
+    background-color: #98f0e3;
+    color: #6b443a;
+    font-size: 0.75rem;
+    font-weight: bold;
+    letter-spacing: 0.05rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 100px;
+    display: inline-block;
   }
 
-  body {
-    background-color: #f8f9fa;
-  }
-
-  /* Clean Card Design & Interactions */
   .product-card {
-    border: none;
+    border: 1px solid #edd7c2;
     border-radius: 12px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     background: #ffffff;
   }
-
   .product-card:hover {
-    transform: translateY(var(--hover-lift));
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
-  }
-
-  .product-card img {
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-    height: 200px;
-    object-fit: cover;
-  }
-
-  /* Custom Styling for Slider Buttons */
-  .carousel-control-prev,
-  .carousel-control-next {
-    width: 5%;
-  }
-
-  .carousel-control-prev-icon,
-  .carousel-control-next-icon {
-    background-color: var(--primary-color);
-    border-radius: 50%;
-    padding: 1.5rem;
-    background-size: 50%;
-  }
-
-  .carousel-indicators [data-bs-target] {
-    background-color: var(--primary-color);
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-  }
-
-  .carousel-inner {
-    padding: 15px 0;
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(107, 68, 58, 0.08) !important;
   }
 </style>
 {% endblock %}
 
 {% block body %}
-<div class="container my-4">
-  <div class="row">
+<div class="container my-5 py-4">
+  <div class="row g-5 align-items-center">
     
-    <div class="col-md-4">
-      <div class="row mb-3 justify-content-center">
-        <img src="/media/{{product.image}}" style="width: 233px; height: 385px; object-fit: contain;">
-      </div> 
-      
-      <div class="row px-2 gap-2">
-        <button class="col btn btn-primary"> Buy Now </button>
-        <span id="divpr{{product.id}}" class="col p-0">
-          <button id="pr{{product.id}}" class="btn btn-primary w-100 cart"> Add To Cart </button>
-        </span>
+    <!-- Left Column: Dynamic Visual Framing -->
+    <div class="col-12 col-lg-6">
+      <div class="product-image-canvas shadow-sm text-center">
+        {% if product.image %}
+        <img src="/media/{{product.image}}" alt="{{product.product_name}}" class="img-fluid rounded-3" style="max-height: 450px; object-fit: contain;" onerror="this.onerror=null; this.src=noImagePlaceholder;">
+        {% else %}
+        <img src="{% static 'shop/no-image-placeholder.png' %}" alt="{{product.product_name}}" class="img-fluid rounded-3" style="max-height: 450px; object-fit: contain;">
+        {% endif %}
       </div>
-
-      <!-- Shopify-Style Trust Architecture Badge Row -->
-      <div class="d-flex flex-column gap-2 mt-4 text-uppercase tracking-wider select-none small fw-bold text-center">
-        <div class="px-3 py-2 rounded-pill shadow-sm" style="background-color: #fdf6f9; color: #6b443a; font-size: 0.75rem; border: 1px solid #edd7c2;">
-          📦 Free Shipping Over ₹500
-        </div>
-        <div class="px-3 py-2 rounded-pill shadow-sm" style="background-color: #fdf6f9; color: #6b443a; font-size: 0.75rem; border: 1px solid #edd7c2;">
-          🔒 Secure Checkout via Razorpay
-        </div>
-        <div class="px-3 py-2 rounded-pill shadow-sm" style="background-color: #fdf6f9; color: #6b443a; font-size: 0.75rem; border: 1px solid #edd7c2;">
-          ⚡ Instant Status Tracking Logs
-        </div>
-      </div> 
     </div>
-    
-    <div class="col-md-8">
-      <h2 class="fw-bold text-dark card-title" id="namepr{{product.id}}">{{product.product_name}}</h2>
-      <h4 class="text-success fw-bold my-3">₹{{product.price}}</h4>
-      <p class="text-muted lead" style="font-size: 1.05rem; line-height: 1.6;">{{product.description}}</p>
-      <div class="small text-muted"><i class="bi bi-eye"></i> Viewed {{product.views}} times</div>
+
+    <!-- Right Column: Typographic Details Matrix -->
+    <div class="col-12 col-lg-6">
+      <div class="ps-lg-4">
+        <div class="mb-3">
+          <span class="stock-pill text-uppercase">Exclusive Release</span>
+          <span class="text-muted small ms-3 fw-semibold tracking-wider">{{product.category}}</span>
+        </div>
+        
+        <h1 class="display-5 fw-bold mb-2" id="namepr{{product.id}}" style="font-family: 'Playfair Display', sans-serif; letter-spacing: -0.05rem;">
+          {{product.product_name}}
+        </h1>
+        
+        <h3 class="fw-bold fs-2 mb-4" id="pricepr{{product.id}}" style="color: #6b443a;">
+          ₹{{product.price}}
+        </h3>
+        
+        <hr style="border-color: #edd7c2;">
+        
+        <p class="text-secondary my-4 lh-relaxed" style="font-size: 1.05rem;">
+          {{product.description}}
+        </p>
+
+        <!-- ⚡ Micro-Interaction Trigger Row -->
+        <div class="d-flex flex-column gap-3 mt-5" style="max-width: 400px;">
+          <span id="divpr{{product.id}}" class="w-100">
+            <button id="pr{{product.id}}" class="btn btn-dark w-100 fw-bold py-3 text-uppercase tracking-widest rounded-pill shadow-sm cart" style="background-color: #6b443a; border: none; font-size: 0.85rem;">
+              Add to Bag &mdash; ₹{{product.price}}
+            </button>
+          </span>
+        </div>
+
+        <!-- Trust Utility Matrix Panel -->
+        <div class="mt-5 pt-4 border-top d-flex gap-4 text-muted small fw-semibold">
+          <div>🛡️ Secure Gateway Verification</div>
+          <div>🔄 10-Day Capsule Exchanges</div>
+        </div>
+      </div>
     </div>
 
   </div>
@@ -104,7 +107,7 @@
   {% if recommendations %}
   <div class="row mt-5 pt-4 border-top">
     <div class="col-12 mb-4">
-      <h3 class="fw-bold text-dark mb-1">Customers Who Viewed This Also Viewed</h3>
+      <h3 class="fw-bold text-dark mb-1" style="font-family: 'Playfair Display', serif;">Customers Who Viewed This Also Viewed</h3>
       <p class="text-muted small">Top related items in <strong>{{ product.category }}</strong></p>
     </div>
     
@@ -113,17 +116,22 @@
       <div class="col-12 col-sm-6 col-md-3">
         <div class="card h-100 shadow-sm border-0 product-card">
           <div class="position-relative overflow-hidden rounded-top" style="height: 180px; background: #fff;">
-            <img src="/media/{{ item.image }}" class="w-100 h-100 object-fit-contain p-3" alt="{{ item.product_name }}">
+            {% if item.image %}
+            <img src="/media/{{ item.image }}" class="w-100 h-100 object-fit-contain p-3" alt="{{ item.product_name }}" onerror="this.onerror=null; this.src=noImagePlaceholder;">
+            {% else %}
+            <img src="{% static 'shop/no-image-placeholder.png' %}" class="w-100 h-100 object-fit-contain p-3" alt="{{ item.product_name }}">
+            {% endif %}
           </div>
           <div class="card-body d-flex flex-column justify-content-between p-3">
             <div>
-              <span class="badge bg-light text-primary border mb-2 text-capitalize" style="font-size: 0.75rem;">{{ item.category }}</span>
-              <h6 class="card-title fw-semibold text-dark text-truncate mb-1">{{ item.product_name }}</h6>
+              <span class="badge bg-light text-dark border mb-2 text-capitalize" style="font-size: 0.75rem;">{{ item.category }}</span>
+              <h6 class="card-title fw-semibold text-dark text-truncate mb-1" id="namepr{{ item.id }}">{{ item.product_name }}</h6>
+              <span id="pricepr{{ item.id }}" class="d-none">{{ item.price }}</span>
               <p class="card-text text-muted small mb-2" style="font-size: 0.8rem;">{{ item.description|slice:"0:45" }}...</p>
             </div>
             <div class="d-flex align-items-center justify-content-between mt-2 pt-2 border-top">
-              <span class="fw-bold text-success">₹{{ item.price }}</span>
-              <a href="/shop/products/{{ item.id }}" class="btn btn-sm btn-outline-primary rounded-pill px-3">View Item</a>
+              <span class="fw-bold" style="color: #6b443a;">₹{{ item.price }}</span>
+              <a href="/shop/products/{{ item.id }}" class="btn btn-sm btn-outline-dark rounded-pill px-3">View Item</a>
             </div>
           </div>
         </div>
@@ -132,16 +140,15 @@
     </div>
   </div>
   {% endif %}
-
-</div> 
-{% endblock %}   
+</div>
+{% endblock %}
 
 {% block js %}
 <script>
-console.log('Cart JavaScript Operational');
+console.log('Cart JavaScript Operational on Product Detail View');
 
-// 1. Initial State Sync & Migration
 let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
+
 for (let key in cart) {
   if (!Array.isArray(cart[key])) {
     cart = {};
@@ -150,26 +157,23 @@ for (let key in cart) {
   }
 }
 
-// 2. Initial Setup Run
 updateCart(cart);
 
-// 3. Click interaction delegation handler
 $(document).on('click', '.cart', function(){
-  console.log('Cart item add trigger received.');
   var idstr = this.id.toString();
   
   if (cart[idstr] !== undefined){
     cart[idstr][0] = cart[idstr][0] + 1;
   } else {
     let nameElement = document.getElementById('name' + idstr);
-    let name = nameElement ? nameElement.innerHTML : "Product";
-    cart[idstr] = [1, name];
+    let name = nameElement ? nameElement.innerText.trim() : "{{ product.product_name }}";
+    let price = {{ product.price }};
+    cart[idstr] = [1, name, price];
   }
   
   updateCart(cart);
 });
 
-// Helper function managing calculating and displaying total item values
 function updateCart(currentCart) {
   let totalItems = 0;
 
@@ -181,13 +185,16 @@ function updateCart(currentCart) {
     if (targetSpan) {
       if (qty > 0) {
         targetSpan.innerHTML = `
-          <div class="d-flex justify-content-between align-items-center bg-light border rounded p-1" style="font-size: 14px;">
-            <button id="minus${item}" class="btn btn-sm btn-primary minus px-2">-</button>
-            <span id="val${item}" class="fw-bold text-dark mx-1">${qty}</span>
-            <button id="plus${item}" class="btn btn-sm btn-primary plus px-2">+</button>
+          <div class="d-flex justify-content-between align-items-center bg-white border rounded-pill p-2 shadow-sm" style="font-size: 14px; border-color: #edd7c2 !important;">
+            <button id="minus${item}" class="btn btn-sm btn-dark minus px-3 rounded-circle" style="background-color: #6b443a; border: none;">-</button>
+            <span id="val${item}" class="fw-bold mx-2" style="color: #6b443a;">${qty} in bag</span>
+            <button id="plus${item}" class="btn btn-sm btn-dark plus px-3 rounded-circle" style="background-color: #6b443a; border: none;">+</button>
           </div>`;
       } else {
-        targetSpan.innerHTML = `<button id="${item}" class="btn btn-primary w-100 cart"> Add To Cart </button>`;
+        targetSpan.innerHTML = `
+          <button id="${item}" class="btn btn-dark w-100 fw-bold py-3 text-uppercase tracking-widest rounded-pill shadow-sm cart" style="background-color: #6b443a; border: none; font-size: 0.85rem;">
+            Add to Bag &mdash; ₹{{product.price}}
+          </button>`;
         delete currentCart[item];
       }
     }
@@ -196,60 +203,37 @@ function updateCart(currentCart) {
   localStorage.setItem('cart', JSON.stringify(currentCart));
   if (document.getElementById('cart')) { document.getElementById('cart').innerHTML = totalItems; }
   
-  updatePopover(currentCart);
   if (typeof updateShopifyDrawer === 'function') {
     updateShopifyDrawer(currentCart);
   }
 }
 
-// 4. Modifier delegation action: Decrement click handler
 $(document).on("click", "button.minus", function() {
   var a = this.id.slice(5); 
-  cart[a][0] = cart[a][0] - 1;
-  cart[a][0] = Math.max(0, cart[a][0]);
-  
-  if (cart[a][0] == 0){
-    let targetContainer = document.getElementById('div' + a);
-    if (targetContainer) {
-       targetContainer.innerHTML = `<button id="${a}" class="btn btn-primary w-100 cart"> Add To Cart </button>`;
+  if (cart[a]) {
+    cart[a][0] = cart[a][0] - 1;
+    cart[a][0] = Math.max(0, cart[a][0]);
+    
+    if (cart[a][0] == 0){
+      let targetContainer = document.getElementById('div' + a);
+      if (targetContainer) {
+         targetContainer.innerHTML = `
+          <button id="${a}" class="btn btn-dark w-100 fw-bold py-3 text-uppercase tracking-widest rounded-pill shadow-sm cart" style="background-color: #6b443a; border: none; font-size: 0.85rem;">
+            Add to Bag &mdash; ₹{{product.price}}
+          </button>`;
+      }
+      delete cart[a];
     }
-    delete cart[a];
+    updateCart(cart);
   }
-  updateCart(cart);
 });
 
-// 5. Modifier delegation action: Increment click handler
 $(document).on("click", "button.plus", function() {
   var a = this.id.slice(4);
-  cart[a][0] = cart[a][0] + 1;
-  updateCart(cart);
+  if (cart[a]) {
+    cart[a][0] = cart[a][0] + 1;
+    updateCart(cart);
+  }
 });
-
-// 6. Asynchronous Bootstrap 5 Content Popover Handler
-function updatePopover(currentCart) {
-  let popStr = "<h5>Your Shopping Cart</h5><div class='mx-2 my-2'>";
-  let i = 1;
-
-  if (Object.keys(currentCart).length === 0) {
-    popStr += "<p class='text-muted small'>Your cart is empty!</p>";
-  } else {
-    for (var item in currentCart) {
-      let qty = currentCart[item][0];
-      let name = currentCart[item][1];
-      
-      popStr += `<b>${i}</b>. ${name.slice(0, 19)}... Qty: <b>${qty}</b><br>`;
-      i++;
-    }
-  }
-  popStr += "</div>";
-
-  let popcartElement = document.getElementById('popcart');
-  if (popcartElement) {
-    let popoverInstance = bootstrap.Popover.getOrCreateInstance(popcartElement);
-    popoverInstance.setContent({
-      '.popover-body': popStr
-    });
-  }
-}
 </script>
 {% endblock %}

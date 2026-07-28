@@ -10,27 +10,40 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load local .env file automatically if present
+env_file = BASE_DIR / '.env'
+if env_file.exists():
+    with open(env_file, 'r', encoding='utf-8') as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith('#') and '=' in line:
+                key, value = line.split('=', 1)
+                os.environ.setdefault(key.strip(), value.strip().strip("'\""))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-i9vqeq@=)ck786n94i8cap8_hztdz1yks0(uye3@8k_l-)uz!m'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-i9vqeq@=)ck786n94i8cap8_hztdz1yks0(uye3@8k_l-)uz!m')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True').lower() in ('true', '1', 't')
 
-ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS configured via environment variable (comma-separated, e.g. "localhost,127.0.0.1,my-app.onrender.com")
+ALLOWED_HOSTS = [h.strip() for h in os.environ.get('ALLOWED_HOSTS', '*').split(',') if h.strip()]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',  # ⚡ MUST BE FIRST
     'shop.apps.ShopConfig', 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -123,12 +136,59 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Managing Media (Images, documents uploaded by users) Managging Media
+# Managing Media (Images, documents uploaded by users)
 
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
-# Razorpay Configuration
-RAZORPAY_KEY_ID = 'rzp_test_TB2BNYNjbRlDij'
-RAZORPAY_KEY_SECRET = 'vYJVMaXp5zoB82XsQDdXklg6'
+# Razorpay Configuration via Environment Variables with Local Test Fallbacks
+RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID', 'rzp_test_TB2BNYNjbRlDij')
+RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET', 'vYJVMaXp5zoB82XsQDdXklg6')
+
+# =========================================================================
+# 🎨 Jazzmin Modern SaaS Admin Theme Configuration
+# =========================================================================
+JAZZMIN_SETTINGS = {
+    "site_title": "Sneha's Boutique Admin",
+    "site_header": "Boutique Dashboard",
+    "site_brand": "MyAwesomeCart Backend",
+    "welcome_sign": "Welcome back to the Capsule Management Matrix, Sneha",
+    "search_model": ["shop.Product", "blog.BlogPost"],
+    "topmenu_links": [
+        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "View Live Storefront", "url": "/"},
+    ],
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "icons": {
+        "auth.user": "fas fa-users-cog",
+        "shop.Product": "fas fa-pump-soap",  # Curated skincare icon
+        "shop.Order": "fas fa-shopping-bag",
+        "blog.BlogPost": "fas fa-pen-fancy",
+        "blog.BlogComment": "fas fa-comments",
+    },
+}
+
+# 🎨 Match our boutique color palette (Muted earth-tones & pastels)
+JAZZMIN_UI_TWEAKS = {
+    "theme": "simplex",  # Clean, light, minimalist base framework
+    "dark_mode_theme": None,
+    "navbar_small_text": False,
+    "footer_small_text": True,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": "navbar-dark",
+    "accent": "accent-primary",
+    "navbar": "navbar-white navbar-light", # Clean white top menu
+    "no_navbar_border": False,
+    "navbar_fixed": True,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": True,
+    "sidebar": "sidebar-light-primary", # Soft light sidebar navigation
+    "sidebar_nav_child_indent": True,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": True,
+}
 

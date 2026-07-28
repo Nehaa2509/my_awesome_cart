@@ -1,8 +1,8 @@
-import json  # FIXED: Handles JSON tracking payloads cleanly
+import json
 import math
 import razorpay
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import F
@@ -10,11 +10,14 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Product, Contact, Order, OrderUpdate  # FIXED: Unified to use 'Order' consistently
+from .models import Product, Contact, Order, OrderUpdate
 from .utils import generate_invoice_pdf
 
-# Initialize Razorpay Client
-client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+# Helper to dynamically retrieve active Razorpay Client credentials
+def get_razorpay_client():
+    key_id = getattr(settings, 'RAZORPAY_KEY_ID', None) or os.environ.get('RAZORPAY_KEY_ID', '')
+    key_secret = getattr(settings, 'RAZORPAY_KEY_SECRET', None) or os.environ.get('RAZORPAY_KEY_SECRET', '')
+    return razorpay.Client(auth=(key_id, key_secret))
 
 # 1. Main Shop Homepage View (Category-Wise Dynamic Slideshows)
 def index(request):
@@ -42,7 +45,6 @@ def searchMatch(query, item):
 def search(request):
     query = request.GET.get('query', '')
     
-    # Handle AJAX / Fetch requests for instant search autocomplete
     is_ajax = request.headers.get('x-requested-with') == 'XMLHttpRequest' or request.GET.get('ajax') == '1'
     if is_ajax:
         results = []
@@ -73,7 +75,6 @@ def search(request):
 
     context = {'allProds': allProds}
     
-    # NEW FEATURE: Injects the error message flag if no query results match
     if len(allProds) == 0:
         context['message'] = "Please match your query correctly. No products found matching your search criteria."
         
@@ -87,16 +88,24 @@ def home(request):
 def about(request):
     return render(request, 'shop/about.html')
 
-# 3. Order Tracking View
+# 3. Order Tracking View (Requires dual Order ID + matching Email parameter to prevent enumeration/leaks)
 def tracker(request):
     if request.method == "POST":    
-        orderId = request.POST.get('orderId', '')
-        email = request.POST.get('email', '')
+        orderId = request.POST.get('orderId', '').strip()
+        email = request.POST.get('email', '').strip().lower()
         
-        try:
-            order = Order.objects.filter(order_id=orderId, email=email)
+        if not orderId or not email:
+            return HttpResponse('{}', content_type="application/json")
             
-            if len(order) > 0:
+        try:
+            orders = Order.objects.filter(order_id=orderId)
+            matching_order = None
+            for o in orders:
+                if o.email and o.email.strip().lower() == email:
+                    matching_order = o
+                    break
+            
+            if matching_order:
                 try:
                     updates = OrderUpdate.objects.filter(order_id=orderId)
                     update_list = []
@@ -105,13 +114,12 @@ def tracker(request):
                 except Exception:
                     update_list = [{'text': 'Your order has been placed successfully!', 'time': 'Just now'}]
                 
-                # FIXED: Safely passing the string-serialized 'update_list' array directly down
-                response_data = [update_list, order[0].items_json]
+                response_data = [update_list, matching_order.items_json]
                 return HttpResponse(json.dumps(response_data), content_type="application/json")
             else:
                 return HttpResponse('{}', content_type="application/json")
                 
-        except Exception as e:
+        except Exception:
             return HttpResponse('{}', content_type="application/json")
             
     return render(request, 'shop/tracker.html')
@@ -120,11 +128,10 @@ def tracker(request):
 def productview(request, myid):
     product = get_object_or_404(Product, id=myid)
     
-    # 1. Atomic View Count Increment
+    # Atomic View Count Increment
     Product.objects.filter(id=myid).update(views=F('views') + 1)
     product.refresh_from_db()
     
-    # 2. Django ORM Query: Pull top 4 recommended items in the same category (excluding current item)
     recommendations = Product.objects.filter(
         category=product.category
     ).exclude(
@@ -137,7 +144,7 @@ def productview(request, myid):
     }
     return render(request, 'shop/productView.html', context)
 
-# 6. Checkout View (Secured via Native Session Authentication Guard)
+# 6. Checkout View (Secured via Native Session Authentication Guard + Authoritative Server-Side Pricing & Stock Validation)
 @login_required(login_url='/shop/login/')
 def checkout(request):
     if request.method == "POST":
@@ -151,29 +158,60 @@ def checkout(request):
         zip_code = request.POST.get('zip_code', '')
         phone = request.POST.get('phone', '')
 
-        # Calculate total price on the backend
         total_price = 0
-        try:
-            cart = json.loads(items_json)
-            for item in cart.values():
-                qty = item[0]
-                price = item[2]
-                total_price += qty * price
-        except Exception:
-            total_price = 0
+        sanitized_cart = {}
 
-        # Save the order to the database with amount and payment_status Pending
-        order = Order(items_json=items_json, name=name, email=email, 
-                      address1=address1, address2=address2, city=city, 
-                      state=state, zip_code=zip_code, phone=phone, amount=total_price,
-                      payment_status="Pending")
+        # Authoritative Server-Side Price & Stock Validation
+        try:
+            raw_cart = json.loads(items_json)
+            if not raw_cart:
+                messages.error(request, "Your cart is currently empty!")
+                return redirect('/shop/checkout/')
+
+            for key, item in raw_cart.items():
+                qty = int(item[0])
+                if qty <= 0:
+                    continue
+
+                clean_id_str = str(key).replace('pr', '').strip()
+                if not clean_id_str.isdigit():
+                    messages.error(request, f"Invalid product format in cart for key: {key}")
+                    return redirect('/shop/checkout/')
+
+                prod_id = int(clean_id_str)
+
+                try:
+                    product = Product.objects.get(id=prod_id)
+                except Product.DoesNotExist:
+                    messages.error(request, f"Product ID #{prod_id} does not exist in our system catalog.")
+                    return redirect('/shop/checkout/')
+
+                if qty > product.stock:
+                    messages.error(request, f"Insufficient stock for '{product.product_name}'. Only {product.stock} available.")
+                    return redirect('/shop/checkout/')
+
+                total_price += qty * product.price
+                sanitized_cart[key] = [qty, product.product_name, product.price]
+
+        except (json.JSONDecodeError, TypeError, ValueError, IndexError):
+            messages.error(request, "Cart payload validation failed. Please try again.")
+            return redirect('/shop/checkout/')
+
+        sanitized_items_json = json.dumps(sanitized_cart)
+
+        order = Order(
+            user=request.user if request.user.is_authenticated else None,
+            items_json=sanitized_items_json,
+            name=name, email=email, 
+            address1=address1, address2=address2, city=city, 
+            state=state, zip_code=zip_code, phone=phone, amount=total_price,
+            payment_status="Pending"
+        )
         order.save()
         
-        # Initialize the baseline milestone tracker data update record
         update = OrderUpdate(order_id=order.order_id, update_desc="The Order has been placed..!")
         update.save()
         
-        # Create Razorpay order (amount in paise)
         razorpay_amount = int(total_price * 100)
         data = {
             "amount": razorpay_amount,
@@ -182,6 +220,7 @@ def checkout(request):
         }
         
         try:
+            client = get_razorpay_client()
             razorpay_order = client.order.create(data=data)
             order.razorpay_order_id = razorpay_order['id']
             order.save()
@@ -192,7 +231,7 @@ def checkout(request):
         context = {
             'razorpay_order_id': order.razorpay_order_id,
             'amount': razorpay_amount,
-            'key_id': settings.RAZORPAY_KEY_ID,
+            'key_id': getattr(settings, 'RAZORPAY_KEY_ID', ''),
             'callback_url': callback_url,
             'name': name,
             'email': email,
@@ -210,7 +249,6 @@ def handlerequest(request):
         razorpay_order_id = request.POST.get('razorpay_order_id', '')
         razorpay_signature = request.POST.get('razorpay_signature', '')
         
-        # Verify payment signature
         params_dict = {
             'razorpay_order_id': razorpay_order_id,
             'razorpay_payment_id': razorpay_payment_id,
@@ -218,24 +256,28 @@ def handlerequest(request):
         }
         
         try:
+            client = get_razorpay_client()
             client.utility.verify_payment_signature(params_dict)
             
-            # If signature verified, find the order and mark as Paid
             order = Order.objects.get(razorpay_order_id=razorpay_order_id)
             order.razorpay_payment_id = razorpay_payment_id
             order.razorpay_signature = razorpay_signature
             order.payment_status = "Paid"
             order.save()
             
-            # Create payment update record
+            try:
+                cart = json.loads(order.items_json)
+                for key, item in cart.items():
+                    prod_id = int(str(key).replace('pr', '').strip())
+                    qty = int(item[0])
+                    Product.objects.filter(id=prod_id).update(stock=F('stock') - qty)
+            except Exception as stock_err:
+                print(f"Stock decrement error for order #{order.order_id}: {stock_err}")
+
             update = OrderUpdate(order_id=order.order_id, update_desc="The Order payment has been successfully received!")
             update.save()
             
-            # Generate PDF invoice and return as downloadable attachment
-            pdf_buffer = generate_invoice_pdf(order)
-            response = HttpResponse(pdf_buffer.getvalue(), content_type='application/pdf')
-            response['Content-Disposition'] = f'attachment; filename="Invoice_Order_{order.order_id}.pdf"'
-            return response
+            return render(request, 'shop/checkout.html', {'thank': True, 'id': order.order_id, 'order': order})
             
         except Exception as e:
             try:
@@ -244,13 +286,28 @@ def handlerequest(request):
                 order.save()
             except Exception:
                 pass
-            return HttpResponse(f"Payment verification failed! Error: {str(e)}")
+            messages.error(request, f"Payment verification failed! Details: {str(e)}")
+            return redirect('/shop/checkout/')
             
-    return HttpResponse("Invalid request method.")
+    return redirect('/shop/')
 
-# 6.5 Download Invoice View Endpoint
+# 6.5 Download Invoice View Endpoint (Secured against IDOR with @login_required & Ownership Verification)
+@login_required(login_url='/shop/login/')
 def download_invoice(request, order_id):
     order = get_object_or_404(Order, order_id=order_id)
+    
+    # Ownership Security Check: user FK match OR email string match (case-insensitive) OR staff
+    user_email_match = bool(
+        order.email and request.user.email and 
+        order.email.strip().lower() == request.user.email.strip().lower()
+    )
+    user_fk_match = bool(order.user_id is not None and order.user_id == request.user.id)
+    
+    is_owner = user_fk_match or user_email_match or request.user.is_staff
+    
+    if not is_owner:
+        return HttpResponseForbidden("Access Denied: You are not authorized to view this invoice.")
+        
     pdf_buffer = generate_invoice_pdf(order)
     response = HttpResponse(pdf_buffer.getvalue(), content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="Invoice_Order_{order.order_id}.pdf"'
@@ -308,7 +365,6 @@ def signup_page(request):
             messages.error(request, "Username is already taken. Choose another username.")
             return render(request, 'shop/signup.html', {'next': next_url})
 
-        # Create new user
         new_user = User.objects.create_user(username, email, pass1)
         new_user.save()
         login(request, new_user)

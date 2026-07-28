@@ -1,0 +1,23 @@
+# Database
+db.sqlite3
+*.sqlite3
+
+# Environment Variables
+.env
+.env.*
+
+# Python bytecode & cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Static and media outputs
+staticfiles/
+media/
+*.log
+
+# IDE & Editor settings
+.vscode/
+.idea/
+.DS_Store

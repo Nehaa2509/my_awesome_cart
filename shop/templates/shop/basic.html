@@ -6,8 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}{% endblock %}</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
   <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&family=Syne:wght@600;700;800&display=swap"
     rel="stylesheet">
 
   <style>
@@ -47,23 +48,36 @@
     .navbar-custom {
       background-color: var(--color-brown) !important;
       box-shadow: 0 4px 15px rgba(107, 68, 58, 0.15);
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
     }
 
     .navbar-custom .navbar-brand {
       font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
+      font-size: 1.55rem;
+      font-weight: 700;
       color: #ffffff !important;
+      letter-spacing: -0.02rem;
+      transition: transform 0.2s ease;
+    }
+
+    .navbar-custom .navbar-brand:hover {
+      transform: scale(1.02);
     }
 
     .navbar-custom .nav-link {
       color: var(--color-nude) !important;
       font-weight: 500;
-      transition: color 0.2s ease;
+      font-size: 0.95rem;
+      padding: 0.45rem 0.85rem !important;
+      transition: all 0.2s ease;
+      border-radius: 20px;
     }
 
     .navbar-custom .nav-link:hover,
     .navbar-custom .nav-link.active {
       color: var(--color-mint) !important;
+      background-color: rgba(255, 255, 255, 0.08);
     }
 
     /* Custom Buttons */
@@ -220,46 +234,42 @@
   <nav class="navbar navbar-expand-lg navbar-custom navbar-dark border-bottom border-body shadow-sm">
     <div class="container">
       <a class="navbar-brand fw-bold" href="/shop">My Awesome Cart</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-1">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/shop">Home</a>
+            <a class="nav-link {% if request.path == '/shop/' or request.path == '/shop' %}active{% endif %}" href="/shop">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/shop/about">About Us</a>
+            <a class="nav-link {% if 'about' in request.path %}active{% endif %}" href="/shop/about">About Us</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/shop/tracker">Tracker</a>
+            <a class="nav-link {% if 'tracker' in request.path %}active{% endif %}" href="/shop/tracker">Tracker</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/blog">Blog</a>
+            <a class="nav-link {% if 'blog' in request.path %}active{% endif %}" href="/blog">Blog</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/shop/contact">Contact Us</a>
+            <a class="nav-link {% if 'contact' in request.path %}active{% endif %}" href="/shop/contact">Contact Us</a>
           </li>
         </ul>
 
-        <form method="get" action="/shop/search/" class="d-flex position-relative" role="search" id="searchForm">
+        <form method="get" action="/shop/search/" class="d-flex position-relative my-2 my-lg-0 me-lg-2" role="search" id="searchForm">
           <div class="position-relative w-100 me-2">
-            <input class="form-control" type="search" placeholder="Search products..." aria-label="Search" name="query"
-              id="query" autocomplete="off" />
+            <input class="form-control rounded-pill px-3" type="search" placeholder="Search products..." aria-label="Search" name="query"
+              id="query" autocomplete="off" style="border-color: var(--color-nude); background: #ffffff;" />
             <div id="search-autocomplete-dropdown"
               class="dropdown-menu shadow-lg w-100 mt-1 border-0 rounded-3 overflow-hidden"
               style="display: none; max-height: 400px; overflow-y: auto; z-index: 1050; left: 0; right: 0;"></div>
           </div>
-          <button class="btn btn-mint" type="submit">Search</button>
+          <button class="btn btn-mint rounded-pill px-3 fw-bold" type="submit">Search</button>
         </form>
 
-        <button type="button" class="btn btn-secondary mx-2" id="popcart" onclick="openShopifyCartDrawer()">
-          Cart (<span id="cart">0</span>)
-        </button>
-
         {% if user.is_authenticated %}
-        <span class="navbar-text me-2 small text-light fw-medium">Hi, {{ user.username }}</span>
+        <span class="navbar-text me-3 ms-lg-2 small text-light fw-medium">Hi, <strong class="text-uppercase" style="color: #98f0e3; letter-spacing: 0.05rem;">{{ user.username }}</strong></span>
         <a href="/shop/logout/" class="btn btn-sm btn-outline-light rounded-pill px-3">Logout</a>
         {% else %}
         <a href="/shop/login/" class="btn btn-sm btn-outline-light rounded-pill px-3 me-1">Login</a>
@@ -270,6 +280,9 @@
     </div>
   </nav>
   {% endblock %}
+
+  <!-- 🛒 Cart Drawer Backdrop Overlay -->
+  <div id="cartDrawerBackdrop" class="position-fixed top-0 start-0 w-100 h-100" style="z-index: 2040; background: rgba(0,0,0,0.4); opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease;"></div>
 
   <!-- 🛒 Shopify-Style Slide-Out Cart Drawer -->
   <div id="shopifyCartDrawer" class="position-fixed top-0 end-0 h-100 bg-white shadow-lg" style="width: 400px; z-index: 2050; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); border-left: 1px solid #edd7c2;">
@@ -304,6 +317,12 @@
     </div>
   </div>
 
+  <!-- 🚨 Sleek Toast Layout Layer -->
+  <div id="uxNotificationToast" class="position-fixed bottom-0 start-50 translate-middle-x mb-4 shadow-lg d-flex align-items-center justify-content-between px-4 py-3 border select-none" style="z-index: 3000; width: 340px; border-radius: 12px; background-color: #6b443a; border-color: #6b443a; transform: translateY(150%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);">
+    <span id="toastMessageText" class="text-white small fw-bold tracking-wide">🛒 Item added to your capsule</span>
+    <span class="small fw-bold text-uppercase" style="color: #98f0e3; cursor: pointer;" onclick="openCartDrawer()">View</span>
+  </div>
+
   {% block body %}{% endblock %}
 
   <!-- 🏷️ Premium Banner-Style Footer Layout -->
@@ -311,7 +330,7 @@
     
     <!-- Massive Background Marquee Text Structure -->
     <div class="footer-bg-marquee-wrapper d-none d-md-block select-none">
-      <div class="footer-marquee-text">AWESOME CAPSULE DROP SYSTEM &bull; VELOURIA OPERATIONS &bull; AWESOME CAPSULE DROP SYSTEM &bull; VELOURIA OPERATIONS &bull; </div>
+      <div class="footer-marquee-text">AWESOME CAPSULE DROP SYSTEM &bull; MY AWESOME CART &bull; AWESOME CAPSULE DROP SYSTEM &bull; MY AWESOME CART &bull; </div>
     </div>
 
     <div class="container position-relative py-5 px-4 text-white" style="z-index: 5;">
@@ -323,7 +342,7 @@
             My Awesome Cart
           </h2>
           <p class="small mb-0" style="color: #edd7c2; opacity: 0.8; letter-spacing: 0.05rem;">
-            ENGINEERED EXPERIENCES &bull; INTERACTION READY SYSTEM
+            THOUGHTFULLY CURATED &bull; MADE FOR YOU
           </p>
         </div>
 
@@ -345,7 +364,7 @@
       <!-- Bottom Row: Dynamic Copyright Info Buffer -->
       <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center base-footer-text gap-2">
         <span class="small" style="color: #edd7c2; opacity: 0.6;">
-          &copy; 2026 Velouria Platform. Built with weightless Django components.
+          &copy; 2026 My Awesome Cart. Built with Django, Razorpay, and care.
         </span>
         
         <!-- Utility Pills Bar -->
@@ -362,6 +381,34 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
+    const noImagePlaceholder = "{% static 'shop/no-image-placeholder.png' %}";
+
+    function openCartDrawer() {
+      const drawer = document.getElementById('shopifyCartDrawer');
+      const backdrop = document.getElementById('cartDrawerBackdrop');
+      if (drawer) drawer.style.transform = 'translateX(0)';
+      if (backdrop) {
+        backdrop.style.visibility = 'visible';
+        backdrop.style.opacity = '1';
+      }
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCartDrawer() {
+      const drawer = document.getElementById('shopifyCartDrawer');
+      const backdrop = document.getElementById('cartDrawerBackdrop');
+      if (drawer) drawer.style.transform = 'translateX(100%)';
+      if (backdrop) {
+        backdrop.style.opacity = '0';
+        backdrop.style.visibility = 'hidden';
+      }
+      document.body.style.overflow = '';
+    }
+
+    function openShopifyCartDrawer() {
+      openCartDrawer();
+    }
+
     $(document).ready(function () {
       let debounceTimer;
       const $searchInput = $('#query');
@@ -388,7 +435,7 @@
               if (response.products && response.products.length > 0) {
                 let html = '';
                 response.products.forEach(function (item) {
-                  const imgUrl = item.image ? item.image : 'https://via.placeholder.com/45?text=No+Img';
+                  const imgUrl = item.image ? item.image : noImagePlaceholder;
                   html += `
                       <a href="/shop/products/${item.id}" class="dropdown-item d-flex align-items-center p-2 border-bottom text-wrap text-decoration-none">
                         <img src="${imgUrl}" alt="${item.product_name}" class="rounded me-3 object-fit-cover" style="width: 45px; height: 45px;">
@@ -396,14 +443,14 @@
                           <div class="fw-semibold text-dark text-truncate" style="max-width: 210px;">${item.product_name}</div>
                           <span class="badge bg-secondary text-capitalize" style="font-size: 10px;">${item.category}</span>
                         </div>
-                        <div class="fw-bold text-success ms-2">₹${item.price}</div>
+                        <div class="fw-bold ms-2" style="color: #6b443a;">₹${item.price}</div>
                       </a>`;
                 });
                 $dropdown.html(html).show();
               } else {
                 $dropdown.html(`
                     <div class="p-3 text-center text-muted small">
-                      <i class="bi bi-search d-block mb-1"></i>
+                      <i class="bi bi-search d-block mb-1 fs-5"></i>
                       No products matching "<strong>${query}</strong>"
                     </div>`).show();
               }
@@ -422,19 +469,14 @@
         }
       });
 
-      // Hide dropdown on Escape key
+      // Escape key handler: closes cart drawer and search dropdown
       $(document).on('keydown', function (e) {
         if (e.key === 'Escape') {
+          closeCartDrawer();
           $dropdown.hide();
         }
       });
     });
-
-    // ⚡ 2. The Interactive Free-Shipping Calculator Engine
-    function openShopifyCartDrawer() {
-      const drawer = document.getElementById('shopifyCartDrawer');
-      if (drawer) drawer.style.transform = 'translateX(0)';
-    }
 
     function updateShopifyDrawer(currentCart) {
       let totalItems = 0;
@@ -476,7 +518,6 @@
         }
       }
 
-      // Handle Shopify-Style Shipping Thresholds dynamically
       const targetThreshold = 500;
       if (subtotalAmount >= targetThreshold) {
         $('#shippingProgressText').html('🎉 You qualify for <strong>FREE SHIPPING</strong>!');
@@ -488,21 +529,39 @@
         $('#shippingProgressBar').css('width', progressPercentage + '%');
       }
 
-      // Sync pricing updates globally across templates
       if(document.getElementById('cart')) { document.getElementById('cart').innerHTML = totalItems; }
       if(document.getElementById('drawerCartSubtotal')) { document.getElementById('drawerCartSubtotal').innerText = '₹' + subtotalAmount.toFixed(2); }
       localStorage.setItem('cart', JSON.stringify(currentCart));
     }
 
-    // Drawer Interaction Events
+    // ⚡ Micro-UX "Success Flash" Interaction Handler
+    function triggerUXSuccessFlash(itemName) {
+      let toastElement = document.getElementById('uxNotificationToast');
+      if (!toastElement) return;
+      if (itemName) {
+        document.getElementById('toastMessageText').innerText = `👜 Added: ${itemName}`;
+      } else {
+        document.getElementById('toastMessageText').innerText = `🛒 Item added to your capsule`;
+      }
+      
+      toastElement.style.transform = 'translateY(0) translateX(-50%)';
+      
+      setTimeout(() => {
+        toastElement.style.transform = 'translateY(150%)';
+      }, 2500);
+    }
+
+    // Drawer & Toast Interaction Events
     $(document).on('click', '.cart', function(e) {
-      const drawer = document.getElementById('shopifyCartDrawer');
-      if (drawer) drawer.style.transform = 'translateX(0)';
+      var idstr = this.id.toString();
+      let nameElement = document.getElementById('name' + idstr);
+      let name = nameElement ? (nameElement.innerText || nameElement.innerHTML).trim() : "";
+      triggerUXSuccessFlash(name);
+      openCartDrawer();
     });
 
-    $(document).on('click', '#closeCartDrawerBtn', function() {
-      const drawer = document.getElementById('shopifyCartDrawer');
-      if (drawer) drawer.style.transform = 'translateX(100%)';
+    $(document).on('click', '#closeCartDrawerBtn, #cartDrawerBackdrop', function() {
+      closeCartDrawer();
     });
 
     // ➕ Increment Action Click Listener

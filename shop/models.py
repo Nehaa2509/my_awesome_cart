@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # 1. Product Model
 class Product(models.Model):
@@ -10,6 +11,7 @@ class Product(models.Model):
     pub_date = models.DateField()
     image = models.ImageField(upload_to="shop/images", default="")
     views = models.IntegerField(default=0)
+    stock = models.IntegerField(default=0)  # Track inventory stock count
 
     def __str__(self):
         return self.product_name 
@@ -27,14 +29,15 @@ class Contact(models.Model):
         return self.name
 
 
-# 3. Orders Model (FIXED SYNTAX)
+# 3. Orders Model
 class Order(models.Model):
     order_id = models.AutoField(primary_key=True)       
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="orders") # Foreign Key to User
     items_json = models.CharField(max_length=5000)       
-    name = models.CharField(max_length=90)  # Lowercase & Cleaned
+    name = models.CharField(max_length=90)
     email = models.CharField(max_length=90)
-    address1 = models.CharField(max_length=200) # 'address1' matches checkout.html name attribute
-    address2 = models.CharField(max_length=200, default="") # FIXED: Removed () parentheses error
+    address1 = models.CharField(max_length=200)
+    address2 = models.CharField(max_length=200, default="")
     city = models.CharField(max_length=90)
     state = models.CharField(max_length=90)
     zip_code = models.CharField(max_length=20)

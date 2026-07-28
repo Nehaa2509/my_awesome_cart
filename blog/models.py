@@ -24,6 +24,10 @@ class BlogPost(models.Model):
     def total_likes(self):
         return self.likes.count()
 
+    @property
+    def subheading(self):
+        return self.chead
+
 
 # =========================================================================
 # 2. Native Comments Management Table
@@ -32,11 +36,10 @@ class BlogComment(models.Model):
     sno = models.AutoField(primary_key=True)
     comment = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    
-    # Explicit string reference to the single BlogPost model above
-    post = models.ForeignKey('BlogPost', on_delete=models.CASCADE, related_name="comments")
+    # 🔗 Links the comment securely to a specific post ID
+    post = models.ForeignKey('BlogPost', on_delete=models.CASCADE, related_name='comments')
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
-    timestamp = models.DateTimeField(default=now)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.comment[0:13] + "... by " + self.user.username
+        return f"Comment by {self.user.username} on {self.post.title[:20]}..."

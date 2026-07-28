@@ -35,146 +35,178 @@
     object-fit: cover;
   }
 
-  /* Custom Styling for Slider Buttons */
+  /* 🏷️ Elegant Boutique Carousel Controls & Arrow Buttons */
   .carousel-control-prev,
   .carousel-control-next {
-    width: 5%;
+    width: 44px;
+    height: 44px;
+    background-color: #6b443a;
+    border: 1px solid #edd7c2;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.85;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 12px rgba(107, 68, 58, 0.15);
+  }
+
+  .carousel-control-prev { left: 0.5rem; }
+  .carousel-control-next { right: 0.5rem; }
+
+  .carousel-control-prev:hover,
+  .carousel-control-next:hover {
+    background-color: #6b443a;
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 8px 20px rgba(107, 68, 58, 0.25);
   }
 
   .carousel-control-prev-icon,
   .carousel-control-next-icon {
-    background-color: var(--primary-color);
-    border-radius: 50%;
-    padding: 1.5rem;
-    background-size: 50%;
+    width: 1.2rem;
+    height: 1.2rem;
+    background-size: 100%;
+    filter: invert(1);
   }
 
-  /* 🏷️ Hero Banner Frame Matrix Styling */
-  .hero-banner-card {
-    min-height: 380px;
-    position: relative;
-    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-  }
-
-  @media (max-width: 576px) {
-    .hero-banner-card {
-      min-height: 300px;
-    }
-  }
-
-  /* Custom Minimalist Navigation Arrows */
+  /* Custom Minimalist Hero Navigation Arrows */
   .carousel-control-prev-hero,
   .carousel-control-next-hero {
     position: absolute;
-    top: 0;
-    bottom: 0;
+    top: 50%;
+    transform: translateY(-50%);
     z-index: 5;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 6%;
+    width: 48px;
+    height: 48px;
     padding: 0;
     color: #6b443a;
-    text-align: center;
-    background: none;
-    border: 0;
-    opacity: 0.5;
-    transition: opacity 0.15s ease;
+    background-color: rgba(253, 246, 249, 0.9);
+    border: 1px solid #edd7c2;
+    border-radius: 50%;
+    box-shadow: 0 6px 16px rgba(107, 68, 58, 0.12);
+    backdrop-filter: blur(8px);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .carousel-control-prev-hero { left: 1rem; }
-  .carousel-control-next-hero { right: 1rem; }
+  .carousel-control-prev-hero { left: 1.5rem; }
+  .carousel-control-next-hero { right: 1.5rem; }
 
   .carousel-control-prev-hero:hover,
   .carousel-control-next-hero:hover {
-    opacity: 1;
-    color: #f09fc1;
-    text-decoration: none;
-    outline: 0;
+    background-color: #6b443a;
+    color: #98f0e3;
+    border-color: #6b443a;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 10px 24px rgba(107, 68, 58, 0.25);
   }
 
   .carousel-arrow-icon {
-    font-size: 3.5rem;
-    font-weight: 200;
+    font-size: 2.2rem;
+    font-weight: 300;
     line-height: 1;
+    margin-top: -2px;
   }
 
   /* Customizing Bottom Navigation Indicators */
-  #heroBannerSlider .carousel-indicators [data-bs-target] {
+  .carousel-indicators [data-bs-target] {
     background-color: #6b443a !important;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    margin: 0 5px;
+    margin: 0 4px;
     border: none;
-    opacity: 0.3;
+    opacity: 0.25;
+    transition: all 0.3s ease;
   }
 
-  #heroBannerSlider .carousel-indicators .active {
+  .carousel-indicators .active {
     opacity: 1 !important;
-    background-color: #f09fc1 !important;
+    background-color: #6b443a !important;
     width: 24px;
-    border-radius: 5px;
-    transition: width 0.3s ease;
+    border-radius: 12px;
   }
 </style>
 {% endblock %}
 
 {% block body %}
-<!-- ✨ Premium Promotional Hero Banner Slider -->
-<div id="heroBannerSlider" class="carousel slide mb-4" data-bs-ride="carousel" data-bs-interval="4000">
+<!-- ✨ Ultra-Elegant Editorial Hero Banner Slider -->
+<div id="heroBannerSlider" class="carousel slide mb-5" data-bs-ride="carousel" data-bs-interval="5000">
   <!-- Interactive Navigation Indicators -->
-  <div class="carousel-indicators">
+  <div class="carousel-indicators mb-3">
     <button type="button" data-bs-target="#heroBannerSlider" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
     <button type="button" data-bs-target="#heroBannerSlider" data-bs-slide-to="1" aria-label="Slide 2"></button>
     <button type="button" data-bs-target="#heroBannerSlider" data-bs-slide-to="2" aria-label="Slide 3"></button>
   </div>
 
   <!-- Carousel Slides Inner Wrapper -->
-  <div class="carousel-inner p-0">
+  <div class="carousel-inner rounded-4 overflow-hidden shadow-sm" style="border: 1px solid #edd7c2;">
     
-    <!-- Slide 1: Seasonal Special Code Offer -->
+    <!-- Slide 1: Skincare Capsule -->
     <div class="carousel-item active">
-      <div class="hero-banner-card d-flex align-items-center" style="background: linear-gradient(135deg, #fdf6f9 0%, #edd7c2 100%);">
-        <div class="container py-5 px-4 px-md-5">
-          <div class="row align-items-center">
+      <div class="hero-banner-card d-flex align-items-center py-5" style="background: linear-gradient(135deg, #fdf6f9 0%, #edd7c2 50%, #fdf6f9 100%);">
+        <div class="container px-4 px-md-5">
+          <div class="row align-items-center g-4">
             <div class="col-12 col-md-7 text-center text-md-start">
-              <span class="badge mb-2 px-3 py-2 rounded-pill uppercase fw-bold" style="background-color: #f09fc1; color: #6b443a; letter-spacing: 0.1rem;">Limited Offer</span>
-              <h1 class="display-4 fw-bold mb-3" style="color: #6b443a;">Unlock Weightless Savings</h1>
-              <p class="lead mb-4 text-muted">Get <strong>Free Shipping</strong> on orders over ₹500. Use code <span class="fw-bold px-2 py-1 rounded" style="background-color: #98f0e3; color: #6b443a;">AWESOME</span> at checkout.</p>
-              <a href="/shop/search/?query=Gaming" class="btn btn-lg fw-bold px-4 rounded-pill" style="background-color: #6b443a; color: #fdf6f9;">Shop Flash Sales</a>
+              <span class="badge mb-3 px-3 py-2 rounded-pill uppercase fw-bold" style="background-color: #f09fc1; color: #6b443a; letter-spacing: 0.12rem; font-size: 0.75rem;">SEASONAL RELEASE</span>
+              <h1 class="display-3 fw-bold mb-3" style="font-family: 'Playfair Display', serif; color: #6b443a; letter-spacing: -0.04rem;">Pure Botanical Radiance</h1>
+              <p class="lead mb-4 text-muted" style="max-width: 520px; font-size: 1.1rem; line-height: 1.6;">Cold-pressed organic jojoba, rosehip &amp; superfine French clays target-engineered for weightless daily skin hydration.</p>
+              <div class="d-flex gap-3 justify-content-center justify-content-md-start">
+                <a href="/shop/search/?query=Skincare" class="btn btn-lg fw-bold px-4 py-3 rounded-pill shadow-sm" style="background-color: #6b443a; color: #fdf6f9; border: none; font-size: 0.9rem; letter-spacing: 0.05rem;">Explore Skincare Capsule &rarr;</a>
+              </div>
+            </div>
+            <div class="col-12 col-md-5 text-center d-none d-md-block">
+              <div class="p-3 bg-white rounded-4 shadow-lg d-inline-block position-relative" style="border: 1px solid #edd7c2; transform: rotate(2deg);">
+                <img src="/media/shop/images/face_oil.png" alt="Botanical Face Oil" class="img-fluid rounded-3" style="max-height: 280px; object-fit: contain;" onerror="this.onerror=null; this.src=noImagePlaceholder;">
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Slide 2: Premium Streetwear Capsule Drop -->
+    <!-- Slide 2: Home Fragrance -->
     <div class="carousel-item">
-      <div class="hero-banner-card d-flex align-items-center" style="background: linear-gradient(135deg, #6b443a 0%, #3d231e 100%);">
-        <div class="container py-5 px-4 px-md-5">
-          <div class="row align-items-center">
-            <div class="col-12 col-md-7 text-center text-md-start text-white">
-              <span class="badge mb-2 px-3 py-2 rounded-pill uppercase fw-bold" style="background-color: #98f0e3; color: #6b443a; letter-spacing: 0.1rem;">New Arrival</span>
-              <h1 class="display-4 fw-bold mb-3" style="color: #fdf6f9;">The Next Capsule Drop</h1>
-              <p class="lead mb-4" style="color: #edd7c2;">Experience high-fashion aesthetic layouts with minimalist structures and bold styling.</p>
-              <a href="/shop/search/?query=Shoes" class="btn btn-lg fw-bold px-4 rounded-pill" style="background-color: #f09fc1; color: #6b443a;">Explore The Drop</a>
+      <div class="hero-banner-card d-flex align-items-center py-5" style="background: linear-gradient(135deg, #edd7c2 0%, #98f0e3 60%, #fdf6f9 100%);">
+        <div class="container px-4 px-md-5">
+          <div class="row align-items-center g-4">
+            <div class="col-12 col-md-7 text-center text-md-start">
+              <span class="badge mb-3 px-3 py-2 rounded-pill uppercase fw-bold" style="background-color: #6b443a; color: #fdf6f9; letter-spacing: 0.12rem; font-size: 0.75rem;">NEW AMBIENT ACCORDS</span>
+              <h1 class="display-3 fw-bold mb-3" style="font-family: 'Playfair Display', serif; color: #6b443a; letter-spacing: -0.04rem;">Olfactory Architecture</h1>
+              <p class="lead mb-4 text-muted" style="max-width: 520px; font-size: 1.1rem; line-height: 1.6;">Hand-poured soy candles &amp; wild lavender reed diffusers crafted to ground your living space in serene calm.</p>
+              <div class="d-flex gap-3 justify-content-center justify-content-md-start">
+                <a href="/shop/search/?query=Fragrance" class="btn btn-lg fw-bold px-4 py-3 rounded-pill shadow-sm" style="background-color: #6b443a; color: #fdf6f9; border: none; font-size: 0.9rem; letter-spacing: 0.05rem;">Discover Room Fragrances &rarr;</a>
+              </div>
+            </div>
+            <div class="col-12 col-md-5 text-center d-none d-md-block">
+              <div class="p-3 bg-white rounded-4 shadow-lg d-inline-block position-relative" style="border: 1px solid #edd7c2; transform: rotate(-2deg);">
+                <img src="/media/shop/images/candle_santal.png" alt="Santal Soy Candle" class="img-fluid rounded-3" style="max-height: 280px; object-fit: contain;" onerror="this.onerror=null; this.src=noImagePlaceholder;">
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Slide 3: Tech & Electronics Showcase -->
+    <!-- Slide 3: Botanical Apothecary Rituals -->
     <div class="carousel-item">
-      <div class="hero-banner-card d-flex align-items-center" style="background: linear-gradient(135deg, #fdf6f9 0%, #98f0e3 100%);">
-        <div class="container py-5 px-4 px-md-5">
-          <div class="row align-items-center">
+      <div class="hero-banner-card d-flex align-items-center py-5" style="background: linear-gradient(135deg, #f09fc1 0%, #fdf6f9 60%, #edd7c2 100%);">
+        <div class="container px-4 px-md-5">
+          <div class="row align-items-center g-4">
             <div class="col-12 col-md-7 text-center text-md-start">
-              <span class="badge mb-2 px-3 py-2 rounded-pill uppercase fw-bold" style="background-color: #6b443a; color: #98f0e3; letter-spacing: 0.1rem;">Tech Zone</span>
-              <h1 class="display-4 fw-bold mb-3" style="color: #6b443a;">Upgrade Your Dynamic Setup</h1>
-              <p class="lead mb-4 text-muted">Browse studio microphones, high-definition webcams, and premium gear elements.</p>
-              <a href="/shop/search/?query=Microphone" class="btn btn-lg fw-bold px-4 rounded-pill" style="background-color: #6b443a; color: #fdf6f9;">View Electronics</a>
+              <span class="badge mb-3 px-3 py-2 rounded-pill uppercase fw-bold" style="background-color: #98f0e3; color: #6b443a; letter-spacing: 0.12rem; font-size: 0.75rem;">JOURNAL EDITION</span>
+              <h1 class="display-3 fw-bold mb-3" style="font-family: 'Playfair Display', serif; color: #6b443a; letter-spacing: -0.04rem;">The Art of Slow Rituals</h1>
+              <p class="lead mb-4 text-muted" style="max-width: 520px; font-size: 1.1rem; line-height: 1.6;">Mineral-rich Himalayan salts &amp; raw plant lipid soaps crafted for conscious, unhurried bath resets.</p>
+              <div class="d-flex gap-3 justify-content-center justify-content-md-start">
+                <a href="/blog/" class="btn btn-lg fw-bold px-4 py-3 rounded-pill shadow-sm" style="background-color: #6b443a; color: #fdf6f9; border: none; font-size: 0.9rem; letter-spacing: 0.05rem;">Read Our Journal &rarr;</a>
+              </div>
+            </div>
+            <div class="col-12 col-md-5 text-center d-none d-md-block">
+              <div class="p-3 bg-white rounded-4 shadow-lg d-inline-block position-relative" style="border: 1px solid #edd7c2; transform: rotate(1deg);">
+                <img src="/media/shop/images/body_scrub.png" alt="Coconut Body Scrub" class="img-fluid rounded-3" style="max-height: 280px; object-fit: contain;" onerror="this.onerror=null; this.src=noImagePlaceholder;">
+              </div>
             </div>
           </div>
         </div>
@@ -196,8 +228,16 @@
 
   {% for product, range, nSlides in allProds %}
 
-  <h3 class="fw-bold my-4 text-dark text-center text-md-start">Flash Sale On {{product.0.category}} - Recommended Items
-  </h3>
+  <!-- 🌿 Editorial Category Header Banner -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end my-4 pb-2 border-bottom" style="border-color: #edd7c2 !important;">
+    <div>
+      <span class="badge mb-1 px-3 py-1 rounded-pill text-uppercase fw-bold" style="background-color: #edd7c2; color: #6b443a; font-size: 0.7rem; letter-spacing: 0.08rem;">Curated Collection</span>
+      <h2 class="display-6 fw-bold mb-0" style="font-family: 'Playfair Display', serif; color: #6b443a; letter-spacing: -0.03rem;">
+        {{ product.0.category }} Capsule &mdash; Signature Formulations
+      </h2>
+    </div>
+    <p class="text-muted small mb-0 mt-2 mt-md-0 fw-medium">Handcrafted essential releases for daily self-care rituals</p>
+  </div>
   <div class="row">
     <div id="productCarousel{{forloop.counter}}" class="col carousel slide mb-5" data-bs-ride="carousel">
 
@@ -218,20 +258,24 @@
             {% for p in product %}
             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
               <div class="card product-card h-100 shadow-sm">
-                <img src="/media/{{p.image}}" class="card-img-top" alt="{{p.product_name}}">
+                {% if p.image %}
+                <img src="/media/{{p.image}}" class="card-img-top" alt="{{p.product_name}}" onerror="this.onerror=null; this.src=noImagePlaceholder;">
+                {% else %}
+                <img src="{% static 'shop/no-image-placeholder.png' %}" class="card-img-top" alt="{{p.product_name}}">
+                {% endif %}
                 <div class="card-body d-flex flex-column justify-content-between">
                   <div>
                     <h5 class="card-title fw-semibold" id="namepr{{p.id}}">{{p.product_name}}</h5>
                     <p class="card-text text-muted small">{{p.description | slice:"0:53"}}...</p>
                   </div>
                   <div class="mt-3">
-                    <div class="fw-bold text-primary mb-2">₹<span id="pricepr{{p.id}}">{{p.price}}</span></div>
+                    <div class="fw-bold mb-2" style="color: #6b443a;">₹<span id="pricepr{{p.id}}">{{p.price}}</span></div>
 
                     <div class="d-flex gap-2">
                       <span id="divpr{{p.id}}" class="w-50">
                         <button id="pr{{p.id}}" class="btn btn-primary w-100 cart">Add to Cart</button>
                       </span>
-                      <a href="{% url 'View Product' p.id %}" class="btn btn-outline-secondary w-50">View</a>
+                      <a href="/shop/products/{{p.id}}" class="btn btn-outline-secondary w-50">View</a>
                     </div>
 
                   </div>
@@ -283,7 +327,7 @@
 <script>
   console.log('Cart JavaScript Operational');
 
-  // 1. Initial State Sync
+  // 1. Initial State Sync & Migration
   let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
 
   // 2. Initial Setup Run
@@ -300,11 +344,9 @@
       let nameElement = document.getElementById('name' + idstr);
       let name = nameElement ? nameElement.innerHTML : "Product";
 
-      // FIXED: Fetching the raw text string value from our newly created span price container
       let priceElement = document.getElementById('price' + idstr);
       let price = priceElement ? parseInt(priceElement.innerHTML) : 0;
 
-      // FIXED: Stores as a 3-element data bundle array matrix [Quantity, Name, Price]
       cart[idstr] = [1, name, price];
     }
 
@@ -352,7 +394,6 @@
     localStorage.setItem('cart', JSON.stringify(currentCart));
     if (document.getElementById('cart')) { document.getElementById('cart').innerHTML = totalItems; }
 
-    updatePopover(currentCart);
     if (typeof updateShopifyDrawer === 'function') {
       updateShopifyDrawer(currentCart);
     }
@@ -380,40 +421,5 @@
     cart[a][0] = cart[a][0] + 1;
     updateCart(cart);
   });
-
-  // 6. Asynchronous Bootstrap 5 Content Popover Handler
-  function updatePopover(currentCart) {
-    let popStr = "<h5>Your Shopping Cart</h5><div class='mx-2 my-2'>";
-    let i = 1;
-
-    if (Object.keys(currentCart).length === 0) {
-      popStr += "<p class='text-muted small'>Your cart is empty!</p>";
-    } else {
-      for (var item in currentCart) {
-        let qty = currentCart[item][0];
-        let name = currentCart[item][1];
-
-        popStr += `<b>${i}</b>. ${name.slice(0, 19)}... Qty: <b>${qty}</b><br>`;
-        i++;
-      }
-    }
-
-    popStr += `</div> 
-             <div class='d-flex gap-2 mt-2'>
-               <a href='/shop/checkout/' class='btn btn-sm btn-primary w-50 text-white d-flex align-items-center justify-content-center' id='checkout' style='text-decoration: none;'>Checkout</a>
-               <button class='btn btn-sm btn-outline-danger w-50' onclick='clearCart()' id='clearCart'>Clear Cart</button>
-             </div>`;
-
-    let popcartElement = document.getElementById('popcart');
-    if (popcartElement) {
-      let popoverInstance = bootstrap.Popover.getOrCreateInstance(popcartElement, {
-        html: true,
-        sanitize: false
-      });
-      popoverInstance.setContent({
-        '.popover-body': popStr
-      });
-    }
-  }
 </script>
 {% endblock %}

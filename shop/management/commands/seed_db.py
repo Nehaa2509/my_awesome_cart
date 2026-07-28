@@ -1,135 +1,102 @@
 from django.core.management.base import BaseCommand
 from django.utils import timezone
-from shop.models import Product
-from blog.models import BlogPost
-
+from shop.models import Product  
+from blog.models import BlogPost  
 
 class Command(BaseCommand):
-    help = 'Instantly seeds the database with core categories, starter products, and blog posts'
+    help = 'Flushes old stock/logs and seeds both products and blog posts with matching boutique data'
 
     def handle(self, *args, **kwargs):
-        self.stdout.write(self.style.WARNING('Initializing database seed sequence...'))
+        # 🗑️ WIPE OUT THE PAST
+        self.stdout.write(self.style.WARNING('Flushing previous products and old blog entries...'))
+        Product.objects.all().delete()
+        BlogPost.objects.all().delete()
+        self.stdout.write(self.style.SUCCESS('Databases cleared completely.'))
 
-        # ⚡ Product catalog dataset
-        starter_products = [
-            # --- GAMING CATEGORY ---
-            {
-                "product_name": "Wireless Gamepad Controller",
-                "category": "Gaming",
-                "subcategory": "Controllers",
-                "price": 65,
-                "description": "Ergonomic wireless gaming controller compatible with multi-platform setups. Feature-packed latency reduction matrix.",
-                "image": "shop/images/gamepad.jpg",
-            },
-            {
-                "product_name": "Ergonomic Gaming Chair",
-                "category": "Gaming",
-                "subcategory": "Furniture",
-                "price": 220,
-                "description": "High-back racing style gaming chair with adjustable lumbar support structural plates and premium matte upholstery.",
-                "image": "shop/images/chair.jpg",
-            },
+        today = timezone.now().date()
 
-            # --- ELECTRONICS CATEGORY ---
-            {
-                "product_name": "Studio Microphone",
-                "category": "Electronics",
-                "subcategory": "Audio",
-                "price": 150,
-                "description": "Professional USB condenser microphone for podcasting, studio recording, and zero-latency stream production.",
-                "image": "shop/images/microphone.jpg",
-            },
-            {
-                "product_name": "HD Webcam 1080p",
-                "category": "Electronics",
-                "subcategory": "Cameras",
-                "price": 59,
-                "description": "Full HD 1080p video calling webcam with integrated dual noise-canceling microphone arrays.",
-                "image": "shop/images/webcam.jpg",
-            },
+        # ==========================================
+        # 🧴 1. SEED EXPANDED BOUTIQUE PRODUCT STOCK (15 SKUs)
+        # ==========================================
+        boutique_products = [
+            # === SKINCARE CAPSULE ===
+            {"product_name": "Nourishing Botanical Face Oil", "category": "Skincare", "price": 850, "desc": "A weightless blend of cold-pressed jojoba and squalane infused with organic rosehip to deeply hydrate and restore natural radiance.", "image": "shop/images/face_oil.png"},
+            {"product_name": "Pink French Clay Mask", "category": "Skincare", "price": 620, "desc": "Formulated with superfine red and white clays to gently detoxify skin texture, drawing out impurities while maintaining natural moisture.", "image": "shop/images/clay_mask.png"},
+            {"product_name": "Vitamin C Glow Serum", "category": "Skincare", "price": 1150, "desc": "A daily brightening matrix concentrated with Kakadu plum extract and hyaluronic acid to even out skin tone and defend daily vitality layers.", "image": "shop/images/serum.png"},
+            {"product_name": "Bakuchiol Alternative Retinol Ampoule", "category": "Skincare", "price": 1380, "desc": "A plant-based, non-irritating retinol alternative complex target-engineered to refine fine lines and smooth overall structural skin profile.", "image": "shop/images/bakuchiol.png"},
+            {"product_name": "Ceramide Barrier Repair Balm", "category": "Skincare", "price": 740, "desc": "An ultra-rich, lipid-replenishing moisture barrier balm containing pure oat kernels to protect sensitive or stressed complexions.", "image": "shop/images/barrier_balm.png"},
+            
+            # === FRAGRANCE CAPSULE ===
+            {"product_name": "Smoked Santal Soy Candle", "category": "Fragrance", "price": 780, "desc": "Hand-poured pure soy wax candle featuring complex heart notes of Australian sandalwood, cardamon, and warm amber accords.", "image": "shop/images/candle_santal.png"},
+            {"product_name": "Wild Lavender Reed Diffuser", "category": "Fragrance", "price": 950, "desc": "An elegant glass vessel dispersing steam-distilled lavender essence continuously through natural rattan reeds for calming spaces.", "image": "shop/images/diffuser.png"},
+            {"product_name": "Eucalyptus & White Sage Room Mist", "category": "Fragrance", "price": 420, "desc": "An instantly refreshing atmospheric home mist utilizing wild-harvested desert sage to purify spatial air profile layers dynamically.", "image": "shop/images/sage_mist.png"},
+            {"product_name": "Velvet Moss & Amber Incense Cones", "category": "Fragrance", "price": 380, "desc": "A box of 20 slow-burning charcoal cones saturated with deep tree moss, rich amber resins, and soft vanilla extract notes.", "image": "shop/images/incense.png"},
+            {"product_name": "Bergamot & Tobacco Leaf Soy Block", "category": "Fragrance", "price": 680, "desc": "A heavy, sculptural wax melt blocks profile releasing notes of bright Italian bergamot balanced against sweet crushed tobacco leaves.", "image": "shop/images/wax_melt.png"},
 
-            # --- FASHION CATEGORY ---
-            {
-                "product_name": "Designer Leather Jacket",
-                "category": "Fashion",
-                "subcategory": "Outerwear",
-                "price": 250,
-                "description": "Handcrafted premium leather jacket engineered for an unstructured, timeless modern streetwear silhouette profile.",
-                "image": "shop/images/leather_jacket.jpg",
-            },
-            {
-                "product_name": "Minimalist Canvas Backpack",
-                "category": "Fashion",
-                "subcategory": "Accessories",
-                "price": 60,
-                "description": "Water-resistant heavyweight canvas backpack featuring dedicated protective laptop utility sleeves.",
-                "image": "shop/images/backpack.jpg",
-            },
+            # === APOTHECARY CAPSULE ===
+            {"product_name": "Crushed Coconut Body Scrub", "category": "Apothecary", "price": 540, "desc": "Gently exfoliating crystalline raw cane sugar base blended thoroughly with organic virgin coconut oil and nourishing vitamin E lipids.", "image": "shop/images/body_scrub.png"},
+            {"product_name": "Himalayan Cedarwood Bath Salts", "category": "Apothecary", "price": 480, "desc": "Mineral-rich pink salt crystals saturated with pure essential oils of grounding Himalayan cedarwood and refreshing bergamot.", "image": "shop/images/bath_salts.png"},
+            {"product_name": "Shea Butter Botanical Bar Soap", "category": "Apothecary", "price": 280, "desc": "A cold-processed, triple-milled body bar enriched with raw African shea butter and decorated with dried calendula petals.", "image": "shop/images/soap_bar.png"},
+            {"product_name": "Rejuvenating Mint Foot Cream", "category": "Apothecary", "price": 490, "desc": "A rich, deeply therapeutic foot balm blending high-potency cooling peppermint oil alongside pure tea tree extracts.", "image": "shop/images/foot_cream.png"},
+            {"product_name": "Soothing Sweet Almond Body Lotion", "category": "Apothecary", "price": 890, "desc": "A velvety body moisturizer combining sweet organic almond milk base with rich cold-pressed avocado oil drops.", "image": "shop/images/body_lotion.png"}
         ]
 
-        # 📰 Blog post dataset
-        starter_posts = [
+        for item in boutique_products:
+            Product.objects.create(
+                product_name=item["product_name"],
+                category=item["category"],
+                subcategory="Boutique",
+                price=item["price"],
+                description=item["desc"],
+                image=item["image"],
+                pub_date=today,
+                stock=50
+            )
+        self.stdout.write(self.style.SUCCESS('15 Premium Boutique SKUs Hydrated.'))
+
+        # ==========================================
+        # 📰 2. SEED EDITORIAL BOUTIQUE BLOG POSTS
+        # ==========================================
+        boutique_blogs = [
             {
-                "title": "Welcome to Our Awesome Blog!",
-                "chead": "This is the subheading of the first post",
-                "category": "General",
-                "content": "This is the main body content of our very first blog post. Django makes it extremely easy to build robust web applications with dynamic content systems.",
-                "author": "Admin"
+                "title": "The Art of Slow Rituals: Building a Conscious Skincare Matrix",
+                "subheading": "Moving past aggressive treatments to support and respect your skin barrier.",
+                "category": "Skincare",
+                "content": """Skincare isn't an aggressive chore; it is an intentional ritual of restoration. For too long, standard beauty protocols pushed harsh chemical peels that stripped our natural protective lipids. Today, we are stepping back into the science of slow skincare. 
+
+Our formulation methodology focuses entirely on biological compatibility. By feeding your skin natural moisture anchors like squalane—found directly in our **Nourishing Botanical Face Oil**—you assist your skin in locking in cell hydration without choking your pores. When paired with botanical micro-minerals like our superfine **Pink French Clay Mask**, you create a balanced ecosystem that cleanses gently while keeping your natural moisture barrier completely unbothered.""",
+                "thumbnail": "blog/images/skincare_ritual.jpg"
             },
             {
-                "title": "The Art of Deconstruction: Designing Capsule 01",
-                "chead": "A look inside the design studio as we map out core elements and materials.",
-                "category": "Design",
-                "content": "Exploring the raw color architecture, heavyweight materials, and physical design philosophy behind our latest seasonal capsule release.",
-                "author": "Velouria Studio"
+                "title": "Olfactory Architecture: How Home Fragrance Shapes Mental Spaces",
+                "subheading": "Understanding the neuro-olfactory connection behind clean ambient wood accords.",
+                "category": "Fragrance",
+                "content": """The atmosphere of your living room dictating your psychological calm isn't a myth—it is sensory science. When we inhale natural scent formulations, the volatile molecules directly interact with our limbic system, the sector of the brain managing emotional memory banks.
+
+To curate an environment optimized for focus and deep resetting, look toward rich, grounding wood materials. Burning a premium, hand-poured candle like the **Smoked Santal Soy Candle** introduces dense heart notes of raw Australian sandalwood and cardamon that actively trigger neural decompression signals. For continuous spatial harmony without flame hazards, setting a **Wild Lavender Reed Diffuser** in high-airflow areas gently circulates steam-distilled botanicals to ground your daily routine.""",
+                "thumbnail": "blog/images/fragrance_science.jpg"
             },
             {
-                "title": "Behind the Frame: Engineering Fluid Interactions",
-                "chead": "How we built a frictionless, zero-latency digital storefront experience.",
-                "category": "Technology",
-                "content": "Leveraging minimal front-end architectures and asynchronous state machines to power zero-latency shopping experiences.",
-                "author": "Engineering Team"
+                "title": "Apothecary Essentials: The Remedial Power of Mineral-Rich Soaking",
+                "subheading": "Why transdermal magnesium salts and raw plant lipid bars beat synthetic washes.",
+                "category": "Apothecary",
+                "content": """Your skin is your largest structural organ, absorbing everything it contacts. Mass-market body gels are frequently packed with aggressive sodium lauryl sulfates (SLS) that compromise cell junctions and leave your skin tight and parched. Shifting to an apothecary-first bath system returns to pure, unadulterated ingredients.
+
+Immersing yourself in warm water infused with our coarse **Himalayan Cedarwood Bath Salts** allows rich trace minerals to absorb transdermally, promoting muscular relief. Follow up this reset by utilizing cold-processed options like our **Shea Butter Botanical Bar Soap**. Because it is triple-milled and packed with natural African shea lipids, it cleanses without deleting your skin's vital moisture sheets.""",
+                "thumbnail": "blog/images/bath_apothecary.jpg"
             }
         ]
 
-        created_prods = 0
-        for item in starter_products:
-            product, created = Product.objects.get_or_create(
-                product_name=item["product_name"],
-                defaults={
-                    "category": item["category"],
-                    "subcategory": item["subcategory"],
-                    "price": item["price"],
-                    "description": item["description"],
-                    "pub_date": timezone.now().date(),
-                    "image": item["image"],
-                    "views": 0,
-                },
+        # Loop and safely insert blog objects into your database
+        for entry in boutique_blogs:
+            BlogPost.objects.create(
+                title=entry["title"],
+                chead=entry["subheading"],
+                category=entry["category"],
+                author="Editorial Team",
+                content=entry["content"],
+                pub_date=today,
+                thumbnail=entry["thumbnail"]
             )
-            if created:
-                created_prods += 1
-                self.stdout.write(self.style.SUCCESS(f'  [OK] Seeded Product: {product.product_name}'))
-            else:
-                self.stdout.write(self.style.NOTICE(f'  [--] Skip Product (exists): {product.product_name}'))
-
-        created_posts = 0
-        for post_item in starter_posts:
-            post, created = BlogPost.objects.get_or_create(
-                title=post_item["title"],
-                defaults={
-                    "chead": post_item["chead"],
-                    "category": post_item["category"],
-                    "content": post_item["content"],
-                    "author": post_item["author"],
-                    "pub_date": timezone.now().date(),
-                },
-            )
-            if created:
-                created_posts += 1
-                self.stdout.write(self.style.SUCCESS(f'  [OK] Seeded Post: {post.title} ({post.category})'))
-            else:
-                self.stdout.write(self.style.NOTICE(f'  [--] Skip Post (exists): {post.title}'))
-
-        self.stdout.write(
-            self.style.SUCCESS(f'\nData ingestion complete! {created_prods} product(s) & {created_posts} blog post(s) added.')
-        )
+        
+        self.stdout.write(self.style.SUCCESS('Dynamic Editorial Blog Journal Hydrated Flawlessly!'))

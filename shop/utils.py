@@ -7,7 +7,8 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 
 def generate_invoice_pdf(order):
     """
-    Generates a professional PDF invoice for a given Order model instance.
+    Generates an editorial, high-end PDF invoice for an Order instance,
+    matching the MyAwesomeCart frontend color scheme (#6b443a, #fdf6f9, #edd7c2, #f09fc1, #98f0e3).
     Returns a BytesIO buffer containing the PDF binary data.
     """
     buffer = io.BytesIO()
@@ -22,16 +23,33 @@ def generate_invoice_pdf(order):
 
     styles = getSampleStyleSheet()
     
-    # Custom styles
+    # 🎨 Brand Palette Tokens matching frontend design system
+    color_brown = colors.HexColor('#6b443a')
+    color_bg = colors.HexColor('#fdf6f9')
+    color_nude = colors.HexColor('#edd7c2')
+    color_pink = colors.HexColor('#f09fc1')
+    color_mint = colors.HexColor('#98f0e3')
+    color_dark = colors.HexColor('#3a241e')
+
+    # Custom Editorial Typography Styles
     brand_style = ParagraphStyle(
         'BrandHeader',
         parent=styles['Normal'],
         fontName='Helvetica-Bold',
         fontSize=24,
         leading=28,
-        textColor=colors.HexColor('#0d6efd')
+        textColor=color_brown
     )
     
+    tagline_style = ParagraphStyle(
+        'BrandTagline',
+        parent=styles['Normal'],
+        fontName='Helvetica-Bold',
+        fontSize=9,
+        leading=12,
+        textColor=color_pink
+    )
+
     title_style = ParagraphStyle(
         'InvoiceTitle',
         parent=styles['Normal'],
@@ -39,16 +57,26 @@ def generate_invoice_pdf(order):
         fontSize=18,
         leading=22,
         alignment=2, # Right aligned
-        textColor=colors.HexColor('#212529')
+        textColor=color_brown
     )
     
+    meta_style = ParagraphStyle(
+        'InvoiceMeta',
+        parent=styles['Normal'],
+        fontName='Helvetica',
+        fontSize=10,
+        leading=14,
+        alignment=2, # Right aligned
+        textColor=color_dark
+    )
+
     section_heading = ParagraphStyle(
         'SectionHeading',
         parent=styles['Normal'],
         fontName='Helvetica-Bold',
-        fontSize=12,
-        leading=16,
-        textColor=colors.HexColor('#495057'),
+        fontSize=11,
+        leading=15,
+        textColor=color_brown,
         spaceAfter=6
     )
     
@@ -56,22 +84,31 @@ def generate_invoice_pdf(order):
         'InvoiceNormal',
         parent=styles['Normal'],
         fontName='Helvetica',
-        fontSize=10,
+        fontSize=9.5,
         leading=14,
-        textColor=colors.HexColor('#212529')
+        textColor=color_dark
+    )
+
+    header_table_cell_style = ParagraphStyle(
+        'HeaderTableCell',
+        parent=styles['Normal'],
+        fontName='Helvetica-Bold',
+        fontSize=9.5,
+        leading=13,
+        textColor=colors.white
     )
 
     story = []
 
-    # 1. Header Section (Brand Name & Invoice Details)
+    # 1. Header Section (Brand Name & Invoice Title)
     header_data = [
         [
-            Paragraph("Birdwing E-Store", brand_style),
-            Paragraph("INVOICE", title_style)
+            Paragraph("My Awesome Cart", brand_style),
+            Paragraph("TAX INVOICE", title_style)
         ],
         [
-            Paragraph("Official Purchase Receipt & Tax Invoice", normal_style),
-            Paragraph(f"<b>Invoice #:</b> INV-{order.order_id}<br/><b>Date:</b> {order.payment_status}", normal_style)
+            Paragraph("THOUGHTFULLY CURATED &bull; MADE FOR YOU", tagline_style),
+            Paragraph(f"<b>Invoice #:</b> INV-{order.order_id}<br/><b>Status:</b> {order.payment_status}", meta_style)
         ]
     ]
     
@@ -81,15 +118,15 @@ def generate_invoice_pdf(order):
         ('ALIGN', (1,0), (1,-1), 'RIGHT'),
     ]))
     story.append(header_table)
-    story.append(Spacer(1, 15))
+    story.append(Spacer(1, 12))
 
-    # Divider line
-    divider = Table([['']], colWidths=[540], rowHeights=[2])
-    divider.setStyle(TableStyle([('BACKGROUND', (0,0), (-1,-1), colors.HexColor('#e9ecef'))]))
+    # Divider bar with Pink Accent
+    divider = Table([['']], colWidths=[540], rowHeights=[3])
+    divider.setStyle(TableStyle([('BACKGROUND', (0,0), (-1,-1), color_pink)]))
     story.append(divider)
     story.append(Spacer(1, 15))
 
-    # 2. Billing Information Section
+    # 2. Billing & Shipping Customer Matrix
     address_str = f"{order.address1}"
     if order.address2:
         address_str += f", {order.address2}"
@@ -99,13 +136,13 @@ def generate_invoice_pdf(order):
     <b>Billed To:</b> {order.name}<br/>
     <b>Email:</b> {order.email}<br/>
     <b>Phone:</b> {order.phone}<br/>
-    <b>Shipping Address:</b> {address_str}
+    <b>Shipping Destination:</b> {address_str}
     """
     
     order_meta = f"""
     <b>Order ID:</b> #{order.order_id}<br/>
-    <b>Payment Method:</b> Razorpay Online<br/>
-    <b>Payment Status:</b> <font color="green"><b>{order.payment_status}</b></font><br/>
+    <b>Payment Gateway:</b> Razorpay Online<br/>
+    <b>Payment Status:</b> <font color="#2b7a78"><b>{order.payment_status}</b></font><br/>
     <b>Razorpay Order ID:</b> {order.razorpay_order_id or 'N/A'}
     """
 
@@ -117,12 +154,12 @@ def generate_invoice_pdf(order):
     billing_table = Table(billing_data, colWidths=[270, 270])
     billing_table.setStyle(TableStyle([
         ('VALIGN', (0,0), (-1,-1), 'TOP'),
-        ('BACKGROUND', (0,0), (-1,-1), colors.HexColor('#f8f9fa')),
+        ('BACKGROUND', (0,0), (-1,-1), color_bg),
         ('PADDING', (0,0), (-1,-1), 10),
-        ('BOX', (0,0), (-1,-1), 0.5, colors.HexColor('#dee2e6')),
+        ('BOX', (0,0), (-1,-1), 1, color_nude),
     ]))
     story.append(billing_table)
-    story.append(Spacer(1, 20))
+    story.append(Spacer(1, 18))
 
     # 3. Itemized Products Table
     story.append(Paragraph("ITEMIZED PURCHASES", section_heading))
@@ -130,11 +167,11 @@ def generate_invoice_pdf(order):
 
     table_data = [
         [
-            Paragraph("<b>#</b>", normal_style),
-            Paragraph("<b>Item Description</b>", normal_style),
-            Paragraph("<b>Qty</b>", normal_style),
-            Paragraph("<b>Unit Price</b>", normal_style),
-            Paragraph("<b>Total Amount</b>", normal_style)
+            Paragraph("<b>#</b>", header_table_cell_style),
+            Paragraph("<b>Item Description</b>", header_table_cell_style),
+            Paragraph("<b>Qty</b>", header_table_cell_style),
+            Paragraph("<b>Unit Price</b>", header_table_cell_style),
+            Paragraph("<b>Total Amount</b>", header_table_cell_style)
         ]
     ]
 
@@ -159,7 +196,6 @@ def generate_invoice_pdf(order):
             ])
             item_counter += 1
     except Exception:
-        # Fallback if json parsing fails
         grand_total = order.amount
         table_data.append([
             Paragraph("1", normal_style),
@@ -170,44 +206,43 @@ def generate_invoice_pdf(order):
         ])
 
     # Grand Total Row
+    total_title_style = ParagraphStyle('TotalTitle', parent=normal_style, fontName='Helvetica-Bold', textColor=color_brown)
+    total_val_style = ParagraphStyle('TotalVal', parent=normal_style, fontName='Helvetica-Bold', textColor=color_brown)
+
     table_data.append([
         Paragraph("", normal_style),
-        Paragraph("<b>GRAND TOTAL</b>", normal_style),
+        Paragraph("<b>GRAND TOTAL</b>", total_title_style),
         Paragraph("", normal_style),
         Paragraph("", normal_style),
-        Paragraph(f"<b>INR {grand_total:,.2f}</b>", normal_style)
+        Paragraph(f"<b>INR {grand_total:,.2f}</b>", total_val_style)
     ])
 
     items_table = Table(table_data, colWidths=[30, 250, 50, 105, 105])
     items_table.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#0d6efd')),
+        ('BACKGROUND', (0,0), (-1,0), color_brown),
         ('TEXTCOLOR', (0,0), (-1,0), colors.white),
         ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
         ('PADDING', (0,0), (-1,-1), 8),
-        ('GRID', (0,0), (-1,-2), 0.5, colors.HexColor('#dee2e6')),
-        # Styling for Grand Total row
-        ('BACKGROUND', (0,-1), (-1,-1), colors.HexColor('#e9ecef')),
-        ('LINEABOVE', (0,-1), (-1,-1), 1.5, colors.HexColor('#0d6efd')),
+        ('GRID', (0,0), (-1,-2), 0.5, color_nude),
+        # Grand Total Row styling with nude background & pink accent line
+        ('BACKGROUND', (0,-1), (-1,-1), color_nude),
+        ('LINEABOVE', (0,-1), (-1,-1), 2, color_pink),
         ('ALIGN', (2,0), (-1,-1), 'RIGHT'),
     ]))
-    
-    # Fix header row text color in reportlab table
-    for i in range(5):
-        table_data[0][i].style.textColor = colors.white
 
     story.append(items_table)
-    story.append(Spacer(1, 30))
+    story.append(Spacer(1, 25))
 
-    # 4. Footer Thank You Note
+    # 4. Footer & Support Info Strip
     footer_text = ParagraphStyle(
         'FooterText',
         parent=styles['Normal'],
         fontName='Helvetica-Oblique',
-        fontSize=9,
+        fontSize=8.5,
         alignment=1, # Center
-        textColor=colors.HexColor('#6c757d')
+        textColor=color_brown
     )
-    story.append(Paragraph("Thank you for shopping with Birdwing E-Store! If you have any questions, contact support.", footer_text))
+    story.append(Paragraph("Thank you for shopping with <b>My Awesome Cart</b>! Built with care, Razorpay, and Django.", footer_text))
 
     doc.build(story)
     buffer.seek(0)
