@@ -1135,3 +1135,100 @@ a.addlink,
     font-weight: 600 !important;
     color: #6b443a !important;
 }
+
+/* =========================================================================
+   DASHBOARD GRID & ALIGNMENT OVERRIDES
+   ========================================================================= */
+
+/* 1. Fix Dashboard Column Grid Spacing & Stop Card Overlap */
+.content-wrapper .content,
+.app-content .container-fluid {
+    padding: 20px !important;
+}
+
+.app-content .row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 20px !important;
+    margin: 0 !important;
+}
+
+/* Adjust column widths so middle & right cards fit cleanly */
+.app-content .col-lg-6, 
+.app-content .col-md-6,
+.app-content .col-lg-3,
+.app-content .col-md-12 {
+    flex: 1 1 300px !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+}
+
+/* Card Outer Container */
+.app-content .card, 
+.app-content .module {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin-bottom: 20px !important;
+    overflow: visible !important;
+}
+
+/* 2. Fix Table Rows & Action Pill Button Alignment */
+.app-content table {
+    width: 100% !important;
+    table-layout: auto !important;
+}
+
+.app-content table td {
+    padding: 12px 14px !important;
+    vertical-align: middle !important;
+    background: transparent !important;
+}
+
+/* Model Text Alignment */
+.app-content table td:first-child,
+.app-content table td:first-child a {
+    color: #6b443a !important;
+    font-weight: 600 !important;
+    background-color: transparent !important; /* Remove dark/gray text box artifact */
+    text-shadow: none !important;
+    white-space: nowrap !important;
+}
+
+/* Align 'Add' and 'Change' Pills cleanly on the right */
+.app-content table td:last-child {
+    text-align: right !important;
+    white-space: nowrap !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    gap: 8px !important;
+}
+
+.app-content table td:last-child a {
+    margin: 0 !important;
+}
+
+/* 3. Fix Top Navbar Search Inputs & Header Text */
+#jazzy-navbar form.d-flex {
+    flex: 1 1 180px !important;
+    min-width: 150px !important;
+    max-width: 220px !important;
+}
+
+#jazzy-navbar .form-control-navbar {
+    height: 34px !important;
+    font-size: 0.8rem !important;
+    padding: 4px 10px !important;
+}
+
+#jazzy-navbar .btn-navbar {
+    height: 34px !important;
+    padding: 0 10px !important;
+}
+
+/* Breadcrumb Box Alignment */
+.breadcrumb {
+    margin-bottom: 0 !important;
+    background: #edd7c2 !important;
+    border-radius: 50px !important;
+    padding: 6px 16px !important;
+}
