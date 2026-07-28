@@ -25,7 +25,7 @@
   --radius-pill: 20px;
 }
 
-/* 🌿 Body & Layout Canvas */
+/* 🌿 Body & Layout Canvas with Asymmetric Radial Ambient Glow Panels */
 body, 
 body.dark-mode, 
 .content-wrapper, 
@@ -33,6 +33,10 @@ body.dark-mode,
 .main-footer,
 .dark-mode .main-footer {
   background-color: var(--color-canvas) !important;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(240, 157, 193, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(152, 240, 227, 0.08) 0%, transparent 40%) !important;
+  background-attachment: fixed !important;
   color: var(--color-text-cocoa) !important;
   font-family: var(--font-sans) !important;
 }
