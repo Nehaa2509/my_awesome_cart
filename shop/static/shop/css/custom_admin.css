@@ -5,22 +5,43 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
+/* 🎨 Design System Token Palette */
+:root, html[data-theme="light"], html[data-bs-theme="light"], html {
+  --color-cream: #fdf6f9;
+  --color-espresso: #6b443a;
+  --color-espresso-dark: #4a2d26;
+  --color-nude: #edd7c2;
+  --color-nude-light: #f5eaef;
+  --color-mint: #98f0e3;
+  --color-mint-dark: #1b5e52;
+  --color-pink: #f09fc1;
+  --color-pink-dark: #722043;
+  --color-text-main: #332420;
+  --color-card-bg: #ffffff;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --radius-card: 16px;
+  --radius-pill: 30px;
+  --shadow-card: 0 6px 24px rgba(107, 68, 58, 0.05);
+  --shadow-card-hover: 0 10px 30px rgba(107, 68, 58, 0.1);
+}
+
 /* 🌿 Global Typography & Base Palette */
 body, .content-wrapper, .main-footer {
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
-  background-color: #fdf6f9 !important;
-  color: #332420 !important;
+  font-family: var(--font-sans) !important;
+  background-color: var(--color-cream) !important;
+  color: var(--color-text-main) !important;
 }
 
 h1, h2, h3, h4, h5, h6, .brand-text, .card-title, .login-logo {
-  font-family: 'Playfair Display', Georgia, serif !important;
+  font-family: var(--font-serif) !important;
   letter-spacing: -0.01rem;
 }
 
 /* 👑 Main Header Navbar */
 .main-header {
-  background: linear-gradient(135deg, #6b443a 0%, #4a2d26 100%) !important;
-  border-bottom: 1px solid #edd7c2 !important;
+  background: linear-gradient(135deg, var(--color-espresso) 0%, var(--color-espresso-dark) 100%) !important;
+  border-bottom: 1px solid var(--color-nude) !important;
   box-shadow: 0 4px 20px rgba(107, 68, 58, 0.18) !important;
 }
 
