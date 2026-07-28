@@ -484,3 +484,58 @@ input[name="_continue"] {
     border-radius: 8px 0 0 8px;
 }
 
+/* =========================================================================
+   /* --- Fix Dark Dropdowns, Action Bars, and Filter Elements --- */
+   ========================================================================= */
+
+/* 1. Filter Dropdowns & Input Fields */
+#changelist-filter select,
+.actions select,
+.content-wrapper select,
+.app-content select,
+select.form-control,
+.select2-container--default .select2-selection--single {
+    background-color: #ffffff !important;
+    color: #6b443a !important;
+    border: 1px solid #edd7c2 !important;
+    border-radius: 8px !important;
+}
+
+/* Fix dropdown option list items when opened */
+select option {
+    background-color: #ffffff !important;
+    color: #6b443a !important;
+}
+
+/* 2. Action Bar Background (The bar containing the action dropdown & 'Go' button) */
+.actions, 
+#changelist-form .actions,
+div.actions {
+    background: #ffffff !important;
+    border: 1px solid #edd7c2 !important;
+    color: #6b443a !important;
+    border-radius: 12px !important;
+    padding: 10px 15px !important;
+    margin-bottom: 15px !important;
+}
+
+/* 3. Filter Bar Container (Category, Pub Date section) */
+#changelist-filter,
+.changelist-filter,
+#toolbar,
+#changelist-search {
+    background: #ffffff !important;
+    border: 1px solid #edd7c2 !important;
+    color: #6b443a !important;
+    border-radius: 12px !important;
+}
+
+/* 4. Text inside forms, labels, and select boxes */
+.actions label,
+#changelist-form span.action-counter,
+#toolbar label {
+    color: #6b443a !important;
+    font-weight: 600 !important;
+}
+
+
