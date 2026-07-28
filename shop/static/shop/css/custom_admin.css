@@ -163,14 +163,16 @@ td a:visited,
 /* ⚡ 5. High-Contrast Pills & Rounded Micro-Interaction Action Buttons */
 .btn-success.addlink,
 a.addlink,
-.btn-primary,
+a[href*="/add/"],
+.btn-outline-success,
+.btn-success,
 .button {
     background-color: #98f0e3 !important;
-    border: none !important;
+    border: 1px solid #7be4d5 !important;
     color: #6b443a !important;
     font-weight: 600 !important;
     border-radius: 30px !important;
-    padding: 6px 16px !important;
+    padding: 5px 15px !important;
     font-size: 0.8rem !important;
     box-shadow: 0 4px 10px rgba(152, 240, 227, 0.3) !important;
     transition: all 0.2s ease !important;
@@ -182,23 +184,28 @@ a.addlink,
 
 .btn-success.addlink:hover,
 a.addlink:hover,
-.btn-primary:hover,
+a[href*="/add/"]:hover,
+.btn-outline-success:hover,
+.btn-success:hover,
 .button:hover {
-    background-color: #83e4d6 !important;
-    color: #6b443a !important;
+    background-color: #7be4d5 !important;
+    color: #4a2d26 !important;
     transform: translateY(-1px) !important;
-    box-shadow: 0 6px 14px rgba(152, 240, 227, 0.45) !important;
+    box-shadow: 0 6px 14px rgba(152, 240, 227, 0.5) !important;
 }
 
 .btn-info.changelink,
 a.changelink,
+.btn-outline-info,
+.btn-outline-primary,
+.btn-info,
 .btn-secondary {
     background-color: #f09fc1 !important;
-    border: none !important;
+    border: 1px solid #e58bb1 !important;
     color: #ffffff !important;
     font-weight: 600 !important;
     border-radius: 30px !important;
-    padding: 6px 16px !important;
+    padding: 5px 15px !important;
     font-size: 0.8rem !important;
     box-shadow: 0 4px 10px rgba(240, 157, 193, 0.3) !important;
     transition: all 0.2s ease !important;
@@ -210,11 +217,14 @@ a.changelink,
 
 .btn-info.changelink:hover,
 a.changelink:hover,
+.btn-outline-info:hover,
+.btn-outline-primary:hover,
+.btn-info:hover,
 .btn-secondary:hover {
     background-color: #e58bb1 !important;
     color: #ffffff !important;
     transform: translateY(-1px) !important;
-    box-shadow: 0 6px 14px rgba(240, 157, 193, 0.45) !important;
+    box-shadow: 0 6px 14px rgba(240, 157, 193, 0.5) !important;
 }
 
 /* Delete Action Controls */
