@@ -848,31 +848,62 @@ div.actions select option,
 }
 
 /* =========================================================================
-   🗳️ LIGHT BACKGROUND CHECKBOXES WITH DARK CHECKMARK OVERRIDES
+   🗳️ PURE LIGHT BACKGROUND CHECKBOXES (UNCHECKED & CHECKED) WITH DARK CHECKMARK
    ========================================================================= */
 
-/* Native Checkboxes */
+/* Custom Rendered Checkbox Inputs (Always Light Background #ffffff) */
 input[type="checkbox"],
 .action-checkbox-column input[type="checkbox"],
 #action-toggle,
 .action-select,
-.vCheckboxLabel input[type="checkbox"] {
-    accent-color: #6b443a !important; /* Modern browsers native dark tick color */
+.vCheckboxLabel input[type="checkbox"],
+#changelist-form td.action-checkbox input[type="checkbox"],
+#changelist-form th.action-checkbox-column input[type="checkbox"] {
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
     width: 18px !important;
     height: 18px !important;
-    background-color: #ffffff !important;
-    border: 2px solid #6b443a !important;
+    background-color: #ffffff !important; /* Pure Light White Background */
+    border: 2px solid #6b443a !important;   /* Crisp Dark Brown Border */
     border-radius: 4px !important;
     cursor: pointer !important;
     vertical-align: middle !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
+/* Unchecked State: Light White Background */
+input[type="checkbox"]:not(:checked) {
+    background-color: #ffffff !important;
+    border-color: #6b443a !important;
+}
+
+/* Checked State: STAYS Light White Background + Displays Dark Checkmark */
 input[type="checkbox"]:checked,
 .action-checkbox-column input[type="checkbox"]:checked,
 #action-toggle:checked,
 .action-select:checked {
-    background-color: #ffffff !important; /* Pure light background */
+    background-color: #ffffff !important; /* Stays pure white! No dark/blue fill */
     border-color: #6b443a !important;
+}
+
+input[type="checkbox"]:checked::after,
+.action-checkbox-column input[type="checkbox"]:checked::after,
+#action-toggle:checked::after,
+.action-select:checked::after {
+    content: '' !important;
+    display: block !important;
+    width: 5px !important;
+    height: 9px !important;
+    border: solid #6b443a !important; /* Dark Espresso Brown Checkmark */
+    border-width: 0 2.5px 2.5px 0 !important;
+    transform: rotate(45deg) !important;
+    margin-bottom: 2px !important;
 }
 
 /* Custom Bootstrap / AdminLTE Control Checkboxes */
