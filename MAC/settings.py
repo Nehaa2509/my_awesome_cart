@@ -151,9 +151,9 @@ RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET', 'vYJVMaXp5zoB82XsQDd
 # 🎨 Jazzmin Modern SaaS Admin Theme Configuration
 # =========================================================================
 JAZZMIN_SETTINGS = {
-    "site_title": "Sneha's Boutique Admin",
-    "site_header": "Boutique Dashboard",
-    "site_brand": "MyAwesomeCart",
+    "site_title": "MyAwesomeCart Admin",
+    "site_header": "Boutique Panel",
+    "site_brand": "MyAwesomeCart Panel",
     "welcome_sign": "Welcome back to the Capsule Management Matrix, Sneha",
     "search_model": ["shop.Product", "blog.BlogPost", "shop.Order"],
     "topmenu_links": [
@@ -176,26 +176,29 @@ JAZZMIN_SETTINGS = {
     },
 }
 
-# 🎨 Match our boutique color palette (Muted earth-tones & pastels)
+# 🎨 Native UI Tweak Layer Matching Our Pastel Editorial Aesthetic
 JAZZMIN_UI_TWEAKS = {
-    "theme": "simplex",  # Clean, light, minimalist base framework
+    # 🌟 Uses the clean, minimalist "Simplex" skin archetype (soft nude tones/serif compliance)
+    "theme": "simplex", 
     "dark_mode_theme": None,
-    "navbar_small_text": False,
-    "footer_small_text": True,
-    "body_small_text": False,
-    "brand_small_text": False,
-    "brand_colour": "navbar-dark",
-    "accent": "accent-primary",
-    "navbar": "navbar-white navbar-light", # Clean white top menu
-    "no_navbar_border": False,
+    
+    # 🧭 Top Header Navbar Styles
+    "navbar": "navbar-dark bg-brown", # Handled via global custom asset sheet
     "navbar_fixed": True,
-    "layout_boxed": False,
-    "footer_fixed": False,
+    
+    # 👥 Left Sidebar Panel Setup
+    "sidebar": "sidebar-light-primary", # Light pastel background framing
     "sidebar_fixed": True,
-    "sidebar": "sidebar-light-primary", # Soft light sidebar navigation
-    "sidebar_nav_child_indent": True,
-    "sidebar_nav_compact_style": False,
-    "sidebar_nav_legacy_style": False,
     "sidebar_nav_flat_style": True,
+    "sidebar_nav_child_indent": True,
+    
+    # Buttons and Badges Accent Core Colors
+    "button_classes": {
+        "primary": "btn-outline-primary rounded-pill",
+        "secondary": "btn-outline-secondary rounded-pill",
+        "success": "btn-success rounded-pill px-3", # Handled via pastel mint green
+        "danger": "btn-danger rounded-pill",
+    }
 }
+
 
