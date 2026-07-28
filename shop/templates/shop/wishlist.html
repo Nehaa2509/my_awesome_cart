@@ -1,0 +1,186 @@
+{% extends 'shop/basic.html' %}
+{% load static %}
+
+{% block title %}My Wishlist — My Awesome Cart{% endblock %}
+
+{% block head %}
+<style>
+  .wishlist-hero {
+    background: linear-gradient(135deg, #fdf6f9 0%, #edd7c2 60%, #fdf6f9 100%);
+    border-bottom: 1px solid #edd7c2;
+    padding: 3.5rem 0 2.5rem;
+  }
+
+  .wishlist-card {
+    border: 1px solid #edd7c2;
+    border-radius: 16px;
+    background: #fff;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+
+  .wishlist-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(107, 68, 58, 0.12) !important;
+    border-color: #d4a090;
+  }
+
+  .wishlist-card img {
+    height: 200px;
+    object-fit: cover;
+    width: 100%;
+    transition: transform 0.4s ease;
+  }
+
+  .wishlist-card:hover img {
+    transform: scale(1.04);
+  }
+
+  .remove-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(253,246,249,0.92);
+    border: 1px solid #edd7c2;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    transition: all 0.25s ease;
+    z-index: 10;
+  }
+
+  .remove-btn:hover {
+    background: #f09fc1;
+    border-color: #f09fc1;
+    transform: scale(1.12);
+  }
+
+  .remove-btn:hover i { color: #fff !important; }
+
+  .empty-wishlist-illustration {
+    font-size: 5rem;
+    opacity: 0.2;
+  }
+
+  .btn-add-cart {
+    background-color: #6b443a;
+    color: #fdf6f9;
+    border: none;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.04rem;
+    padding: 0.5rem 1.2rem;
+    transition: all 0.25s ease;
+  }
+
+  .btn-add-cart:hover {
+    background-color: #4a2d26;
+    color: #fdf6f9;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(107, 68, 58, 0.2);
+  }
+
+  .wishlist-count-pill {
+    background-color: #edd7c2;
+    color: #6b443a;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.3rem 0.8rem;
+    letter-spacing: 0.06rem;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<!-- ✨ Wishlist Page Hero -->
+<div class="wishlist-hero mb-5">
+  <div class="container">
+    <span class="badge px-3 py-2 rounded-pill fw-bold text-uppercase mb-2" style="background-color: #f09fc1; color: #6b443a; font-size: 0.72rem; letter-spacing: 0.1rem;">My Saved Collection</span>
+    <div class="d-flex align-items-center gap-3">
+      <h1 class="display-5 fw-bold mb-0" style="font-family: 'Playfair Display', serif; color: #6b443a;">My Wishlist</h1>
+      <span class="wishlist-count-pill">{{ wishlist_items.count }} item{{ wishlist_items.count|pluralize }}</span>
+    </div>
+    <p class="text-muted mt-2 mb-0">Products you've saved for later — add them to your cart whenever you're ready.</p>
+  </div>
+</div>
+
+<div class="container mb-5 pb-4">
+  {% if wishlist_items %}
+    <div class="row g-4">
+      {% for item in wishlist_items %}
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="wishlist-card shadow-sm position-relative h-100 d-flex flex-column">
+
+          <!-- Remove from Wishlist button -->
+          <a href="{% url 'wishlist_remove' item.product.id %}" class="remove-btn text-decoration-none" title="Remove from Wishlist">
+            <i class="bi bi-x-lg" style="font-size: 0.8rem; color: #6b443a;"></i>
+          </a>
+
+          <!-- Product Image -->
+          <div class="overflow-hidden" style="height: 200px; background: #fdf6f9;">
+            {% if item.product.image %}
+            <img src="{{ item.product.image.url }}"
+                 alt="{{ item.product.product_name }}"
+                 style="width: 100%; height: 100%; object-fit: cover;"
+                 onerror="this.onerror=null; this.src='{% static 'shop/no-image-placeholder.png' %}';">
+            {% else %}
+            <img src="{% static 'shop/no-image-placeholder.png' %}"
+                 alt="{{ item.product.product_name }}"
+                 style="width: 100%; height: 100%; object-fit: cover;">
+            {% endif %}
+          </div>
+
+          <!-- Product Details -->
+          <div class="p-3 d-flex flex-column flex-grow-1 justify-content-between">
+            <div>
+              <span class="badge rounded-pill mb-1 fw-semibold" style="background-color: #edd7c2; color: #6b443a; font-size: 0.7rem;">{{ item.product.category }}</span>
+              <h6 class="fw-bold mt-1 mb-1" style="font-size: 0.95rem; color: #332420;">{{ item.product.product_name }}</h6>
+              <p class="text-muted small mb-2" style="font-size: 0.8rem;">{{ item.product.description|slice:"0:60" }}...</p>
+            </div>
+            <div>
+              <div class="fw-bold mb-3" style="color: #6b443a; font-size: 1.1rem;">₹{{ item.product.price }}</div>
+              <div class="d-flex gap-2">
+                <button id="pr{{ item.product.id }}" class="btn btn-add-cart cart flex-grow-1">
+                  <i class="bi bi-bag-plus me-1"></i> Add to Cart
+                </button>
+                <a href="/shop/products/{{ item.product.id }}" class="btn btn-outline-secondary" style="border-radius: 30px; border-color: #edd7c2; color: #6b443a;" title="View Product">
+                  <i class="bi bi-eye"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Continue Shopping CTA -->
+    <div class="text-center mt-5 pt-3">
+      <p class="text-muted small mb-3">Want to discover more?</p>
+      <a href="/shop/" class="btn fw-bold px-5 py-3 rounded-pill shadow-sm" style="background-color: #6b443a; color: #fdf6f9; font-size: 0.9rem; letter-spacing: 0.05rem;">
+        Continue Shopping &rarr;
+      </a>
+    </div>
+
+  {% else %}
+    <!-- Empty State -->
+    <div class="text-center py-5">
+      <div class="empty-wishlist-illustration mb-4">
+        <i class="bi bi-heart"></i>
+      </div>
+      <h3 class="fw-bold mb-2" style="font-family: 'Playfair Display', serif; color: #6b443a;">Your wishlist is empty</h3>
+      <p class="text-muted mb-4">Browse our curated collection and tap the <i class="bi bi-heart" style="color: #6b443a;"></i> to save items you love.</p>
+      <a href="/shop/" class="btn fw-bold px-5 py-3 rounded-pill shadow-sm" style="background-color: #6b443a; color: #fdf6f9; font-size: 0.9rem; letter-spacing: 0.05rem;">
+        Explore the Boutique &rarr;
+      </a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

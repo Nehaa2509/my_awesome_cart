@@ -257,9 +257,17 @@
 
             {% for p in product %}
             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-              <div class="card product-card h-100 shadow-sm">
+              <div class="card product-card h-100 shadow-sm position-relative">
+                <!-- ❤️ Wishlist Heart Button -->
+                <button class="wishlist-btn position-absolute {% if p.id in wishlist_ids %}wishlisted{% endif %}"
+                  onclick="toggleWishlist(event, {{ p.id }}, this)"
+                  title="{% if p.id in wishlist_ids %}Remove from Wishlist{% else %}Add to Wishlist{% endif %}"
+                  style="top: 10px; right: 10px; z-index: 10; background: rgba(253,246,249,0.9); border: 1px solid #edd7c2; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.25s ease; backdrop-filter: blur(4px);">
+                  <i class="{% if p.id in wishlist_ids %}bi bi-heart-fill{% else %}bi bi-heart{% endif %}"
+                     style="font-size: 1rem; color: {% if p.id in wishlist_ids %}#f09fc1{% else %}#6b443a{% endif %};"></i>
+                </button>
                 {% if p.image %}
-                <img src="/media/{{p.image}}" class="card-img-top" alt="{{p.product_name}}" onerror="this.onerror=null; this.src=noImagePlaceholder;">
+                <img src="{{ p.image.url }}" class="card-img-top" alt="{{p.product_name}}" onerror="this.onerror=null; this.src='{% static 'shop/no-image-placeholder.png' %}';">
                 {% else %}
                 <img src="{% static 'shop/no-image-placeholder.png' %}" class="card-img-top" alt="{{p.product_name}}">
                 {% endif %}
@@ -421,5 +429,33 @@
     cart[a][0] = cart[a][0] + 1;
     updateCart(cart);
   });
+
+  // ❤️ Wishlist Toggle (AJAX heart button)
+  function toggleWishlist(event, productId, btn) {
+    event.preventDefault();
+    const icon = btn.querySelector('i');
+    fetch(`/shop/wishlist/toggle/${productId}/`, {
+      method: 'GET',
+      headers: { 'x-requested-with': 'XMLHttpRequest', 'X-CSRFToken': '{{ csrf_token }}' }
+    })
+    .then(res => {
+      if (res.redirected) { window.location.href = res.url; return null; }
+      return res.json();
+    })
+    .then(data => {
+      if (!data) return;
+      if (data.wishlisted) {
+        icon.className = 'bi bi-heart-fill';
+        icon.style.color = '#f09fc1';
+        btn.title = 'Remove from Wishlist';
+        btn.style.transform = 'scale(1.25)';
+        setTimeout(() => { btn.style.transform = 'scale(1)'; }, 250);
+      } else {
+        icon.className = 'bi bi-heart';
+        icon.style.color = '#6b443a';
+        btn.title = 'Add to Wishlist';
+      }
+    });
+  }
 </script>
 {% endblock %}

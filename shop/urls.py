@@ -14,5 +14,9 @@ urlpatterns = [
     path("login/", views.login_page, name="login"),
     path("signup/", views.signup_page, name="signup"),
     path("logout/", views.handleLogout, name="logout"),
+    # ❤️ Wishlist
+    path("wishlist/", views.wishlist_page, name="wishlist"),
+    path("wishlist/toggle/<int:product_id>/", views.wishlist_toggle, name="wishlist_toggle"),
+    path("wishlist/remove/<int:product_id>/", views.wishlist_remove, name="wishlist_remove"),
 ]   
 

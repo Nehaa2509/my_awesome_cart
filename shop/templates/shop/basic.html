@@ -257,24 +257,37 @@
           </li>
         </ul>
 
-        <form method="get" action="/shop/search/" class="d-flex position-relative my-2 my-lg-0 me-lg-2" role="search" id="searchForm">
-          <div class="position-relative w-100 me-2">
-            <input class="form-control rounded-pill px-3" type="search" placeholder="Search products..." aria-label="Search" name="query"
-              id="query" autocomplete="off" style="border-color: var(--color-nude); background: #ffffff;" />
-            <div id="search-autocomplete-dropdown"
-              class="dropdown-menu shadow-lg w-100 mt-1 border-0 rounded-3 overflow-hidden"
-              style="display: none; max-height: 400px; overflow-y: auto; z-index: 1050; left: 0; right: 0;"></div>
-          </div>
-          <button class="btn btn-mint rounded-pill px-3 fw-bold" type="submit">Search</button>
-        </form>
+        <div class="d-flex align-items-center my-2 my-lg-0 me-lg-3 gap-2">
+          <form method="get" action="/shop/search/" class="d-flex position-relative me-1" role="search" id="searchForm">
+            <div class="position-relative w-100 me-2">
+              <input class="form-control rounded-pill px-3" type="search" placeholder="Search products..." aria-label="Search" name="query"
+                id="query" autocomplete="off" style="border-color: var(--color-nude); background: #ffffff;" />
+              <div id="search-autocomplete-dropdown"
+                class="dropdown-menu shadow-lg w-100 mt-1 border-0 rounded-3 overflow-hidden"
+                style="display: none; max-height: 400px; overflow-y: auto; z-index: 1050; left: 0; right: 0;"></div>
+            </div>
+            <button class="btn btn-mint rounded-pill px-3 fw-bold" type="submit">Search</button>
+          </form>
 
-        {% if user.is_authenticated %}
-        <span class="navbar-text me-3 ms-lg-2 small text-light fw-medium">Hi, <strong class="text-uppercase" style="color: #98f0e3; letter-spacing: 0.05rem;">{{ user.username }}</strong></span>
-        <a href="/shop/logout/" class="btn btn-sm btn-outline-light rounded-pill px-3">Logout</a>
-        {% else %}
-        <a href="/shop/login/" class="btn btn-sm btn-outline-light rounded-pill px-3 me-1">Login</a>
-        <a href="/shop/signup/" class="btn btn-sm btn-mint rounded-pill px-3">Sign Up</a>
-        {% endif %}
+          <!-- ❤️ Wishlist Button (Icon Only) -->
+          <a href="/shop/wishlist/" class="btn btn-sm rounded-circle d-flex align-items-center justify-content-center text-decoration-none"
+             style="width: 38px; height: 38px; background: rgba(253,246,249,0.15); border: 1px solid rgba(237,215,194,0.4); transition: all 0.25s ease;"
+             title="My Wishlist"
+             onmouseover="this.style.background='rgba(240,159,193,0.3)'; this.style.borderColor='#f09fc1';"
+             onmouseout="this.style.background='rgba(253,246,249,0.15)'; this.style.borderColor='rgba(237,215,194,0.4)';">
+            <i class="bi bi-heart-fill" style="font-size: 1.1rem; color: #f09fc1;"></i>
+          </a>
+        </div>
+
+        <div class="d-flex align-items-center gap-2 ms-auto">
+          {% if user.is_authenticated %}
+          <span class="navbar-text small text-light fw-medium me-1">Hi, <strong class="text-uppercase" style="color: #98f0e3; letter-spacing: 0.05rem;">{{ user.username }}</strong></span>
+          <a href="/shop/logout/" class="btn btn-sm btn-outline-light rounded-pill px-3 fw-semibold">Logout</a>
+          {% else %}
+          <a href="/shop/login/" class="btn btn-sm btn-outline-light rounded-pill px-3 me-1">Login</a>
+          <a href="/shop/signup/" class="btn btn-sm btn-mint rounded-pill px-3">Sign Up</a>
+          {% endif %}
+        </div>
 
       </div>
     </div>

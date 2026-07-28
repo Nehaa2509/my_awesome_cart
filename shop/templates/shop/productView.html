@@ -55,7 +55,7 @@
     <div class="col-12 col-lg-6">
       <div class="product-image-canvas shadow-sm text-center">
         {% if product.image %}
-        <img src="/media/{{product.image}}" alt="{{product.product_name}}" class="img-fluid rounded-3" style="max-height: 450px; object-fit: contain;" onerror="this.onerror=null; this.src=noImagePlaceholder;">
+        <img src="{{ product.image.url }}" alt="{{product.product_name}}" class="img-fluid rounded-3" style="max-height: 450px; object-fit: contain;" onerror="this.onerror=null; this.src='{% static 'shop/no-image-placeholder.png' %}';">
         {% else %}
         <img src="{% static 'shop/no-image-placeholder.png' %}" alt="{{product.product_name}}" class="img-fluid rounded-3" style="max-height: 450px; object-fit: contain;">
         {% endif %}

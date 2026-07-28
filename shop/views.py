@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Product, Contact, Order, OrderUpdate
+from .models import Product, Contact, Order, OrderUpdate, Wishlist
 from .utils import generate_invoice_pdf
 
 # Helper to dynamically retrieve active Razorpay Client credentials
@@ -34,6 +34,11 @@ def index(request):
     context = {'allProds': allProds}
     if len(allProds) == 0 or len(allProds[0][0]) == 0:
         context['message'] = "No products found in the store."
+    # Pass wishlist product IDs for heart button state
+    if request.user.is_authenticated:
+        context['wishlist_ids'] = set(Wishlist.objects.filter(user=request.user).values_list('product_id', flat=True))
+    else:
+        context['wishlist_ids'] = set()
     return render(request, 'shop/index.html', context)
 
 def searchMatch(query, item):
@@ -377,3 +382,39 @@ def handleLogout(request):
     logout(request)
     messages.info(request, "You have been logged out successfully.")
     return redirect('/shop/')
+
+
+# =========================================================================
+# ❤️ Wishlist Views
+# =========================================================================
+
+@login_required(login_url='/shop/login/')
+def wishlist_toggle(request, product_id):
+    """Toggle a product in the user's wishlist (add if not present, remove if present)."""
+    product = get_object_or_404(Product, id=product_id)
+    entry, created = Wishlist.objects.get_or_create(user=request.user, product=product)
+    if not created:
+        entry.delete()
+        is_wishlisted = False
+    else:
+        is_wishlisted = True
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse({'wishlisted': is_wishlisted})
+
+    return redirect(request.META.get('HTTP_REFERER', '/shop/'))
+
+
+@login_required(login_url='/shop/login/')
+def wishlist_page(request):
+    """Render the user's wishlist page."""
+    items = Wishlist.objects.filter(user=request.user).select_related('product').order_by('-added_at')
+    return render(request, 'shop/wishlist.html', {'wishlist_items': items})
+
+
+@login_required(login_url='/shop/login/')
+def wishlist_remove(request, product_id):
+    """Remove a specific product from wishlist (POST only)."""
+    Wishlist.objects.filter(user=request.user, product_id=product_id).delete()
+    messages.success(request, "Removed from your wishlist.")
+    return redirect('wishlist')
