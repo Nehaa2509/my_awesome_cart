@@ -542,58 +542,72 @@ div.actions {
    COMPREHENSIVE LIGHT MODE OVERRIDES FOR DJANGO ADMIN / JAZZMIN
    ========================================================================= */
 
-/* 1. Top Navbar Header & Navigation Links */
+/* 1. Top Navbar Header & Navigation Links (Brown Header with White Text) */
+.main-header,
 #jazzy-navbar,
 .app-header,
 nav.navbar,
 .navbar-dark,
-.bg-brown {
-    background-color: rgba(255, 255, 255, 0.9) !important;
-    backdrop-filter: blur(10px) !important;
+.bg-brown,
+.dark-mode .main-header {
+    background-color: #6b443a !important;
+    background: linear-gradient(135deg, #6b443a 0%, #4a2d26 100%) !important;
     border-bottom: 2px solid #edd7c2 !important;
-    color: #6b443a !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 20px rgba(107, 68, 58, 0.18) !important;
 }
 
 #jazzy-navbar a,
 #jazzy-navbar .nav-link,
-#jazzy-navbar .navbar-brand {
-    color: #6b443a !important;
+#jazzy-navbar .navbar-brand,
+.main-header .nav-link,
+.main-header .navbar-brand,
+.app-header.navbar .nav-link {
+    color: #ffffff !important;
     font-weight: 600 !important;
 }
 
 #jazzy-navbar a:hover,
-#jazzy-navbar .nav-link:hover {
-    color: #f09fc1 !important;
+#jazzy-navbar .nav-link:hover,
+.main-header .nav-link:hover {
+    color: #98f0e3 !important; /* Mint accent highlight on hover */
 }
 
 /* Navbar Top Search Bar Inputs */
 #jazzy-navbar .form-control-navbar,
-#jazzy-navbar input[type="search"] {
-    background-color: #ffffff !important;
-    color: #6b443a !important;
-    border: 1px solid #edd7c2 !important;
+#jazzy-navbar input[type="search"],
+.main-header .form-control {
+    background-color: rgba(255, 255, 255, 0.18) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(237, 215, 194, 0.4) !important;
     border-radius: 20px 0 0 20px !important;
 }
 
+#jazzy-navbar .form-control-navbar::placeholder,
+.main-header .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
 #jazzy-navbar .btn-navbar {
-    background-color: #f09fc1 !important;
+    background-color: rgba(255, 255, 255, 0.25) !important;
     color: #ffffff !important;
-    border: 1px solid #f09fc1 !important;
+    border: 1px solid rgba(237, 215, 194, 0.4) !important;
     border-radius: 0 20px 20px 0 !important;
 }
 
-/* 2. Top-Left Brand Logo Header */
+/* 2. Top-Left Brand Logo Header (Brown Background with White Text) */
 .sidebar-brand,
 .brand-link,
 #jazzy-logo {
-    background-color: #fdf6f9 !important;
-    color: #6b443a !important;
-    border-bottom: 1px solid #edd7c2 !important;
+    background-color: #6b443a !important;
+    color: #ffffff !important;
+    border-bottom: 2px solid #edd7c2 !important;
 }
 
 .brand-text,
-#jazzy-logo .brand-text {
-    color: #6b443a !important;
+#jazzy-logo .brand-text,
+.sidebar-brand .brand-text {
+    color: #ffffff !important;
     font-weight: 700 !important;
 }
 
