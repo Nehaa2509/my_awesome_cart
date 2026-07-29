@@ -419,5 +419,98 @@
     width: 100% !important;
     box-sizing: border-box !important;
   }
+
+  /* =========================================================================
+     ELEGANT USER ACCOUNT DROPDOWN MENU
+     ========================================================================= */
+
+  /* 1. Main Dropdown Menu Container */
+  #jazzy-usermenu,
+  .dropdown-menu-lg,
+  .dropdown-menu {
+      background: rgba(255, 255, 255, 0.95) !important;
+      backdrop-filter: blur(12px) !important;
+      -webkit-backdrop-filter: blur(12px) !important;
+      border: 1px solid #edd7c2 !important;
+      border-radius: 16px !important;
+      box-shadow: 0 10px 30px rgba(107, 68, 58, 0.12) !important;
+      padding: 10px 8px !important;
+      min-width: 220px !important;
+      overflow: hidden !important;
+  }
+
+  /* 2. Menu Header ("Account") */
+  #jazzy-usermenu .dropdown-header {
+      color: #6b443a !important;
+      font-family: 'Playfair Display', Georgia, serif !important;
+      font-weight: 700 !important;
+      font-size: 0.95rem !important;
+      letter-spacing: 0.5px !important;
+      padding: 8px 12px !important;
+      text-transform: uppercase !important;
+      opacity: 0.8;
+  }
+
+  /* 3. Divider Lines */
+  #jazzy-usermenu .dropdown-divider {
+      border-top: 1px solid #edd7c2 !important;
+      margin: 6px 0 !important;
+      opacity: 0.6;
+  }
+
+  /* 4. Menu Items ("Change password", "Log out", etc.) */
+  #jazzy-usermenu .dropdown-item,
+  #jazzy-usermenu form button.dropdown-item {
+      color: #6b443a !important;
+      font-size: 0.88rem !important;
+      font-weight: 600 !important;
+      padding: 10px 14px !important;
+      border-radius: 10px !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+      transition: all 0.2s ease !important;
+      background: transparent !important;
+      border: none !important;
+      width: 100% !important;
+      text-align: left !important;
+  }
+
+  /* Icons inside Menu Items */
+  #jazzy-usermenu .dropdown-item i {
+      color: #f09fc1 !important; /* Soft pink icon color */
+      font-size: 0.95rem !important;
+      transition: transform 0.2s ease !important;
+  }
+
+  /* Hover States for Items */
+  #jazzy-usermenu .dropdown-item:hover {
+      background-color: rgba(240, 157, 193, 0.15) !important;
+      color: #6b443a !important;
+      transform: translateX(3px) !important;
+  }
+
+  #jazzy-usermenu .dropdown-item:hover i {
+      transform: scale(1.15) !important;
+  }
+
+  /* 5. Footer Link ("See Profile") */
+  #jazzy-usermenu .dropdown-footer {
+      background-color: #f09fc1 !important;
+      color: #ffffff !important;
+      font-weight: 600 !important;
+      text-align: center !important;
+      justify-content: center !important;
+      border-radius: 20px !important;
+      margin-top: 4px !important;
+      padding: 8px 14px !important;
+      box-shadow: 0 4px 12px rgba(240, 157, 193, 0.3) !important;
+  }
+
+  #jazzy-usermenu .dropdown-footer:hover {
+      background-color: #e58bb1 !important;
+      color: #ffffff !important;
+      transform: translateY(-1px) !important;
+  }
 </style>
 {% endblock %}
