@@ -2883,3 +2883,281 @@ p.paginator,
 img[src*="AdminLTELogo"] {
     display: none !important;
 }
+
+/* =========================================================================
+   LOGIN PAGE PASTEL & GLASSMORPHIC THEME
+   ========================================================================= */
+
+/* 1. Full Body & Canvas Background Fix */
+body.login-page,
+.login-box,
+.login-page {
+    background-color: #fdf6f9 !important; /* Soft warm pink/white canvas */
+    background-image: 
+      radial-gradient(circle at 10% 20%, rgba(240, 157, 193, 0.18) 0%, transparent 45%),
+      radial-gradient(circle at 90% 80%, rgba(152, 240, 227, 0.18) 0%, transparent 45%) !important;
+    min-height: 100vh !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+body.login-page::before,
+.login-page::before {
+    content: "" !important;
+    position: absolute !important;
+    width: 300px !important;
+    height: 300px !important;
+    border-radius: 50% !important;
+    background: radial-gradient(circle, rgba(240, 157, 193, 0.3) 0%, rgba(240, 157, 193, 0) 70%) !important;
+    top: 10% !important;
+    left: 10% !important;
+    z-index: 0 !important;
+    filter: blur(50px) !important;
+    pointer-events: none !important;
+}
+
+body.login-page::after,
+.login-page::after {
+    content: "" !important;
+    position: absolute !important;
+    width: 350px !important;
+    height: 350px !important;
+    border-radius: 50% !important;
+    background: radial-gradient(circle, rgba(152, 240, 227, 0.3) 0%, rgba(152, 240, 227, 0) 70%) !important;
+    bottom: 10% !important;
+    right: 10% !important;
+    z-index: 0 !important;
+    filter: blur(50px) !important;
+    pointer-events: none !important;
+}
+
+/* 2. Login Form Card Container */
+.login-box .card,
+.login-card-body,
+.card-primary.card-outline {
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid #edd7c2 !important;
+    border-radius: 20px !important;
+    box-shadow: 0 12px 35px rgba(107, 68, 58, 0.12) !important;
+    border-top: none !important;
+    padding: 16px !important;
+    position: relative !important;
+    z-index: 10 !important;
+    width: 100% !important;
+}
+
+/* Header Text */
+.login-box .login-box-msg,
+.login-card-body .login-box-msg {
+    color: #6b443a !important;
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-weight: 700 !important;
+    font-size: 1.15rem !important;
+    padding: 10px 0 20px 0 !important;
+    text-align: center !important;
+}
+
+/* Logo/Branding Header for Login Page */
+.login-box .login-logo,
+.login-logo {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-weight: 700 !important;
+    font-size: 2.1rem !important;
+    color: #6b443a !important;
+    margin-bottom: 24px !important;
+    text-align: center !important;
+    letter-spacing: -0.02em !important;
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+.login-box .login-logo a,
+.login-logo a {
+    color: #6b443a !important;
+    text-decoration: none !important;
+    font-weight: 700 !important;
+}
+
+/* 3. Input Fields & Icons Contrast Fix */
+.login-box .input-group {
+    position: relative !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    margin-bottom: 18px !important;
+}
+
+.login-box input.form-control,
+.login-box .input-group .form-control {
+    background-color: #ffffff !important;
+    color: #6b443a !important;
+    border: 1px solid #edd7c2 !important;
+    border-right: none !important;
+    border-radius: 50px 0 0 50px !important;
+    height: 46px !important;
+    font-size: 0.95rem !important;
+    padding: 10px 18px !important;
+    flex: 1 1 auto !important;
+    width: 1% !important;
+    margin: 0 !important;
+    transition: all 0.25s ease !important;
+}
+
+/* Placeholder Text Legibility */
+.login-box input.form-control::placeholder {
+    color: #8c5b4f !important;
+    opacity: 0.65;
+}
+
+/* Right Icon Box (User & Lock Icons) */
+.login-box .input-group-text {
+    background-color: #ffffff !important;
+    border: 1px solid #edd7c2 !important;
+    border-left: none !important;
+    border-radius: 0 50px 50px 0 !important;
+    color: #f09fc1 !important; /* Soft pink icon color */
+    padding: 0 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 46px !important;
+    transition: all 0.25s ease !important;
+}
+
+/* Input Focus Glow */
+.login-box input.form-control:focus {
+    border-color: #f09fc1 !important;
+    box-shadow: none !important;
+    background-color: #ffffff !important;
+}
+
+.login-box input.form-control:focus + .input-group-text,
+.login-box input.form-control:focus + .input-group-append .input-group-text {
+    border-color: #f09fc1 !important;
+}
+
+/* 4. Main "Log In" Pill Button */
+.login-box .btn-primary,
+.login-box input[type="submit"],
+.login-box button[type="submit"] {
+    background-color: #f09fc1 !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    border-radius: 50px !important;
+    height: 46px !important;
+    font-size: 0.95rem !important;
+    letter-spacing: 0.5px !important;
+    box-shadow: 0 4px 14px rgba(240, 157, 193, 0.4) !important;
+    transition: all 0.25s ease !important;
+    width: 100% !important;
+    margin-top: 10px !important;
+    cursor: pointer !important;
+}
+
+.login-box .btn-primary:hover,
+.login-box input[type="submit"]:hover,
+.login-box button[type="submit"]:hover {
+    background-color: #e58bb1 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 18px rgba(240, 157, 193, 0.55) !important;
+}
+
+/* =========================================================================
+   ELEGANT USER ACCOUNT DROPDOWN MENU
+   ========================================================================= */
+
+/* 1. Main Dropdown Menu Container */
+#jazzy-usermenu,
+.dropdown-menu-lg,
+.dropdown-menu {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid #edd7c2 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 10px 30px rgba(107, 68, 58, 0.12) !important;
+    padding: 10px 8px !important;
+    min-width: 220px !important;
+    overflow: hidden !important;
+}
+
+/* 2. Menu Header ("Account") */
+#jazzy-usermenu .dropdown-header {
+    color: #6b443a !important;
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
+    letter-spacing: 0.5px !important;
+    padding: 8px 12px !important;
+    text-transform: uppercase !important;
+    opacity: 0.8;
+}
+
+/* 3. Divider Lines */
+#jazzy-usermenu .dropdown-divider {
+    border-top: 1px solid #edd7c2 !important;
+    margin: 6px 0 !important;
+    opacity: 0.6;
+}
+
+/* 4. Menu Items ("Change password", "Log out", etc.) */
+#jazzy-usermenu .dropdown-item,
+#jazzy-usermenu form button.dropdown-item {
+    color: #6b443a !important;
+    font-size: 0.88rem !important;
+    font-weight: 600 !important;
+    padding: 10px 14px !important;
+    border-radius: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    transition: all 0.2s ease !important;
+    background: transparent !important;
+    border: none !important;
+    width: 100% !important;
+    text-align: left !important;
+}
+
+/* Icons inside Menu Items */
+#jazzy-usermenu .dropdown-item i {
+    color: #f09fc1 !important; /* Soft pink icon color */
+    font-size: 0.95rem !important;
+    transition: transform 0.2s ease !important;
+}
+
+/* Hover States for Items */
+#jazzy-usermenu .dropdown-item:hover {
+    background-color: rgba(240, 157, 193, 0.15) !important;
+    color: #6b443a !important;
+    transform: translateX(3px) !important;
+}
+
+#jazzy-usermenu .dropdown-item:hover i {
+    transform: scale(1.15) !important;
+}
+
+/* 5. Footer Link ("See Profile") */
+#jazzy-usermenu .dropdown-footer {
+    background-color: #f09fc1 !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+    justify-content: center !important;
+    border-radius: 20px !important;
+    margin-top: 4px !important;
+    padding: 8px 14px !important;
+    box-shadow: 0 4px 12px rgba(240, 157, 193, 0.3) !important;
+}
+
+#jazzy-usermenu .dropdown-footer:hover {
+    background-color: #e58bb1 !important;
+    color: #ffffff !important;
+    transform: translateY(-1px) !important;
+}
