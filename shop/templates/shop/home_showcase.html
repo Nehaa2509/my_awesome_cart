@@ -1,168 +1,337 @@
 {% extends "shop/basic.html" %}
-{% block title %} MyAwesomeCart — Antigravity Space Studio {% endblock %}
+{% block title %} MyAwesomeCart — Anti-Gravity Spatial Studio {% endblock %}
 
 {% block css %}
 <style>
+  /* 🌌 Spatial Studio Reset & Ambient Backdrop */
   body, html {
     overflow: hidden;
-    background-color: #fdf6f9 !important;
+    background-color: #0b0706 !important; /* Elegant deep dark canvas for contrast */
     height: 100vh;
+    color: #fdf6f9;
   }
 
-  /* Central Typographic Overlay */
+  .announcement-bar {
+    display: none; /* Hide top strip for fully immersive experience */
+  }
+
+  .navbar-custom {
+    background-color: rgba(11, 7, 6, 0.7) !important;
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(237, 215, 194, 0.08) !important;
+  }
+
+  /* Deep space ambient glow effects */
+  .spatial-canvas {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    perspective: 1200px; /* Enable 3D Depth */
+    background: radial-gradient(circle at 50% 50%, #1e1310 0%, #0b0706 70%);
+  }
+
+  .canvas-glow-1 {
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(circle, rgba(240, 159, 193, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+    filter: blur(60px);
+    z-index: 1;
+  }
+
+  .canvas-glow-2 {
+    position: absolute;
+    bottom: -10%;
+    right: -10%;
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(circle, rgba(152, 240, 227, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+    filter: blur(60px);
+    z-index: 1;
+  }
+
+  /* 🏛️ Central Typographic Axis */
   .studio-branding-axis {
     position: absolute;
-    top: 48%;
+    top: 45%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) translateZ(0);
     text-align: center;
-    z-index: 10;
-    pointer-events: auto;
-    /* Soft premium warm cream glassmorphic halo */
-    background: radial-gradient(circle, rgba(253, 246, 249, 0.96) 0%, rgba(253, 246, 249, 0.8) 55%, rgba(253, 246, 249, 0) 100%);
-    padding: 4.5rem;
-    border-radius: 50%;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    width: 650px;
-    max-width: 95vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    z-index: 2;
+    pointer-events: none;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .studio-title {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 6rem;
+    font-size: 7.5rem;
     font-weight: 700;
-    color: #6b443a;
-    letter-spacing: 0.05rem;
-    line-height: 1.15;
-    margin-top: 0.5rem;
-    margin-bottom: 0.8rem;
+    color: #edd7c2;
+    letter-spacing: -0.2rem;
+    line-height: 0.85;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 40px rgba(237, 215, 194, 0.1);
   }
 
   .studio-subtitle {
     font-family: 'Poppins', sans-serif;
     text-transform: uppercase;
-    letter-spacing: 0.4rem;
-    font-size: 0.8rem;
+    letter-spacing: 0.6rem;
+    font-size: 0.75rem;
     color: #f09fc1;
     font-weight: 600;
   }
 
-  /* Anti-Gravity Floating Asset Elements */
+  /* 🌌 Floating Physics Elements (3D Cards) */
   .antigravity-vessel {
     position: absolute;
     z-index: 5;
     cursor: grab;
-    transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
-    will-change: transform, top, left;
+    transform-style: preserve-3d;
+    will-change: transform, left, top;
+    transition: box-shadow 0.3s ease;
   }
-  
+
   .antigravity-vessel:active {
     cursor: grabbing;
+  }
+
+  /* Glassmorphic Shell with Soft Lighting Reflection */
+  .vessel-glass-card {
+    position: relative;
+    background: rgba(253, 246, 249, 0.03);
+    border: 1px solid rgba(237, 215, 194, 0.08);
+    border-radius: 28px;
+    padding: 16px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-style: preserve-3d;
   }
 
   .vessel-graphic {
     width: 100%;
     height: auto;
-    border-radius: 24px;
-    box-shadow: 0 30px 60px rgba(107, 68, 58, 0.15);
-    transition: transform 0.4s ease;
+    border-radius: 18px;
+    transform: translateZ(30px); /* Lift image out of card in 3D space */
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+    filter: grayscale(15%) brightness(95%);
+  }
+
+  .antigravity-vessel:hover .vessel-glass-card {
+    background: rgba(253, 246, 249, 0.06);
+    border-color: rgba(240, 159, 193, 0.3);
+    box-shadow: 0 40px 80px rgba(240, 159, 193, 0.15), inset 0 1px 0 rgba(255,255,255,0.1);
   }
 
   .antigravity-vessel:hover .vessel-graphic {
-    transform: scale(1.05) rotate(2deg);
+    transform: translateZ(50px) scale(1.05);
+    filter: grayscale(0%) brightness(105%);
   }
 
-  /* Entry Action Overlay */
-  .explore-gate {
+  /* Glass details overlay that shows on hover */
+  .vessel-meta {
+    margin-top: 12px;
+    text-align: center;
+    transform: translateZ(20px);
+    opacity: 0;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+
+  .antigravity-vessel:hover .vessel-meta {
+    opacity: 1;
+    transform: translateZ(35px);
+  }
+
+  /* 🎛️ Bottom Glass Control Hub */
+  .control-dashboard {
     position: absolute;
-    bottom: 8%;
+    bottom: 5%;
     left: 50%;
-    transform: translateX(-50%);
-    z-index: 20;
+    transform: translateX(-50%) translateZ(0);
+    z-index: 100;
+    display: flex;
+    gap: 12px;
+    background: rgba(11, 7, 6, 0.5);
+    border: 1px solid rgba(237, 215, 194, 0.1);
+    padding: 8px 12px;
+    border-radius: 40px;
+    backdrop-filter: blur(25px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .dashboard-btn {
+    background: transparent;
+    border: none;
+    color: rgba(237, 215, 194, 0.6);
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08rem;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+  }
+
+  .dashboard-btn.active, .dashboard-btn:hover {
+    color: #0b0706;
+    background: #edd7c2;
+    box-shadow: 0 4px 12px rgba(237, 215, 194, 0.2);
+  }
+
+  /* 🧬 Auto-floating drift logic */
+  @keyframes floatDrift-1 {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(1.5deg); }
+  }
+  @keyframes floatDrift-2 {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(12px) rotate(-2deg); }
+  }
+  @keyframes floatDrift-3 {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-18px) rotate(-1deg); }
+  }
+
+  .drift-group-1 { animation: floatDrift-1 8s ease-in-out infinite; }
+  .drift-group-2 { animation: floatDrift-2 10s ease-in-out infinite; }
+  .drift-group-3 { animation: floatDrift-3 9s ease-in-out infinite; }
+
+  /* 💡 Custom UI Helpers */
+  .cursor-glow {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(237, 215, 194, 0.03) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease-out;
   }
 </style>
 {% endblock %}
 
 {% block body %}
-<div class="position-relative w-100 vh-100 overflow-hidden">
+<div class="spatial-canvas" id="spatialCanvas">
+  <!-- Interactive lighting glows -->
+  <div class="canvas-glow-1"></div>
+  <div class="canvas-glow-2"></div>
+  <div class="cursor-glow" id="cursorGlow"></div>
 
   <!-- Core Brand Hub -->
-  <div class="studio-branding-axis">
-    <span class="studio-subtitle">Import Antigravity</span>
+  <div class="studio-branding-axis" id="studioBranding">
+    <span class="studio-subtitle">Immersive 3D Gallery</span>
     <h1 class="studio-title">MyAwesomeCart</h1>
-    <p class="text-muted font-monospace small mt-2">[ Spatial Graphic Release — 2026 ]</p>
-    
-    <!-- Primary CTA: Shop the Collection -->
-    <a href="/shop/store/" class="btn rounded-pill px-5 py-2.5 mt-3 text-uppercase tracking-wider fw-bold shadow-lg text-decoration-none" 
-       style="background-color: #6b443a; color: #ffffff; font-size: 0.8rem; border: none; transition: all 0.25s ease;"
-       onmouseover="this.style.backgroundColor='#f09fc1'; this.style.color='#6b443a'; this.style.transform='scale(1.05)';"
-       onmouseout="this.style.backgroundColor='#6b443a'; this.style.color='#ffffff'; this.style.transform='scale(1)';">
-      Shop the Collection &rarr;
-    </a>
+    <p class="text-muted font-monospace small mt-2">[ Zero Gravity Concept Release — 2026 ]</p>
   </div>
 
   <!-- Draggable, Parallax Floating Product Matrix -->
   {% for product in products %}
-    <!-- Inline coordinates distributed dynamically via template loops -->
-    <div class="antigravity-vessel interactive-float" 
+    <div class="antigravity-vessel interactive-float drift-group-{% cycle '1' '2' '3' %}" 
          style="width: 220px; 
-                top: {% cycle '15%' '55%' '20%' '60%' '30%' %}; 
-                left: {% cycle '12%' '72%' '64%' '28%' '45%' %};" 
-         data-parallax-speed="{% cycle '1.5' '0.8' '2.0' '1.1' '1.4' %}">
+                top: {% cycle '15%' '52%' '18%' '58%' '28%' %}; 
+                left: {% cycle '10%' '74%' '62%' '26%' '44%' %};" 
+         data-parallax-speed="{% cycle '1.2' '0.7' '1.6' '0.9' '1.3' %}"
+         data-original-top="{% cycle '15%' '52%' '18%' '58%' '28%' %}"
+         data-original-left="{% cycle '10%' '74%' '62%' '26%' '44%' %}">
       
-      <a href="/shop/products/{{ product.id }}" class="text-decoration-none">
-        <img src="{% if product.image %}{{ product.image.url }}{% else %}/media/{{ product.image }}{% endif %}" class="vessel-graphic" alt="{{ product.product_name }}">
-      </a>
-      
-      <div class="text-center mt-3 small font-monospace text-muted tracking-wider opacity-0 hover-show">
-        {{ product.product_name }} — ₹{{ product.price }}
+      <div class="vessel-glass-card" onmousemove="tiltCard(event, this)" onmouseleave="resetCard(this)">
+        <a href="/shop/products/{{ product.id }}" class="text-decoration-none d-block">
+          {% if product.image %}
+            <img src="{{ product.image.url }}" class="vessel-graphic" alt="{{ product.product_name }}">
+          {% else %}
+            <img src="/media/{{ product.image }}" class="vessel-graphic" alt="{{ product.product_name }}">
+          {% endif %}
+        </a>
+        
+        <div class="vessel-meta">
+          <div class="text-light fw-semibold small font-monospace tracking-wide">{{ product.product_name }}</div>
+          <div class="small mt-1" style="color: #98f0e3; font-weight: 500;">₹{{ product.price }}</div>
+        </div>
       </div>
+
     </div>
   {% endfor %}
 
-  <!-- Navigation Action Gate -->
-  <div class="explore-gate">
-    <a href="/shop/store/" class="btn btn-dark rounded-pill px-5 py-3 text-uppercase tracking-widest fw-bold border-0 shadow-lg" 
-       style="background-color: #6b443a; font-size: 0.75rem;">
-      Enter Traditional Studio &rarr;
-    </a>
+  <!-- 🎛️ Floating Interaction Control Panel -->
+  <div class="control-dashboard">
+    <button class="dashboard-btn active" id="btnFloat" onclick="switchMode('float')">Float</button>
+    <button class="dashboard-btn" id="btnGrid" onclick="switchMode('grid')">Align Grid</button>
+    <button class="dashboard-btn" id="btnTraditional" onclick="window.location.href='/shop/store/'">Store Catalog &rarr;</button>
   </div>
 
 </div>
 
-<!-- 🧪 Kinetic Parallax & Elastic Interaction Script -->
+<!-- 🧪 Kinetic Parallax, Custom 3D Tilt, and Dynamic Physics Script -->
 <script>
-  // 1. Mouse Move Parallax Engine
-  document.addEventListener("mousemove", function(e) {
-    const items = document.querySelectorAll(".interactive-float");
-    items.forEach(item => {
-      const speed = parseFloat(item.getAttribute("data-parallax-speed"));
-      const x = (window.innerWidth - e.pageX * speed) / 50;
-      const y = (window.innerHeight - e.pageY * speed) / 50;
-      item.style.transform = `translateX(${x}px) translateY(${y}px)`;
-    });
+  const canvas = document.getElementById('spatialCanvas');
+  const cursorGlow = document.getElementById('cursorGlow');
+  const branding = document.getElementById('studioBranding');
+  const vessels = document.querySelectorAll('.interactive-float');
+  let currentMode = 'float';
+
+  // 1. Ambient Mouse Pointer Lighting Tracker
+  document.addEventListener('mousemove', (e) => {
+    cursorGlow.style.left = `${e.clientX}px`;
+    cursorGlow.style.top = `${e.clientY}px`;
+    
+    // Parallax branding shift
+    const bx = (window.innerWidth / 2 - e.clientX) * 0.015;
+    const by = (window.innerHeight / 2 - e.clientY) * 0.015;
+    branding.style.transform = `translate(-50%, -50%) translate3d(${bx}px, ${by}px, 0)`;
+
+    // Parallax drift on products when in float mode
+    if (currentMode === 'float') {
+      vessels.forEach(item => {
+        const speed = parseFloat(item.getAttribute('data-parallax-speed'));
+        const x = (window.innerWidth / 2 - e.clientX) * speed * 0.02;
+        const y = (window.innerHeight / 2 - e.clientY) * speed * 0.02;
+        
+        // Preserve parent float animation while applying parallax translation
+        item.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      });
+    }
   });
 
-  // 2. Drag & Drop Floating Physics Engine
-  const vessels = document.querySelectorAll('.interactive-float');
+  // 2. Advanced 3D Tilt Effect on Card Hover
+  function tiltCard(event, card) {
+    const rect = card.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    
+    const xc = rect.width / 2;
+    const yc = rect.height / 2;
+    
+    const angleX = -(yc - y) / 7;
+    const angleY = (xc - x) / 7;
+    
+    card.style.transform = `rotateX(${angleX}deg) rotateY(${angleY}deg)`;
+  }
+
+  function resetCard(card) {
+    card.style.transform = 'rotateX(0deg) rotateY(0deg)';
+  }
+
+  // 3. Drag & Drop Floating Canvas Interaction
   vessels.forEach(vessel => {
     let isDragging = false;
     let startX, startY, initialLeft, initialTop;
 
     vessel.addEventListener('mousedown', (e) => {
-      // Don't interrupt direct clicks onto the product link
-      if (e.target.tagName === 'A' || e.target.parentElement.tagName === 'A') return;
-      
+      if (e.target.tagName === 'A' || e.target.closest('a')) return;
       isDragging = true;
       startX = e.clientX;
       startY = e.clientY;
       initialLeft = vessel.offsetLeft;
       initialTop = vessel.offsetTop;
+      
+      // Stop natural drift animation during drag
+      vessel.className = 'antigravity-vessel interactive-float';
       vessel.style.transition = 'none';
       e.preventDefault();
     });
@@ -178,9 +347,54 @@
     document.addEventListener('mouseup', () => {
       if (isDragging) {
         isDragging = false;
-        vessel.style.transition = 'transform 0.2s cubic-bezier(0.25, 1, 0.5, 1)';
+        vessel.style.transition = 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+        
+        // Re-enable natural floating drift
+        vessel.className = 'antigravity-vessel interactive-float drift-group-1';
       }
     });
   });
+
+  // 4. Interactive Gravity Modes (Float vs Align Grid)
+  function switchMode(mode) {
+    currentMode = mode;
+    document.querySelectorAll('.dashboard-btn').forEach(btn => btn.classList.remove('active'));
+    
+    if (mode === 'float') {
+      document.getElementById('btnFloat').classList.add('active');
+      vessels.forEach((vessel, idx) => {
+        vessel.style.transition = 'all 1s cubic-bezier(0.16, 1, 0.3, 1)';
+        vessel.style.left = vessel.getAttribute('data-original-left');
+        vessel.style.top = vessel.getAttribute('data-original-top');
+        
+        // Re-enable natural hover and float group animations
+        setTimeout(() => {
+          vessel.className = `antigravity-vessel interactive-float drift-group-${(idx % 3) + 1}`;
+        }, 1000);
+      });
+    } else if (mode === 'grid') {
+      document.getElementById('btnGrid').classList.add('active');
+      const cols = 5;
+      const containerWidth = window.innerWidth * 0.8;
+      const startX = (window.innerWidth - containerWidth) / 2;
+      const startY = window.innerHeight * 0.45;
+      const colWidth = containerWidth / Math.min(vessels.length, cols);
+      
+      vessels.forEach((vessel, idx) => {
+        vessel.className = 'antigravity-vessel interactive-float'; // Stop drift
+        vessel.style.transition = 'all 1.2s cubic-bezier(0.16, 1, 0.3, 1)';
+        
+        const row = Math.floor(idx / cols);
+        const col = idx % cols;
+        
+        const xPos = startX + col * colWidth + (colWidth - 220) / 2;
+        const yPos = startY + row * 340;
+        
+        vessel.style.left = `${xPos}px`;
+        vessel.style.top = `${yPos}px`;
+        vessel.style.transform = 'translate3d(0, 0, 0)';
+      });
+    }
+  }
 </script>
 {% endblock %}
