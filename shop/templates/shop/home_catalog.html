@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Awesome Cart — Premium Ambient Accords</title>
+    <!-- Google Fonts Framework Integration -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- ⚡ Dynamic Frontend Processing Engines -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0b0a09; color: #f4f2ee; overflow-x: hidden; }
+        
+        /* 🌌 Immersive Anti-Gravity Visual Frame Asset Mapping */
+        .parallax-bg { 
+            background-image: url('/media/shop/images/floating_products_1785341078260.png'); 
+            background-size: cover; 
+            background-position: center; 
+        }
+        
+        /* Premium Interactive Glassmorphism Visuals */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.5s, box-shadow 0.5s;
+        }
+        .glass-card:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(255, 255, 255, 0.01);
+        }
+        
+        /* Custom Fluid Parallax Cursor Tracking Elements */
+        #custom-cursor {
+            width: 6px; height: 6px; background: #fff; border-radius: 50%;
+            position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; mix-blend-mode: difference;
+        }
+        #custom-cursor-ring {
+            width: 36px; height: 36px; border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 50%;
+            position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; mix-blend-mode: difference;
+            transform: translate(-15px, -15px);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-white selection:text-black">
+
+    <!-- FX LAYER 1: Interactive Target Tracker Elements -->
+    <div id="custom-cursor"></div>
+    <div id="custom-cursor-ring"></div>
+
+    <!-- FX LAYER 2: Ambient Particulate Simulation -->
+    <canvas id="particle-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-0 opacity-30"></canvas>
+
+    <!-- 1. CINEMATIC 3D ANTI-GRAVITY HERO SECTION -->
+    <div id="hero-3d-stage" class="relative w-full h-screen flex flex-col justify-between items-center px-8 py-8 z-20">
+        <div id="hero-visual" class="absolute inset-0 parallax-bg pointer-events-none scale-105"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-[#0b0a09] pointer-events-none"></div>
+
+        <!-- Sticky Navigation Header -->
+        <header class="relative w-full max-w-7xl flex justify-between items-center text-[10px] tracking-[0.25em] uppercase text-white mix-blend-difference z-30 pt-4">
+            <a href="{% url 'Home' %}" class="font-bold tracking-[0.3em] hover:opacity-80 transition duration-300">My Awesome Cart</a>
+            <nav class="hidden md:flex space-x-8 font-light">
+                <a href="{% url 'Home' %}" class="hover:opacity-60 transition duration-300">Home</a>
+                <a href="{% url 'ShopHome' %}" class="hover:opacity-60 transition duration-300">Store</a>
+                <a href="{% url 'About Us' %}" class="hover:opacity-60 transition duration-300">About Us</a>
+                <a href="{% url 'Tracking status' %}" class="hover:opacity-60 transition duration-300">Tracker</a>
+                <a href="{% url 'blogHome' %}" class="hover:opacity-60 transition duration-300">Blog</a>
+                <a href="{% url 'Contact Us' %}" class="hover:opacity-60 transition duration-300">Contact Us</a>
+            </nav>
+        </header>
+
+        <!-- Dynamic Typographic Layout -->
+        <div id="hero-title" class="relative text-center z-30 my-auto text-white mix-blend-difference">
+            <p class="text-xs uppercase tracking-[0.5em] mb-4 text-white/60 font-light">Immersive Experience</p>
+            <h1 class="text-5xl md:text-8xl font-extralight tracking-tighter uppercase leading-none">Olfactory<br><span class="font-serif italic lowercase tracking-normal pl-6">Architecture</span></h1>
+        </div>
+
+        <!-- Scroll Indicator Conduit -->
+        <div id="scroll-hint" class="relative z-30 text-[10px] uppercase tracking-[0.3em] text-white/40 flex flex-col items-center gap-2 mb-4">
+            <span>Scroll to Explore</span>
+            <div class="w-[1px] h-16 bg-gradient-to-b from-white/40 to-transparent animate-pulse"></div>
+        </div>
+    </div>
+
+    <!-- 2. RESTRUCTURED LANDING CONTENT PORTAL -->
+    <main id="main-content" class="relative w-full max-w-7xl mx-auto px-6 py-32 space-y-40 z-10 opacity-0 transform translate-y-24">
+        
+        <!-- Welcome Hero Capsule -->
+        <section class="text-center max-w-3xl mx-auto space-y-6">
+            <span class="text-xs tracking-[0.5em] uppercase text-stone-500 block">New Ambient Accords</span>
+            <h2 class="text-4xl md:text-5xl font-serif tracking-wide text-stone-200">Olfactory Architecture</h2>
+            <p class="text-stone-400 leading-relaxed text-lg font-light">
+                Hand-poured soy candles & wild lavender reed diffusers crafted to ground your living space in serene calm.
+            </p>
+            <div class="pt-4">
+                <span class="text-xs border-b border-stone-800 pb-2 tracking-[0.3em] uppercase text-white/70">Signature Selections</span>
+            </div>
+        </section>
+
+        <!-- 🛍️ LIVE DATABASE LOOP SEGMENTATION BY CATEGORIES -->
+        {% for product_list, range, nSlides in allProds %}
+            {% if product_list %}
+            <section class="space-y-8">
+                <div class="border-b border-stone-800 pb-4">
+                    <span class="text-xs uppercase tracking-[0.3em] text-stone-500">Curated Collection</span>
+                    <h3 class="text-2xl font-light tracking-wide text-white">{{ product_list.0.category }} Capsule</h3>
+                    <p class="text-sm text-stone-400 font-light">Handcrafted essential database releases for dynamic rituals</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {% for product in product_list %}
+                    <div class="glass-card p-6 rounded-xl space-y-5 group cursor-pointer flex flex-col justify-between">
+                        <div>
+                            <div class="aspect-square bg-stone-950 rounded-lg flex items-center justify-center text-stone-600 text-xs tracking-widest uppercase border border-stone-900/60 overflow-hidden relative">
+                                <!-- Direct Cloud Assets Render Engine Mapping -->
+                                {% if product.image %}
+                                <img src="{{ product.image.url }}" alt="{{ product.product_name }}" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-105 group-hover:opacity-90 transition duration-700">
+                                {% endif %}
+                                <span class="z-10 bg-black/60 px-3 py-1 rounded tracking-wider text-[10px] text-stone-300 border border-white/5">{{ product.category|upper }}</span>
+                            </div>
+                            <h4 class="font-light text-xl text-stone-200 group-hover:text-white transition line-clamp-1 mt-4">{{ product.product_name }}</h4>
+                            <p class="text-sm text-stone-400 font-light leading-relaxed line-clamp-2 mt-2">{{ product.description }}</p>
+                        </div>
+                        <div class="flex justify-between items-center pt-4 mt-auto">
+                            <span class="font-mono text-lg text-white">₹{{ product.price }}</span>
+                            <!-- Preserves your operational cart framework trigger IDs -->
+                            <button id="pr{{ product.id }}" class="bg-white text-black px-5 py-2 text-xs uppercase tracking-widest font-medium rounded hover:bg-stone-200 transition-all duration-300 cart">Add</button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+        {% endfor %}
+
+    </main>
+
+    <!-- HIGH-END BRAND FOOTER -->
+    <footer class="border-t border-stone-900 bg-[#060505] text-stone-500 text-xs py-16 px-8 relative z-10 mt-40">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div class="space-y-4">
+                <span class="text-white tracking-[0.3em] uppercase block">My Awesome Cart</span>
+                <p class="font-light tracking-wide text-stone-400">THOUGHTFULLY CURATED • MADE FOR YOU</p>
+            </div>
+            <div class="flex flex-col space-y-2 font-light">
+                <a href="{% url 'Home' %}" class="hover:text-white transition">Home</a>
+                <a href="{% url 'ShopHome' %}" class="hover:text-white transition">Store</a>
+                <a href="{% url 'About Us' %}" class="hover:text-white transition">About Us</a>
+                <a href="{% url 'Tracking status' %}" class="hover:text-white transition">Tracker</a>
+                <a href="{% url 'blogHome' %}" class="hover:text-white transition">Blog</a>
+                <a href="{% url 'Contact Us' %}" class="hover:text-white transition">Contact Us</a>
+            </div>
+            <div class="space-y-2 font-light text-stone-400">
+                <p>FREE SHIPPING OVER ₹500 • SECURE GATEWAY VIA RAZORPAY</p>
+                <p class="text-stone-600 pt-4">&copy; 2026 My Awesome Cart. Built with Django, GSAP, and care.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ⚡ ANIMATION SYSTEM SCRIPTS RUNTIME -->
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // MOTION RUNTIME A: Micro-Lag Cursor Targeting Loop
+        const cursor = document.getElementById('custom-cursor');
+        const ring = document.getElementById('custom-cursor-ring');
+        
+        window.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0 });
+            gsap.to(ring, { x: e.clientX - 15, y: e.clientY - 15, duration: 0.25, ease: "power3.out" });
+        });
+
+        // MOTION RUNTIME B: Fluid Zero-Gravity Object Physics
+        window.addEventListener('mousemove', (e) => {
+            const { clientX, clientY } = e;
+            const targetX = (clientX - window.innerWidth / 2) * 0.03;
+            const targetY = (clientY - window.innerHeight / 2) * 0.03;
+            gsap.to("#hero-visual", { x: targetX, y: targetY, rotation: targetX * 0.04, duration: 0.9, ease: "power2.out" });
+        });
+
+        // MOTION RUNTIME C: Generative Particulate Fluid Field
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particleArray = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class AtmosphericFluidParticle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.dimension = Math.random() * 1.2 + 0.4;
+                this.driftVelocityY = -(Math.random() * 0.3 + 0.08);
+                this.alphaChannel = Math.random() * 0.4 + 0.1;
+            }
+            advance() {
+                this.y += this.driftVelocityY;
+                if (this.y < 0) {
+                    this.y = canvas.height;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+            render() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alphaChannel})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.dimension, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let idx = 0; idx < 60; idx++) {
+            particleArray.push(new AtmosphericFluidParticle());
+        }
+
+        function fluidExecutionLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particleArray.forEach(p => { p.advance(); p.render(); });
+            requestAnimationFrame(fluidExecutionLoop);
+        }
+        fluidExecutionLoop();
+
+        // MOTION RUNTIME D: Kinetic Stage Transitions & Dissolve Anchors
+        gsap.timeline({
+            scrollTrigger: {
+                trigger: "#hero-3d-stage",
+                start: "top top",
+                end: "bottom center",
+                scrub: true,
+                pin: true,
+                pinSpacing: false
+            }
+        })
+        .to("#hero-title, #scroll-hint", { opacity: 0, y: -60, duration: 1 })
+        .to("#hero-visual", { scale: 1.12, opacity: 0.12, filter: "blur(20px)", duration: 1.5 }, "<");
+
+        // MOTION RUNTIME E: Staggered Spatial Layout Reveals
+        gsap.to("#main-content", {
+            opacity: 1,
+            y: 0,
+            duration: 1.4,
+            ease: "power4.out",
+            scrollTrigger: {
+                trigger: "#main-content",
+                start: "top 80%",
+                toggleActions: "play none none reverse"
+            }
+        });
+    </script>
+</body>
+</html>
