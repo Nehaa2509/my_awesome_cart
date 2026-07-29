@@ -1,0 +1,17 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block title %}Logged Out — My Awesome Cart{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+<div class="text-center py-4">
+  <span class="brand-icon" style="font-size: 3rem; display: block; margin-bottom: 16px;">🛍️</span>
+  <h2 class="fw-bold mb-3" style="font-family: 'Playfair Display', Georgia, serif; color: #6b443a; font-size: 1.6rem;">Successfully Logged Out</h2>
+  <p class="text-muted mb-4" style="font-size: 0.95rem;">Thank you for spending some quality time with My Awesome Cart today.</p>
+  <a href="{% url 'admin:index' %}" class="button default" style="display: inline-block; background: #f09fc1 !important; color: #ffffff !important; border-radius: 50px !important; padding: 10px 24px !important; font-weight: 600; text-decoration: none; box-shadow: 0 4px 14px rgba(240, 157, 193, 0.4) !important;">
+    Log In Again
+  </a>
+</div>
+{% endblock %}

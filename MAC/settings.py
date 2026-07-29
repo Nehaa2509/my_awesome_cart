@@ -154,7 +154,7 @@ JAZZMIN_SETTINGS = {
     "site_title": "MyAwesomeCart Admin",
     "site_header": "Boutique Panel",
     "site_brand": "MyAwesomeCart Panel",
-    "welcome_sign": "Welcome back to the Capsule Management Matrix, Sneha",
+    "welcome_sign": "Welcome back to My Awesome Cart, Sneha",
     "search_model": ["shop.Product", "blog.BlogPost", "shop.Order"],
     "topmenu_links": [
         {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
