@@ -1,46 +1,170 @@
 {% extends "shop/basic.html" %}
+{% load static %}
 
-{% block title %} Contact Us - My Awesome Cart {% endblock %}
+{% block title %} Contact Us — My Awesome Cart {% endblock %}
+
+{% block css %}
+<style>
+  /* 🌸 High-End Editorial Style Customizations */
+  .contact-hero {
+    background: linear-gradient(135deg, #fdf6f9 0%, #edd7c2 60%, #fdf6f9 100%);
+    border-bottom: 1px solid #edd7c2;
+    padding: 4rem 0 3rem;
+  }
+  
+  .contact-card {
+    background: #ffffff;
+    border: 1px solid #edd7c2;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(107, 68, 58, 0.05);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .contact-card:hover {
+    box-shadow: 0 10px 30px rgba(107, 68, 58, 0.1) !important;
+  }
+
+  .accent-line {
+    width: 50px;
+    height: 2px;
+    background-color: var(--color-pink);
+    margin: 1.2rem 0;
+  }
+
+  .info-icon-box {
+    width: 44px;
+    height: 44px;
+    background-color: #fdf6f9;
+    border: 1px solid #edd7c2;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-brown);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .btn-editorial-pink {
+    background-color: var(--color-pink);
+    color: #fff !important;
+    font-weight: 600;
+    transition: all 0.25s ease;
+  }
+
+  .btn-editorial-pink:hover {
+    background-color: var(--color-pink-dark);
+  }
+</style>
+{% endblock %}
 
 {% block body %}
-<div class="container my-4">
-    <div class="row">
-        <div class="col-md-8 mx-auto">
-            
-            {% if thank %}
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Success!</strong> Your message has been sent. We will get back to you shortly.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            {% endif %}
+<!-- ✨ Page Hero -->
+<div class="contact-hero mb-5">
+  <div class="container">
+    <span class="badge px-3 py-2 rounded-pill fw-bold text-uppercase mb-2" style="background-color: var(--color-pink); color: #fff; font-size: 0.72rem; letter-spacing: 0.1rem;">GET IN TOUCH</span>
+    <h1 class="display-5 fw-bold mb-0" style="font-family: 'Playfair Display', serif; color: var(--color-brown);">Contact Us</h1>
+    <p class="text-muted mt-2 mb-0">Have a question about our curated batches or need order support? We'd love to hear from you.</p>
+  </div>
+</div>
 
-            <h2 class="mb-4">Contact Us</h2>
-            <form action="/shop/contact/" method="post">
-                {% csrf_token %}
-                
-                <div class="form-group mb-3">
-                    <label for="name" class="form-label fw-semibold">Full Name</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
-                </div>
+<div class="container mb-5 pb-5 px-4">
+  <div class="row g-5">
+    
+    <!-- Left Column: Contact Form -->
+    <div class="col-12 col-lg-7">
+      {% if thank %}
+      <div class="alert alert-success alert-dismissible fade show rounded-pill small px-4 py-2.5 mb-4 shadow-sm" role="alert" style="background-color: #e6f9f6; border-color: #a4ecd8; color: #167e65;">
+          <i class="bi bi-check-circle-fill me-1"></i> <strong>Success!</strong> Your message has been sent. We will get back to you shortly.
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="padding: 0.75rem 1rem;"></button>
+      </div>
+      {% endif %}
 
-                <div class="form-group mb-3">
-                    <label for="email" class="form-label fw-semibold">Email Address</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
-                </div>
+      <h3 class="h4 fw-bold mb-3" style="font-family: 'Playfair Display', serif; color: var(--color-brown);">Send Us a Message</h3>
+      <div class="contact-card p-4 p-md-5">
+        <form action="/shop/contact/" method="post" class="row g-4">
+          {% csrf_token %}
+          
+          <div class="col-md-6">
+            <label for="name" class="form-label fw-semibold text-secondary small">Full Name</label>
+            <input type="text" class="form-control rounded-pill px-3 py-2" id="name" name="name" placeholder="Enter your name" required style="border-color: #edd7c2;">
+          </div>
 
-                <div class="form-group mb-3">
-                    <label for="phone" class="form-label fw-semibold">Phone Number</label>
-                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter your phone number">
-                </div>
+          <div class="col-md-6">
+            <label for="email" class="form-label fw-semibold text-secondary small">Email Address</label>
+            <input type="email" class="form-control rounded-pill px-3 py-2" id="email" name="email" placeholder="name@example.com" required style="border-color: #edd7c2;">
+          </div>
 
-                <div class="form-group mb-3">
-                    <label for="desc" class="form-label fw-semibold">How can we help you?</label>
-                    <textarea class="form-control" id="desc" name="desc" rows="4" placeholder="Tell us about your concern..." required></textarea>
-                </div>
+          <div class="col-12">
+            <label for="phone" class="form-label fw-semibold text-secondary small">Phone Number</label>
+            <input type="tel" class="form-control rounded-pill px-3 py-2" id="phone" name="phone" placeholder="Enter your phone number" style="border-color: #edd7c2;">
+          </div>
 
-                <button type="submit" class="btn btn-primary px-4">Submit</button>
-            </form>
-        </div>
+          <div class="col-12">
+            <label for="desc" class="form-label fw-semibold text-secondary small">How can we help you?</label>
+            <textarea class="form-control p-3" id="desc" name="desc" rows="4" placeholder="Tell us about your concern..." required style="border-color: #edd7c2; border-radius: 12px; resize: none;"></textarea>
+          </div>
+
+          <div class="col-12 pt-2">
+            <button type="submit" class="btn btn-editorial-pink rounded-pill px-5 py-2.5 fw-semibold shadow-sm transition-all duration-300">
+              Submit Message
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
+
+    <!-- Right Column: Info Sidebar -->
+    <div class="col-12 col-lg-5">
+      <h3 class="h4 fw-bold mb-3" style="font-family: 'Playfair Display', serif; color: var(--color-brown);">Other Channels</h3>
+      <div class="contact-card p-4 p-md-5 d-flex flex-column gap-4">
+        
+        <div class="d-flex gap-3 align-items-start">
+          <div class="info-icon-box">
+            <i class="bi bi-geo-alt"></i>
+          </div>
+          <div>
+            <h6 class="fw-bold mb-1" style="color: var(--color-brown);">Atelier Address</h6>
+            <p class="text-muted small mb-0 lh-relaxed">
+              My Awesome Cart Pvt Ltd.<br>
+              Bengaluru, Karnataka, India
+            </p>
+          </div>
+        </div>
+
+        <div class="d-flex gap-3 align-items-start">
+          <div class="info-icon-box">
+            <i class="bi bi-envelope"></i>
+          </div>
+          <div>
+            <h6 class="fw-bold mb-1" style="color: var(--color-brown);">Email Us</h6>
+            <p class="text-muted small mb-0 font-monospace">support@myawesomecart.com</p>
+          </div>
+        </div>
+
+        <div class="d-flex gap-3 align-items-start">
+          <div class="info-icon-box">
+            <i class="bi bi-telephone"></i>
+          </div>
+          <div>
+            <h6 class="fw-bold mb-1" style="color: var(--color-brown);">Call Us</h6>
+            <p class="text-muted small mb-0 font-monospace">+91 (80) 4567-8900</p>
+          </div>
+        </div>
+
+        <hr style="border-color: rgba(237, 215, 194, 0.4) !important;">
+
+        <div>
+          <h6 class="fw-bold mb-2" style="color: var(--color-brown);">Operating Hours</h6>
+          <p class="text-muted small mb-0 lh-relaxed">
+            Monday – Friday: 9:00 AM – 6:00 PM IST<br>
+            Saturday: 10:00 AM – 4:00 PM IST
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
 </div>
 {% endblock %}
