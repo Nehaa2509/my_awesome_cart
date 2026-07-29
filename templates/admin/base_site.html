@@ -899,8 +899,8 @@
             letter-spacing: 0.5px !important;
             text-transform: uppercase !important;
         ">
-            <span style="color: #6b443a; text-transform: uppercase; font-weight: bold; background-color: #edd7c2; padding: 3px 10px; border-radius: 12px; font-size: 0.78rem; letter-spacing: 0.5px;">
-                {{ user.get_full_name|default:user.username }}
+            <span style="color: #6b443a; text-transform: uppercase !important; font-weight: bold; background-color: #edd7c2; padding: 3px 10px; border-radius: 12px; font-size: 0.78rem; letter-spacing: 0.5px;">
+                {{ user.get_full_name|default:user.username|upper }}
             </span>
             <a href="{% url 'admin:logout' %}" style="color: #98f0e3 !important; font-weight: 700 !important; text-decoration: none !important;">LOGOUT</a>
         </div>

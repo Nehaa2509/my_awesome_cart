@@ -3215,8 +3215,15 @@ body.login-page::after,
    ========================================================================= */
 .user-menu .d-none.d-md-inline,
 .user-menu span,
+.user-menu a,
 #jazzy-navbar .user-menu a span,
-.user-menu .dropdown-toggle span {
+.user-menu .dropdown-toggle span,
+.user-panel .info,
+.user-panel a,
+#user-tools span,
+.dropdown-user,
+.dropdown-user span,
+.user-profile {
     background-color: #edd7c2 !important;
     /* Warm sand/cream background */
     color: #6b443a !important;
