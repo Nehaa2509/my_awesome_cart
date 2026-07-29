@@ -5,40 +5,36 @@
 
 {% block css %}
 <style>
-  /* Modern Styling Variables */
-  :root {
-    --primary-color: #0d6efd;
-    --hover-lift: -6px;
+  /* 🌸 High-End Editorial Style Customizations */
+  .search-hero {
+    background: linear-gradient(135deg, #fdf6f9 0%, #edd7c2 60%, #fdf6f9 100%);
+    border-bottom: 1px solid #edd7c2;
+    padding: 3.5rem 0 2.5rem;
   }
 
-  body {
-    background-color: #f8f9fa;
-  }
-
-  /* Clean Card Design & Interactions */
   .product-card {
-    border: none;
-    border-radius: 12px;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+    border: 1px solid #edd7c2;
+    border-radius: 16px;
     background: #ffffff;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     overflow: hidden;
   }
 
   .product-card:hover {
-    transform: translateY(var(--hover-lift));
-    box-shadow: 0 12px 24px rgba(107, 68, 58, 0.15) !important;
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(107, 68, 58, 0.1) !important;
+    border-color: var(--color-pink);
   }
 
   .product-card img {
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-    height: 200px;
+    height: 220px;
     object-fit: cover;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    width: 100%;
+    transition: transform 0.4s ease;
   }
 
   .product-card:hover img {
-    transform: scale(1.08);
+    transform: scale(1.03);
   }
 
   /* 🏷️ Elegant Boutique Carousel Controls & Arrow Buttons */
@@ -75,6 +71,7 @@
     filter: invert(1);
   }
 
+  /* Customizing Bottom Navigation Indicators */
   .carousel-indicators [data-bs-target] {
     background-color: #6b443a !important;
     width: 8px;
@@ -93,67 +90,101 @@
     border-radius: 12px;
   }
 
-  .carousel-inner {
-    padding: 15px 0;
+  .btn-editorial-pink {
+    background-color: var(--color-pink);
+    color: #fff !important;
+    font-weight: 600;
+    transition: all 0.25s ease;
+  }
+
+  .btn-editorial-pink:hover {
+    background-color: var(--color-pink-dark);
   }
 </style>
 {% endblock %}
 
 {% block body %}
-<div class="container my-5">
-  <!-- 💡 Catch and render empty search results warning messages visually -->
+<!-- ✨ Page Hero -->
+<div class="search-hero mb-5">
+  <div class="container">
+    <span class="badge px-3 py-2 rounded-pill fw-bold text-uppercase mb-2" style="background-color: var(--color-pink); color: #fff; font-size: 0.72rem; letter-spacing: 0.1rem;">SEARCH CATALYST</span>
+    <h1 class="display-5 fw-bold mb-0" style="font-family: 'Playfair Display', serif; color: var(--color-brown);">Search Results</h1>
+    <p class="text-muted mt-2 mb-0">Dynamic database lookup results matching your query parameters.</p>
+  </div>
+</div>
+
+<div class="container my-5 px-4">
+  
+  <!-- 🔍 Empty Search State Warnings -->
   {% if message %}
-  <div class="alert alert-warning text-center shadow-sm p-4 rounded-3 my-4" role="alert">
-    <h4 class="alert-heading fw-bold mb-2">🔍 No Search Results Found</h4>
-    <p class="mb-3 text-secondary">{{ message }}</p>
-    <a href="/shop/" class="btn btn-outline-warning px-4 btn-sm rounded-pill">Back to Store Home</a>
+  <div class="text-center py-5 px-4 rounded-4 border bg-white shadow-sm mb-5" style="border-color: #edd7c2 !important;">
+    <i class="bi bi-search display-1 text-muted opacity-25"></i>
+    <h4 class="fw-bold mt-3 mb-2" style="font-family: 'Playfair Display', serif; color: var(--color-brown);">No Matching Results</h4>
+    <p class="text-muted small mb-4">{{ message }}</p>
+    <a href="/shop/" class="btn btn-editorial-pink rounded-pill px-4 py-2">
+      Return to Boutique
+    </a>
   </div>
   {% endif %}
 
   {% for product, range, nSlides in allProds %}
+  
+  <!-- Category Heading -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end my-4 pb-2 border-bottom" style="border-color: #edd7c2 !important;">
+    <div>
+      <span class="badge mb-1 px-3 py-1 rounded-pill text-uppercase fw-bold" style="background-color: #edd7c2; color: #6b443a; font-size: 0.7rem; letter-spacing: 0.08rem;">Curated Capsule</span>
+      <h2 class="display-6 fw-bold mb-0" style="font-family: 'Playfair Display', serif; color: #6b443a; letter-spacing: -0.03rem;">
+        {{ product.0.category }} Capsule Selections
+      </h2>
+    </div>
+    <p class="text-muted small mb-0 mt-2 mt-md-0 fw-medium">Recommended Items matching your criteria</p>
+  </div>
 
-  <h3 class="fw-bold my-4 text-dark text-center text-md-start">Flash Sale On {{product.0.category}} - Recommended Items
-  </h3>
   <div class="row">
     <div id="productCarousel{{forloop.counter}}" class="col carousel slide mb-5" data-bs-ride="carousel">
 
+      <!-- Indicators -->
       <div class="carousel-indicators mb-n3">
-        <button type="button" data-bs-target="#productCarousel{{forloop.counter}}" data-bs-slide-to="0" class="active"
-          aria-current="true"></button>
+        <button type="button" data-bs-target="#productCarousel{{forloop.counter}}" data-bs-slide-to="0" class="active" aria-current="true"></button>
         {% for i in range %}
-        <button type="button" data-bs-target="#productCarousel{{forloop.parentloop.counter}}"
-          data-bs-slide-to="{{i}}"></button>
+        <button type="button" data-bs-target="#productCarousel{{forloop.parentloop.counter}}" data-bs-slide-to="{{i}}"></button>
         {% endfor %}
       </div>
 
+      <!-- Slides -->
       <div class="carousel-inner px-md-5">
-
         <div class="carousel-item active">
           <div class="row g-4">
 
             {% for p in product %}
             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-              <div class="card product-card h-100 shadow-sm">
-                {% if p.image %}
-                <img src="/media/{{p.image}}" class="card-img-top" alt="{{p.product_name}}" onerror="this.onerror=null; this.src=noImagePlaceholder;">
-                {% else %}
-                <img src="{% static 'shop/no-image-placeholder.png' %}" class="card-img-top" alt="{{p.product_name}}">
-                {% endif %}
-                <div class="card-body d-flex flex-column justify-content-between">
+              <div class="card product-card h-100 shadow-sm d-flex flex-column">
+                
+                <!-- Product Image -->
+                <div class="overflow-hidden" style="height: 220px; background: #fdf6f9;">
+                  {% if p.image %}
+                  <img src="/media/{{p.image}}" alt="{{p.product_name}}" onerror="this.onerror=null; this.src='/static/shop/no-image-placeholder.png';">
+                  {% else %}
+                  <img src="/static/shop/no-image-placeholder.png" alt="{{p.product_name}}">
+                  {% endif %}
+                </div>
+
+                <!-- Card Body Details -->
+                <div class="card-body d-flex flex-column justify-content-between p-3">
                   <div>
-                    <h5 class="card-title fw-semibold" id="namepr{{p.id}}">{{p.product_name}}</h5>
-                    <p class="card-text text-muted small">{{p.description | slice:"0:53"}}...</p>
+                    <h5 class="card-title fw-bold" id="namepr{{p.id}}" style="color: #332420; font-size: 1rem;">{{p.product_name}}</h5>
+                    <p class="card-text text-muted small" style="font-weight: 300;">{{p.description | slice:"0:53"}}...</p>
                   </div>
+                  
                   <div class="mt-3">
-                    <div class="fw-bold mb-2" style="color: #6b443a;">₹<span id="pricepr{{p.id}}">{{p.price}}</span></div>
+                    <div class="fw-bold mb-3" style="color: #6b443a; font-size: 1.15rem;">₹<span id="pricepr{{p.id}}">{{p.price}}</span></div>
 
                     <div class="d-flex gap-2">
                       <span id="divpr{{p.id}}" class="w-50">
-                        <button id="pr{{p.id}}" class="btn btn-primary w-100 cart">Add to Cart</button>
+                        <button id="pr{{p.id}}" class="btn btn-editorial-pink w-100 cart rounded-pill py-2 text-xs text-uppercase tracking-wider">Add</button>
                       </span>
-                      <a href="/shop/products/{{p.id}}" class="btn btn-outline-secondary w-50">View</a>
+                      <a href="/shop/products/{{p.id}}" class="btn btn-outline-secondary w-50 rounded-pill py-2 text-xs text-uppercase tracking-wider" style="border-color: #edd7c2; color: #6b443a;">View</a>
                     </div>
-
                   </div>
                 </div>
               </div>
@@ -169,15 +200,13 @@
 
           </div>
         </div>
-
       </div>
 
-      <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel{{forloop.counter}}"
-        data-bs-slide="prev">
+      <!-- Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel{{forloop.counter}}" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#productCarousel{{forloop.counter}}"
-        data-bs-slide="next">
+      <button class="carousel-control-next" type="button" data-bs-target="#productCarousel{{forloop.counter}}" data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
       </button>
     </div>
@@ -191,7 +220,6 @@
   console.log('Search Cart JavaScript Operational');
 
   let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
-
   updateCart(cart);
 
   $(document).on('click', '.cart', function () {
@@ -217,7 +245,7 @@
     for (var item in cart) {
       let targetSpan = document.getElementById('div' + item);
       if (targetSpan) {
-        targetSpan.innerHTML = `<button id="${item}" class="btn btn-primary w-100 cart">Add to Cart</button>`;
+        targetSpan.innerHTML = `<button id="${item}" class="btn btn-editorial-pink w-100 cart rounded-pill py-2 text-xs text-uppercase tracking-wider">Add</button>`;
       }
     }
     localStorage.clear();
@@ -236,13 +264,13 @@
       if (targetSpan) {
         if (qty > 0) {
           targetSpan.innerHTML = `
-          <div class="d-flex justify-content-between align-items-center bg-light border rounded p-1" style="font-size: 14px;">
-            <button id="minus${item}" class="btn btn-sm btn-primary minus px-2">-</button>
+          <div class="d-flex justify-content-between align-items-center bg-light border rounded-pill p-1" style="font-size: 13px;">
+            <button id="minus${item}" class="btn btn-sm btn-editorial-pink minus px-2 py-1 rounded-circle" style="width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;">-</button>
             <span id="val${item}" class="fw-bold text-dark mx-1">${qty}</span>
-            <button id="plus${item}" class="btn btn-sm btn-primary plus px-3">+</button>
+            <button id="plus${item}" class="btn btn-sm btn-editorial-pink plus px-2 py-1 rounded-circle" style="width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;">+</button>
           </div>`;
         } else {
-          targetSpan.innerHTML = `<button id="${item}" class="btn btn-primary w-100 cart">Add to Cart</button>`;
+          targetSpan.innerHTML = `<button id="${item}" class="btn btn-editorial-pink w-100 cart rounded-pill py-2 text-xs text-uppercase tracking-wider">Add</button>`;
           delete currentCart[item];
         }
       }
@@ -268,7 +296,7 @@
     if (cart[a][0] == 0) {
       let targetContainer = document.getElementById('div' + a);
       if (targetContainer) {
-        targetContainer.innerHTML = `<button id="${a}" class="btn btn-primary w-100 cart">Add to Cart</button>`;
+        targetContainer.innerHTML = `<button id="${a}" class="btn btn-editorial-pink w-100 cart rounded-pill py-2 text-xs text-uppercase tracking-wider">Add</button>`;
       }
       delete cart[a];
     }
