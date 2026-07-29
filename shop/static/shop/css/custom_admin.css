@@ -804,7 +804,7 @@ label,
 
 /* =========================================================================
    /* --- Fix Bulk Actions Dropdown ('Delete selected contacts') --- */
-   ========================================================================= */
+=========================================================================*/
 
 /* 1. The Select Box Container */
 .actions select,
@@ -831,7 +831,8 @@ div.actions select option,
 .actions select option:focus,
 .actions select option:active,
 .actions select option:checked {
-    background-color: #f09fc1 !important; /* Soft Pink highlight */
+    background-color: #f09fc1 !important;
+    /* Soft Pink highlight */
     color: #ffffff !important;
 }
 
@@ -864,8 +865,10 @@ input[type="checkbox"],
     appearance: none !important;
     width: 18px !important;
     height: 18px !important;
-    background-color: #ffffff !important; /* Pure Light White Background */
-    border: 2px solid #6b443a !important;   /* Crisp Dark Brown Border */
+    background-color: #ffffff !important;
+    /* Pure Light White Background */
+    border: 2px solid #6b443a !important;
+    /* Crisp Dark Brown Border */
     border-radius: 4px !important;
     cursor: pointer !important;
     vertical-align: middle !important;
@@ -888,7 +891,8 @@ input[type="checkbox"]:checked,
 .action-checkbox-column input[type="checkbox"]:checked,
 #action-toggle:checked,
 .action-select:checked {
-    background-color: #ffffff !important; /* Stays pure white! No dark/blue fill */
+    background-color: #ffffff !important;
+    /* Stays pure white! No dark/blue fill */
     border-color: #6b443a !important;
 }
 
@@ -900,29 +904,30 @@ input[type="checkbox"]:checked::after,
     display: block !important;
     width: 5px !important;
     height: 9px !important;
-    border: solid #6b443a !important; /* Dark Espresso Brown Checkmark */
+    border: solid #6b443a !important;
+    /* Dark Espresso Brown Checkmark */
     border-width: 0 2.5px 2.5px 0 !important;
     transform: rotate(45deg) !important;
     margin-bottom: 2px !important;
 }
 
 /* Custom Bootstrap / AdminLTE Control Checkboxes */
-.custom-control-input ~ .custom-control-label::before,
+.custom-control-input~.custom-control-label::before,
 .custom-checkbox .custom-control-label::before,
-.icheck-primary input[type="checkbox"] + label::before {
+.icheck-primary input[type="checkbox"]+label::before {
     background-color: #ffffff !important;
     border: 2px solid #6b443a !important;
     border-radius: 4px !important;
 }
 
-.custom-control-input:checked ~ .custom-control-label::before,
-.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+.custom-control-input:checked~.custom-control-label::before,
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before {
     background-color: #ffffff !important;
     border-color: #6b443a !important;
 }
 
-.custom-control-input:checked ~ .custom-control-label::after,
-.custom-checkbox .custom-control-input:checked ~ .custom-control-label::after {
+.custom-control-input:checked~.custom-control-label::after,
+.custom-checkbox .custom-control-input:checked~.custom-control-label::after {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%236b443a' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e") !important;
 }
 
@@ -934,11 +939,13 @@ input[type="checkbox"]:checked::after,
 #jazzy-navbar .navbar-nav {
     display: flex !important;
     align-items: center !important;
-    gap: 12px !important; /* Space out nav items cleanly */
+    gap: 12px !important;
+    /* Space out nav items cleanly */
 }
 
 #jazzy-navbar .nav-link {
-    white-space: nowrap !important; /* Prevent text from wrapping into 2 lines */
+    white-space: nowrap !important;
+    /* Prevent text from wrapping into 2 lines */
     padding: 6px 12px !important;
     font-size: 0.9rem !important;
     line-height: 1.2 !important;
@@ -946,7 +953,8 @@ input[type="checkbox"]:checked::after,
 
 /* 2. Fix Search Boxes Squeezing / Overlapping */
 #jazzy-navbar form.d-flex {
-    flex: 1 1 200px !important; /* Allow search boxes to expand proportionally */
+    flex: 1 1 200px !important;
+    /* Allow search boxes to expand proportionally */
     max-width: 240px !important;
     margin: 0 4px !important;
 }
@@ -954,13 +962,15 @@ input[type="checkbox"]:checked::after,
 #jazzy-navbar .input-group {
     width: 100% !important;
     display: flex !important;
-    flex-wrap: nowrap !important; /* Keep search input and search icon on 1 row */
+    flex-wrap: nowrap !important;
+    /* Keep search input and search icon on 1 row */
 }
 
 #jazzy-navbar .form-control-navbar {
     font-size: 0.82rem !important;
     padding: 6px 12px !important;
-    text-overflow: ellipsis !important; /* Gracefully truncate placeholder text if screen is narrow */
+    text-overflow: ellipsis !important;
+    /* Gracefully truncate placeholder text if screen is narrow */
     white-space: nowrap !important;
     height: 34px !important;
 }
@@ -974,7 +984,7 @@ input[type="checkbox"]:checked::after,
 }
 
 /* 3. Fix Table Column Alignment in Main Content Area */
-.app-content table th, 
+.app-content table th,
 .app-content table td {
     vertical-align: middle !important;
     text-align: left !important;
@@ -982,7 +992,7 @@ input[type="checkbox"]:checked::after,
 }
 
 /* Align Checkboxes neatly with text */
-.app-content table td input[type="checkbox"], 
+.app-content table td input[type="checkbox"],
 .app-content table th input[type="checkbox"] {
     margin: 0 !important;
     vertical-align: middle !important;
@@ -993,8 +1003,8 @@ input[type="checkbox"]:checked::after,
    ========================================================================= */
 
 /* 1. Fix Breadcrumbs ("Home / Shop / Contacts") Alignment */
-.breadcrumb, 
-ol.breadcrumb, 
+.breadcrumb,
+ol.breadcrumb,
 div.float-sm-end .breadcrumb {
     display: inline-flex !important;
     align-items: center !important;
@@ -1005,7 +1015,7 @@ div.float-sm-end .breadcrumb {
     border: none !important;
 }
 
-.breadcrumb-item, 
+.breadcrumb-item,
 .breadcrumb-item a {
     color: #6b443a !important;
     font-weight: 600 !important;
@@ -1014,7 +1024,7 @@ div.float-sm-end .breadcrumb {
     padding: 0 4px !important;
 }
 
-.breadcrumb-item + .breadcrumb-item::before {
+.breadcrumb-item+.breadcrumb-item::before {
     color: #6b443a !important;
     padding: 0 6px !important;
 }
@@ -1058,7 +1068,7 @@ div.float-sm-end .breadcrumb {
 }
 
 /* 3. Fix Main Search Bar & Add Contact Button Vertical Alignment */
-#changelist-search, 
+#changelist-search,
 .changelist-form-container form,
 #toolbar form {
     display: flex !important;
@@ -1067,7 +1077,7 @@ div.float-sm-end .breadcrumb {
     width: 100% !important;
 }
 
-#changelist-search input[type="text"], 
+#changelist-search input[type="text"],
 #searchbar {
     height: 38px !important;
     border-radius: 20px !important;
@@ -1088,8 +1098,8 @@ div.float-sm-end .breadcrumb {
 }
 
 /* Align 'Add contact' button on the same horizontal row */
-.object-tools, 
-a.addlink, 
+.object-tools,
+a.addlink,
 .btn-success {
     height: 38px !important;
     display: inline-flex !important;
@@ -1119,8 +1129,8 @@ a.addlink,
     margin: 0 !important;
 }
 
-.actions button, 
-.actions input[type="submit"], 
+.actions button,
+.actions input[type="submit"],
 .actions .button {
     height: 34px !important;
     border-radius: 20px !important;
@@ -1154,7 +1164,7 @@ a.addlink,
 }
 
 /* Adjust column widths so middle & right cards fit cleanly */
-.app-content .col-lg-6, 
+.app-content .col-lg-6,
 .app-content .col-md-6,
 .app-content .col-lg-3,
 .app-content .col-md-12 {
@@ -1164,7 +1174,7 @@ a.addlink,
 }
 
 /* Card Outer Container */
-.app-content .card, 
+.app-content .card,
 .app-content .module {
     width: 100% !important;
     box-sizing: border-box !important;
@@ -1189,7 +1199,8 @@ a.addlink,
 .app-content table td:first-child a {
     color: #6b443a !important;
     font-weight: 600 !important;
-    background-color: transparent !important; /* Remove dark/gray text box artifact */
+    background-color: transparent !important;
+    /* Remove dark/gray text box artifact */
     text-shadow: none !important;
     white-space: nowrap !important;
 }
@@ -1238,9 +1249,11 @@ a.addlink,
    ========================================================================= */
 
 /* 1. Remove Gray Background Highlight Behind Text Titles & Headings */
-h1, h2, h3, 
-.content-header h1, 
-#content-main h1, 
+h1,
+h2,
+h3,
+.content-header h1,
+#content-main h1,
 .app-content h3,
 .app-content p,
 .app-content span {
@@ -1250,8 +1263,8 @@ h1, h2, h3,
 }
 
 /* Fix "0 groups" text box container */
-#content-main .results, 
-.quiet, 
+#content-main .results,
+.quiet,
 p.paginator,
 .paginator {
     background-color: #ffffff !important;
@@ -1264,8 +1277,8 @@ p.paginator,
 }
 
 /* 2. Fix Breadcrumbs Pill ("Home / Authentication and Authorization / Groups") */
-.breadcrumb, 
-ol.breadcrumb, 
+.breadcrumb,
+ol.breadcrumb,
 div.float-sm-end .breadcrumb {
     display: inline-flex !important;
     align-items: center !important;
@@ -1277,7 +1290,7 @@ div.float-sm-end .breadcrumb {
     box-shadow: 0 2px 8px rgba(107, 68, 58, 0.08) !important;
 }
 
-.breadcrumb-item, 
+.breadcrumb-item,
 .breadcrumb-item a,
 .breadcrumb-item.active {
     color: #6b443a !important;
@@ -1287,15 +1300,15 @@ div.float-sm-end .breadcrumb {
     padding: 0 4px !important;
 }
 
-.breadcrumb-item + .breadcrumb-item::before {
+.breadcrumb-item+.breadcrumb-item::before {
     color: #6b443a !important;
     padding: 0 6px !important;
     content: "/" !important;
 }
 
 /* 3. Fix "Add group" Button & Main Search Alignment */
-.object-tools, 
-a.addlink, 
+.object-tools,
+a.addlink,
 .btn-success {
     background-color: #f09fc1 !important;
     border: none !important;
@@ -1310,13 +1323,13 @@ a.addlink,
     box-shadow: 0 4px 12px rgba(240, 157, 193, 0.3) !important;
 }
 
-a.addlink:hover, 
+a.addlink:hover,
 .btn-success:hover {
     background-color: #e58bb1 !important;
 }
 
 /* Main Search Input & Button Row */
-#changelist-search, 
+#changelist-search,
 #toolbar form {
     display: flex !important;
     align-items: center !important;
@@ -1333,7 +1346,7 @@ a.addlink:hover,
     flex: 1 !important;
 }
 
-#changelist-search input[type="submit"], 
+#changelist-search input[type="submit"],
 #changelist-search .btn {
     height: 40px !important;
     background-color: #f09fc1 !important;
@@ -1385,8 +1398,8 @@ a.addlink:hover,
 }
 
 /* 2. Fix Breadcrumbs Container ("Home / Authentication and Authorization / Users") */
-.breadcrumb, 
-ol.breadcrumb, 
+.breadcrumb,
+ol.breadcrumb,
 div.float-sm-end .breadcrumb {
     display: inline-flex !important;
     align-items: center !important;
@@ -1398,7 +1411,7 @@ div.float-sm-end .breadcrumb {
     box-shadow: 0 2px 8px rgba(107, 68, 58, 0.08) !important;
 }
 
-.breadcrumb-item, 
+.breadcrumb-item,
 .breadcrumb-item a,
 .breadcrumb-item.active {
     color: #6b443a !important;
@@ -1408,7 +1421,7 @@ div.float-sm-end .breadcrumb {
     padding: 0 4px !important;
 }
 
-.breadcrumb-item + .breadcrumb-item::before {
+.breadcrumb-item+.breadcrumb-item::before {
     color: #6b443a !important;
     padding: 0 6px !important;
     content: "/" !important;
@@ -2034,7 +2047,8 @@ a.addlink:hover,
 #result_list td:first-child,
 #result_list th:first-child {
     padding: 12px 16px !important;
-    background-color: #ffffff !important; /* Removes partial tan column highlight */
+    background-color: #ffffff !important;
+    /* Removes partial tan column highlight */
     color: #6b443a !important;
     border-bottom: 1px solid #edd7c2 !important;
     vertical-align: middle !important;
@@ -2228,7 +2242,8 @@ a.addlink:hover,
 #result_list td:first-child,
 #result_list th:first-child {
     padding: 12px 16px !important;
-    background-color: #ffffff !important; /* Clears partial tan column highlight */
+    background-color: #ffffff !important;
+    /* Clears partial tan column highlight */
     color: #6b443a !important;
     border-bottom: 1px solid #edd7c2 !important;
     vertical-align: middle !important;
@@ -2422,7 +2437,8 @@ a.addlink:hover,
 #result_list td:first-child,
 #result_list th:first-child {
     padding: 12px 16px !important;
-    background-color: #ffffff !important; /* Clears partial tan column highlight */
+    background-color: #ffffff !important;
+    /* Clears partial tan column highlight */
     color: #6b443a !important;
     border-bottom: 1px solid #edd7c2 !important;
     vertical-align: middle !important;
@@ -2631,7 +2647,8 @@ a.addlink:hover,
 #result_list td:first-child,
 #result_list th:first-child {
     padding: 12px 16px !important;
-    background-color: #ffffff !important; /* Removes partial tan column highlight */
+    background-color: #ffffff !important;
+    /* Removes partial tan column highlight */
     color: #6b443a !important;
     border-bottom: 1px solid #edd7c2 !important;
     vertical-align: middle !important;
@@ -2825,7 +2842,8 @@ a.addlink:hover,
 #result_list td:first-child,
 #result_list th:first-child {
     padding: 12px 16px !important;
-    background-color: #ffffff !important; /* Removes partial tan column highlight */
+    background-color: #ffffff !important;
+    /* Removes partial tan column highlight */
     color: #6b443a !important;
     border-bottom: 1px solid #edd7c2 !important;
     vertical-align: middle !important;
@@ -2888,17 +2906,33 @@ img[src*="AdminLTELogo"] {
    LOGIN PAGE LIGHT & GLASSMORPHIC THEME OVERRIDES
    ========================================================================= */
 
-/* 1. Force Body & Root Page Background to Light Pastel */
-html, 
-body, 
-body.login-page, 
+/* 1. Hide navbar, sidebar, and layout wrappers on login page */
+body.login-page .main-header,
+body.login-page .navbar,
+body.login-page nav.navbar,
+body.login-page .main-sidebar,
+body.login-page aside,
+body.login-page .navbar-nav,
+body.login-page .form-inline,
+body.login-page .content-header {
+    display: none !important;
+}
+
+body.login-page .wrapper {
+    background: transparent !important;
+}
+
+/* 2. Force Body & Root Page Background to Light Pastel */
+html,
+body,
+body.login-page,
 .login-box,
 [data-bs-theme="dark"] body.login-page,
 [data-bs-theme="dark"] .login-page {
     background-color: #fdf6f9 !important;
-    background-image: 
-      radial-gradient(circle at 10% 20%, rgba(240, 157, 193, 0.15) 0%, transparent 40%),
-      radial-gradient(circle at 90% 80%, rgba(152, 240, 227, 0.15) 0%, transparent 40%) !important;
+    background-image:
+        radial-gradient(circle at 10% 20%, rgba(240, 157, 193, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(152, 240, 227, 0.15) 0%, transparent 40%) !important;
     color: #6b443a !important;
     min-height: 100vh !important;
     position: relative !important;
@@ -3034,7 +3068,8 @@ body.login-page::after,
     border: 1px solid #edd7c2 !important;
     border-left: none !important;
     border-radius: 0 12px 12px 0 !important;
-    color: #f09fc1 !important; /* Soft pink icon color */
+    color: #f09fc1 !important;
+    /* Soft pink icon color */
     height: 44px !important;
     padding: 0 16px !important;
     display: flex !important;
@@ -3050,8 +3085,8 @@ body.login-page::after,
     background-color: #ffffff !important;
 }
 
-.login-box input.form-control:focus + .input-group-text,
-.login-box input.form-control:focus + .input-group-append .input-group-text {
+.login-box input.form-control:focus+.input-group-text,
+.login-box input.form-control:focus+.input-group-append .input-group-text {
     border-color: #f09fc1 !important;
 }
 
@@ -3140,7 +3175,8 @@ body.login-page::after,
 
 /* Icons inside Menu Items */
 #jazzy-usermenu .dropdown-item i {
-    color: #f09fc1 !important; /* Soft pink icon color */
+    color: #f09fc1 !important;
+    /* Soft pink icon color */
     font-size: 0.95rem !important;
     transition: transform 0.2s ease !important;
 }
@@ -3181,15 +3217,14 @@ body.login-page::after,
 .user-menu .d-none.d-md-inline,
 .user-menu span,
 #jazzy-navbar .user-menu a span,
-.user-menu .dropdown-toggle span,
-.user-panel .info a,
-#user-tools strong,
-.welcome-user,
-.welcome-msg strong {
-    background-color: #edd7c2 !important; /* Warm sand/cream background */
-    color: #6b443a !important; /* Brown text color */
+.user-menu .dropdown-toggle span {
+    background-color: #edd7c2 !important;
+    /* Warm sand/cream background */
+    color: #6b443a !important;
+    /* Brown text color */
     font-weight: 700 !important;
-    text-transform: uppercase !important; /* Force uppercase */
+    text-transform: uppercase !important;
+    /* Force uppercase */
     padding: 5px 14px !important;
     border-radius: 20px !important;
     font-size: 0.82rem !important;

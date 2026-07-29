@@ -13,7 +13,7 @@ body {
   box-shadow: 0 4px 15px rgba(107, 68, 58, 0.15) !important;
 }
 
-.main-header .nav-link, 
+.main-header .nav-link,
 .main-header .navbar-brand {
   color: #fdf6f9 !important;
   font-weight: 600;
@@ -101,7 +101,9 @@ body {
 }
 
 /* Buttons */
-.btn-primary, .btn-success, .btn-info {
+.btn-primary,
+.btn-success,
+.btn-info {
   background-color: #6b443a !important;
   border-color: #6b443a !important;
   color: #fdf6f9 !important;
@@ -113,14 +115,17 @@ body {
   transition: all 0.25s ease !important;
 }
 
-.btn-primary:hover, .btn-success:hover, .btn-info:hover {
+.btn-primary:hover,
+.btn-success:hover,
+.btn-info:hover {
   background-color: #4a2d26 !important;
   border-color: #4a2d26 !important;
   transform: translateY(-1px);
   box-shadow: 0 6px 14px rgba(107, 68, 58, 0.25) !important;
 }
 
-.btn-secondary, .btn-outline-secondary {
+.btn-secondary,
+.btn-outline-secondary {
   background-color: #edd7c2 !important;
   border-color: #edd7c2 !important;
   color: #6b443a !important;
@@ -134,7 +139,8 @@ body {
 }
 
 /* Badges */
-.badge-success, .badge-info {
+.badge-success,
+.badge-info {
   background-color: #98f0e3 !important;
   color: #1b5e52 !important;
   font-weight: 700;
@@ -158,55 +164,67 @@ body {
   padding: 0.35rem 0.75rem;
 }
 
-/* =========================================================================
-   LOGIN PAGE LIGHT & GLASSMORPHIC THEME OVERRIDES
-   ========================================================================= */
+/* 1. Hide navbar, sidebar, and layout wrappers on login page */
+body.login-page .main-header,
+body.login-page .navbar,
+body.login-page nav.navbar,
+body.login-page .main-sidebar,
+body.login-page aside,
+body.login-page .navbar-nav,
+body.login-page .form-inline,
+body.login-page .content-header {
+    display: none !important;
+}
 
-/* 1. Force Body & Root Page Background to Light Pastel */
-html, 
-body, 
-body.login-page, 
+body.login-page .wrapper {
+    background: transparent !important;
+}
+
+/* 2. Force Body & Root Page Background to Light Pastel */
+html,
+body,
+body.login-page,
 .login-box,
 [data-bs-theme="dark"] body.login-page,
 [data-bs-theme="dark"] .login-page {
-    background-color: #fdf6f9 !important;
-    background-image: 
-      radial-gradient(circle at 10% 20%, rgba(240, 157, 193, 0.15) 0%, transparent 40%),
-      radial-gradient(circle at 90% 80%, rgba(152, 240, 227, 0.15) 0%, transparent 40%) !important;
-    color: #6b443a !important;
-    min-height: 100vh !important;
-    position: relative !important;
-    overflow: hidden !important;
+  background-color: #fdf6f9 !important;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(240, 157, 193, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(152, 240, 227, 0.15) 0%, transparent 40%) !important;
+  color: #6b443a !important;
+  min-height: 100vh !important;
+  position: relative !important;
+  overflow: hidden !important;
 }
 
 body.login-page::before,
 .login-page::before {
-    content: "" !important;
-    position: absolute !important;
-    width: 300px !important;
-    height: 300px !important;
-    border-radius: 50% !important;
-    background: radial-gradient(circle, rgba(240, 157, 193, 0.3) 0%, rgba(240, 157, 193, 0) 70%) !important;
-    top: 10% !important;
-    left: 10% !important;
-    z-index: 0 !important;
-    filter: blur(50px) !important;
-    pointer-events: none !important;
+  content: "" !important;
+  position: absolute !important;
+  width: 300px !important;
+  height: 300px !important;
+  border-radius: 50% !important;
+  background: radial-gradient(circle, rgba(240, 157, 193, 0.3) 0%, rgba(240, 157, 193, 0) 70%) !important;
+  top: 10% !important;
+  left: 10% !important;
+  z-index: 0 !important;
+  filter: blur(50px) !important;
+  pointer-events: none !important;
 }
 
 body.login-page::after,
 .login-page::after {
-    content: "" !important;
-    position: absolute !important;
-    width: 350px !important;
-    height: 350px !important;
-    border-radius: 50% !important;
-    background: radial-gradient(circle, rgba(152, 240, 227, 0.3) 0%, rgba(152, 240, 227, 0) 70%) !important;
-    bottom: 10% !important;
-    right: 10% !important;
-    z-index: 0 !important;
-    filter: blur(50px) !important;
-    pointer-events: none !important;
+  content: "" !important;
+  position: absolute !important;
+  width: 350px !important;
+  height: 350px !important;
+  border-radius: 50% !important;
+  background: radial-gradient(circle, rgba(152, 240, 227, 0.3) 0%, rgba(152, 240, 227, 0) 70%) !important;
+  bottom: 10% !important;
+  right: 10% !important;
+  z-index: 0 !important;
+  filter: blur(50px) !important;
+  pointer-events: none !important;
 }
 
 /* 2. Remove Gray Background Highlight Blocks behind Text Labels */
@@ -215,145 +233,146 @@ body.login-page::after,
 .login-card-body .login-box-msg,
 .login-box span,
 .login-box p {
-    background-color: transparent !important;
-    background: transparent !important;
-    text-shadow: none !important;
-    color: #6b443a !important;
-    font-weight: 600 !important;
+  background-color: transparent !important;
+  background: transparent !important;
+  text-shadow: none !important;
+  color: #6b443a !important;
+  font-weight: 600 !important;
 }
 
 /* "Welcome back to My Awesome Cart" Header */
 .login-box .login-box-msg {
-    font-family: 'Playfair Display', Georgia, serif !important;
-    font-size: 1.1rem !important;
-    font-weight: 700 !important;
-    padding: 10px 0 20px 0 !important;
-    color: #6b443a !important;
+  font-family: 'Playfair Display', Georgia, serif !important;
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+  padding: 10px 0 20px 0 !important;
+  color: #6b443a !important;
 }
 
 /* Logo/Branding Header for Login Page */
 .login-box .login-logo,
 .login-logo {
-    font-family: 'Playfair Display', Georgia, serif !important;
-    font-weight: 700 !important;
-    font-size: 2.1rem !important;
-    color: #6b443a !important;
-    margin-bottom: 24px !important;
-    text-align: center !important;
-    letter-spacing: -0.02em !important;
-    position: relative !important;
-    z-index: 10 !important;
+  font-family: 'Playfair Display', Georgia, serif !important;
+  font-weight: 700 !important;
+  font-size: 2.1rem !important;
+  color: #6b443a !important;
+  margin-bottom: 24px !important;
+  text-align: center !important;
+  letter-spacing: -0.02em !important;
+  position: relative !important;
+  z-index: 10 !important;
 }
 
 .login-box .login-logo a,
 .login-logo a {
-    color: #6b443a !important;
-    text-decoration: none !important;
-    font-weight: 700 !important;
+  color: #6b443a !important;
+  text-decoration: none !important;
+  font-weight: 700 !important;
 }
 
 /* 3. Central Login Box Container */
 .login-box .card,
 .login-card-body,
 .card-primary.card-outline {
-    background: rgba(255, 255, 255, 0.9) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    border: 1px solid #edd7c2 !important;
-    border-radius: 20px !important;
-    box-shadow: 0 12px 35px rgba(107, 68, 58, 0.08) !important;
-    border-top: none !important;
-    padding: 20px !important;
-    position: relative !important;
-    z-index: 10 !important;
-    width: 100% !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid #edd7c2 !important;
+  border-radius: 20px !important;
+  box-shadow: 0 12px 35px rgba(107, 68, 58, 0.08) !important;
+  border-top: none !important;
+  padding: 20px !important;
+  position: relative !important;
+  z-index: 10 !important;
+  width: 100% !important;
 }
 
 /* 4. Username & Password Inputs + Icon Containers */
 .login-box .input-group {
-    position: relative !important;
-    display: flex !important;
-    flex-wrap: nowrap !important;
-    align-items: stretch !important;
-    width: 100% !important;
-    margin-bottom: 20px !important;
+  position: relative !important;
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  margin-bottom: 20px !important;
 }
 
 .login-box .form-control,
 .login-box input.form-control,
 .login-box .input-group .form-control {
-    background-color: #ffffff !important;
-    color: #6b443a !important;
-    border: 1px solid #edd7c2 !important;
-    border-right: none !important;
-    border-radius: 12px 0 0 12px !important;
-    height: 44px !important;
-    font-size: 0.92rem !important;
-    box-shadow: none !important;
-    padding-left: 14px !important;
-    flex: 1 1 auto !important;
-    width: 1% !important;
-    margin: 0 !important;
-    transition: all 0.25s ease !important;
+  background-color: #ffffff !important;
+  color: #6b443a !important;
+  border: 1px solid #edd7c2 !important;
+  border-right: none !important;
+  border-radius: 12px 0 0 12px !important;
+  height: 44px !important;
+  font-size: 0.92rem !important;
+  box-shadow: none !important;
+  padding-left: 14px !important;
+  flex: 1 1 auto !important;
+  width: 1% !important;
+  margin: 0 !important;
+  transition: all 0.25s ease !important;
 }
 
 /* Placeholder Text Legibility */
 .login-box input.form-control::placeholder {
-    color: #8c5b4f !important;
-    opacity: 0.65;
+  color: #8c5b4f !important;
+  opacity: 0.65;
 }
 
 .login-box .input-group-text {
-    background-color: #ffffff !important;
-    border: 1px solid #edd7c2 !important;
-    border-left: none !important;
-    border-radius: 0 12px 12px 0 !important;
-    color: #f09fc1 !important; /* Soft pink icon color */
-    height: 44px !important;
-    padding: 0 16px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    transition: all 0.25s ease !important;
+  background-color: #ffffff !important;
+  border: 1px solid #edd7c2 !important;
+  border-left: none !important;
+  border-radius: 0 12px 12px 0 !important;
+  color: #f09fc1 !important;
+  /* Soft pink icon color */
+  height: 44px !important;
+  padding: 0 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.25s ease !important;
 }
 
 /* Input Focus Glow */
 .login-box input.form-control:focus {
-    border-color: #f09fc1 !important;
-    box-shadow: none !important;
-    background-color: #ffffff !important;
+  border-color: #f09fc1 !important;
+  box-shadow: none !important;
+  background-color: #ffffff !important;
 }
 
-.login-box input.form-control:focus + .input-group-text,
-.login-box input.form-control:focus + .input-group-append .input-group-text {
-    border-color: #f09fc1 !important;
+.login-box input.form-control:focus+.input-group-text,
+.login-box input.form-control:focus+.input-group-append .input-group-text {
+  border-color: #f09fc1 !important;
 }
 
 /* 5. Main "Log In" Button */
 .login-box .btn-primary,
 .login-box input[type="submit"],
 .login-box button[type="submit"] {
-    background-color: #f09fc1 !important;
-    border: none !important;
-    color: #ffffff !important;
-    font-weight: 700 !important;
-    border-radius: 50px !important;
-    height: 44px !important;
-    font-size: 0.95rem !important;
-    letter-spacing: 0.5px !important;
-    box-shadow: 0 4px 14px rgba(240, 157, 193, 0.4) !important;
-    transition: all 0.25s ease !important;
-    width: 100% !important;
-    margin-top: 10px !important;
-    cursor: pointer !important;
+  background-color: #f09fc1 !important;
+  border: none !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  border-radius: 50px !important;
+  height: 44px !important;
+  font-size: 0.95rem !important;
+  letter-spacing: 0.5px !important;
+  box-shadow: 0 4px 14px rgba(240, 157, 193, 0.4) !important;
+  transition: all 0.25s ease !important;
+  width: 100% !important;
+  margin-top: 10px !important;
+  cursor: pointer !important;
 }
 
 .login-box .btn-primary:hover,
 .login-box input[type="submit"]:hover,
 .login-box button[type="submit"]:hover {
-    background-color: #e58bb1 !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 6px 18px rgba(240, 157, 193, 0.55) !important;
+  background-color: #e58bb1 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 18px rgba(240, 157, 193, 0.55) !important;
 }
 
 /* =========================================================================
@@ -364,89 +383,90 @@ body.login-page::after,
 #jazzy-usermenu,
 .dropdown-menu-lg,
 .dropdown-menu {
-    background: rgba(255, 255, 255, 0.95) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    border: 1px solid #edd7c2 !important;
-    border-radius: 16px !important;
-    box-shadow: 0 10px 30px rgba(107, 68, 58, 0.12) !important;
-    padding: 10px 8px !important;
-    min-width: 220px !important;
-    overflow: hidden !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid #edd7c2 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 10px 30px rgba(107, 68, 58, 0.12) !important;
+  padding: 10px 8px !important;
+  min-width: 220px !important;
+  overflow: hidden !important;
 }
 
 /* 2. Menu Header ("Account") */
 #jazzy-usermenu .dropdown-header {
-    color: #6b443a !important;
-    font-family: 'Playfair Display', Georgia, serif !important;
-    font-weight: 700 !important;
-    font-size: 0.95rem !important;
-    letter-spacing: 0.5px !important;
-    padding: 8px 12px !important;
-    text-transform: uppercase !important;
-    opacity: 0.8;
+  color: #6b443a !important;
+  font-family: 'Playfair Display', Georgia, serif !important;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
+  letter-spacing: 0.5px !important;
+  padding: 8px 12px !important;
+  text-transform: uppercase !important;
+  opacity: 0.8;
 }
 
 /* 3. Divider Lines */
 #jazzy-usermenu .dropdown-divider {
-    border-top: 1px solid #edd7c2 !important;
-    margin: 6px 0 !important;
-    opacity: 0.6;
+  border-top: 1px solid #edd7c2 !important;
+  margin: 6px 0 !important;
+  opacity: 0.6;
 }
 
 /* 4. Menu Items ("Change password", "Log out", etc.) */
 #jazzy-usermenu .dropdown-item,
 #jazzy-usermenu form button.dropdown-item {
-    color: #6b443a !important;
-    font-size: 0.88rem !important;
-    font-weight: 600 !important;
-    padding: 10px 14px !important;
-    border-radius: 10px !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 10px !important;
-    transition: all 0.2s ease !important;
-    background: transparent !important;
-    border: none !important;
-    width: 100% !important;
-    text-align: left !important;
+  color: #6b443a !important;
+  font-size: 0.88rem !important;
+  font-weight: 600 !important;
+  padding: 10px 14px !important;
+  border-radius: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  transition: all 0.2s ease !important;
+  background: transparent !important;
+  border: none !important;
+  width: 100% !important;
+  text-align: left !important;
 }
 
 /* Icons inside Menu Items */
 #jazzy-usermenu .dropdown-item i {
-    color: #f09fc1 !important; /* Soft pink icon color */
-    font-size: 0.95rem !important;
-    transition: transform 0.2s ease !important;
+  color: #f09fc1 !important;
+  /* Soft pink icon color */
+  font-size: 0.95rem !important;
+  transition: transform 0.2s ease !important;
 }
 
 /* Hover States for Items */
 #jazzy-usermenu .dropdown-item:hover {
-    background-color: rgba(240, 157, 193, 0.15) !important;
-    color: #6b443a !important;
-    transform: translateX(3px) !important;
+  background-color: rgba(240, 157, 193, 0.15) !important;
+  color: #6b443a !important;
+  transform: translateX(3px) !important;
 }
 
 #jazzy-usermenu .dropdown-item:hover i {
-    transform: scale(1.15) !important;
+  transform: scale(1.15) !important;
 }
 
 /* 5. Footer Link ("See Profile") */
 #jazzy-usermenu .dropdown-footer {
-    background-color: #f09fc1 !important;
-    color: #ffffff !important;
-    font-weight: 600 !important;
-    text-align: center !important;
-    justify-content: center !important;
-    border-radius: 20px !important;
-    margin-top: 4px !important;
-    padding: 8px 14px !important;
-    box-shadow: 0 4px 12px rgba(240, 157, 193, 0.3) !important;
+  background-color: #f09fc1 !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+  justify-content: center !important;
+  border-radius: 20px !important;
+  margin-top: 4px !important;
+  padding: 8px 14px !important;
+  box-shadow: 0 4px 12px rgba(240, 157, 193, 0.3) !important;
 }
 
 #jazzy-usermenu .dropdown-footer:hover {
-    background-color: #e58bb1 !important;
-    color: #ffffff !important;
-    transform: translateY(-1px) !important;
+  background-color: #e58bb1 !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
 }
 
 /* =========================================================================
@@ -455,19 +475,18 @@ body.login-page::after,
 .user-menu .d-none.d-md-inline,
 .user-menu span,
 #jazzy-navbar .user-menu a span,
-.user-menu .dropdown-toggle span,
-.user-panel .info a,
-#user-tools strong,
-.welcome-user,
-.welcome-msg strong {
-    background-color: #edd7c2 !important; /* Warm sand/cream background */
-    color: #6b443a !important; /* Brown text color */
-    font-weight: 700 !important;
-    text-transform: uppercase !important; /* Force uppercase */
-    padding: 5px 14px !important;
-    border-radius: 20px !important;
-    font-size: 0.82rem !important;
-    letter-spacing: 0.5px !important;
-    margin-left: 6px !important;
-    display: inline-block !important;
+.user-menu .dropdown-toggle span {
+  background-color: #edd7c2 !important;
+  /* Warm sand/cream background */
+  color: #6b443a !important;
+  /* Brown text color */
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  /* Force uppercase */
+  padding: 5px 14px !important;
+  border-radius: 20px !important;
+  font-size: 0.82rem !important;
+  letter-spacing: 0.5px !important;
+  margin-left: 6px !important;
+  display: inline-block !important;
 }
