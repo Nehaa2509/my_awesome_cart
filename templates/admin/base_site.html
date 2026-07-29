@@ -1,13 +1,12 @@
 {% extends "admin/base.html" %}
 
-{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin')
-}}{% endblock %}
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('OQIREL Admin') }}{% endblock %}
 
 {% block branding %}
 <div id="site-name">
   <a href="{% url 'admin:index' %}" class="brand-link"
     style="font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: #ffffff; text-decoration: none; display: flex; align-items: center; gap: 10px;">
-    <span class="brand-icon">🛍️</span> {{ site_header|default:_('Django administration') }}
+    <span class="brand-icon">🛍️</span> {{ site_header|default:_('OQIREL Admin') }}
   </a>
 </div>
 {% endblock %}

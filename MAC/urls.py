@@ -11,8 +11,8 @@ from django.conf.urls.static import static
 from shop import views as shop_views
 
 # Custom Django Admin Header & Title Branding
-admin.site.site_header = "My Awesome Cart Admin"
-admin.site.site_title = "MyAwesomeCart Admin"
+admin.site.site_header = "OQIREL Admin"
+admin.site.site_title = "OQIREL Admin"
 admin.site.index_title = "Dashboard"
 
 from django.views.static import serve

@@ -151,10 +151,10 @@ RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET', 'vYJVMaXp5zoB82XsQDd
 # 🎨 Jazzmin Modern SaaS Admin Theme Configuration
 # =========================================================================
 JAZZMIN_SETTINGS = {
-    "site_title": "MyAwesomeCart Admin",
+    "site_title": "OQIREL Admin",
     "site_header": "Boutique Panel",
-    "site_brand": "MyAwesomeCart Panel",
-    "welcome_sign": "Welcome back to My Awesome Cart",
+    "site_brand": "OQIREL Panel",
+    "welcome_sign": "Welcome back to OQIREL",
     "search_model": ["shop.Product", "blog.BlogPost", "shop.Order"],
     "topmenu_links": [
         {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
