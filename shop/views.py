@@ -399,7 +399,7 @@ def signup_page(request):
 def handleLogout(request):
     logout(request)
     messages.info(request, "You have been logged out successfully.")
-    return redirect('/shop/')
+    return render(request, 'shop/logged_out.html')
 
 
 # =========================================================================
