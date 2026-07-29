@@ -159,21 +159,22 @@ body {
 }
 
 /* =========================================================================
-   LOGIN PAGE PASTEL & GLASSMORPHIC THEME
+   LOGIN PAGE LIGHT & GLASSMORPHIC THEME OVERRIDES
    ========================================================================= */
 
-/* 1. Full Body & Canvas Background Fix */
-body.login-page,
+/* 1. Force Body & Root Page Background to Light Pastel */
+html, 
+body, 
+body.login-page, 
 .login-box,
-.login-page {
-    background-color: #fdf6f9 !important; /* Soft warm pink/white canvas */
+[data-bs-theme="dark"] body.login-page,
+[data-bs-theme="dark"] .login-page {
+    background-color: #fdf6f9 !important;
     background-image: 
-      radial-gradient(circle at 10% 20%, rgba(240, 157, 193, 0.18) 0%, transparent 45%),
-      radial-gradient(circle at 90% 80%, rgba(152, 240, 227, 0.18) 0%, transparent 45%) !important;
+      radial-gradient(circle at 10% 20%, rgba(240, 157, 193, 0.15) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(152, 240, 227, 0.15) 0%, transparent 40%) !important;
+    color: #6b443a !important;
     min-height: 100vh !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
     position: relative !important;
     overflow: hidden !important;
 }
@@ -208,32 +209,26 @@ body.login-page::after,
     pointer-events: none !important;
 }
 
-/* 2. Login Form Card Container */
-.login-box .card,
-.login-card-body,
-.card-primary.card-outline {
-    background: rgba(255, 255, 255, 0.9) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    border: 1px solid #edd7c2 !important;
-    border-radius: 20px !important;
-    box-shadow: 0 12px 35px rgba(107, 68, 58, 0.12) !important;
-    border-top: none !important;
-    padding: 16px !important;
-    position: relative !important;
-    z-index: 10 !important;
-    width: 100% !important;
+/* 2. Remove Gray Background Highlight Blocks behind Text Labels */
+.login-box label,
+.login-box .login-box-msg,
+.login-card-body .login-box-msg,
+.login-box span,
+.login-box p {
+    background-color: transparent !important;
+    background: transparent !important;
+    text-shadow: none !important;
+    color: #6b443a !important;
+    font-weight: 600 !important;
 }
 
-/* Header Text */
-.login-box .login-box-msg,
-.login-card-body .login-box-msg {
-    color: #6b443a !important;
+/* "Welcome back to My Awesome Cart" Header */
+.login-box .login-box-msg {
     font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 1.1rem !important;
     font-weight: 700 !important;
-    font-size: 1.15rem !important;
     padding: 10px 0 20px 0 !important;
-    text-align: center !important;
+    color: #6b443a !important;
 }
 
 /* Logo/Branding Header for Login Page */
@@ -257,26 +252,45 @@ body.login-page::after,
     font-weight: 700 !important;
 }
 
-/* 3. Input Fields & Icons Contrast Fix */
+/* 3. Central Login Box Container */
+.login-box .card,
+.login-card-body,
+.card-primary.card-outline {
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid #edd7c2 !important;
+    border-radius: 20px !important;
+    box-shadow: 0 12px 35px rgba(107, 68, 58, 0.08) !important;
+    border-top: none !important;
+    padding: 20px !important;
+    position: relative !important;
+    z-index: 10 !important;
+    width: 100% !important;
+}
+
+/* 4. Username & Password Inputs + Icon Containers */
 .login-box .input-group {
     position: relative !important;
     display: flex !important;
     flex-wrap: nowrap !important;
     align-items: stretch !important;
     width: 100% !important;
-    margin-bottom: 18px !important;
+    margin-bottom: 20px !important;
 }
 
+.login-box .form-control,
 .login-box input.form-control,
 .login-box .input-group .form-control {
     background-color: #ffffff !important;
     color: #6b443a !important;
     border: 1px solid #edd7c2 !important;
     border-right: none !important;
-    border-radius: 50px 0 0 50px !important;
-    height: 46px !important;
-    font-size: 0.95rem !important;
-    padding: 10px 18px !important;
+    border-radius: 12px 0 0 12px !important;
+    height: 44px !important;
+    font-size: 0.92rem !important;
+    box-shadow: none !important;
+    padding-left: 14px !important;
     flex: 1 1 auto !important;
     width: 1% !important;
     margin: 0 !important;
@@ -289,18 +303,17 @@ body.login-page::after,
     opacity: 0.65;
 }
 
-/* Right Icon Box (User & Lock Icons) */
 .login-box .input-group-text {
     background-color: #ffffff !important;
     border: 1px solid #edd7c2 !important;
     border-left: none !important;
-    border-radius: 0 50px 50px 0 !important;
+    border-radius: 0 12px 12px 0 !important;
     color: #f09fc1 !important; /* Soft pink icon color */
+    height: 44px !important;
     padding: 0 16px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    height: 46px !important;
     transition: all 0.25s ease !important;
 }
 
@@ -316,7 +329,7 @@ body.login-page::after,
     border-color: #f09fc1 !important;
 }
 
-/* 4. Main "Log In" Pill Button */
+/* 5. Main "Log In" Button */
 .login-box .btn-primary,
 .login-box input[type="submit"],
 .login-box button[type="submit"] {
@@ -325,7 +338,7 @@ body.login-page::after,
     color: #ffffff !important;
     font-weight: 700 !important;
     border-radius: 50px !important;
-    height: 46px !important;
+    height: 44px !important;
     font-size: 0.95rem !important;
     letter-spacing: 0.5px !important;
     box-shadow: 0 4px 14px rgba(240, 157, 193, 0.4) !important;
