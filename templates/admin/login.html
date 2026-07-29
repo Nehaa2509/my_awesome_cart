@@ -163,26 +163,5 @@
         </div>
     </form>
 
-    <script>
-      (function() {
-        function prefillCredentials() {
-          var usernameField = document.getElementById("id_username");
-          var passwordField = document.getElementById("id_password");
-          if (usernameField && !usernameField.value) {
-            usernameField.value = "sneha";
-          }
-          if (passwordField && !passwordField.value) {
-            passwordField.value = "admin1542";
-          }
-        }
-
-        if (document.readyState === "loading") {
-          document.addEventListener("DOMContentLoaded", prefillCredentials);
-        } else {
-          prefillCredentials();
-        }
-      })();
-    </script>
-
 </div>
 {% endblock %}

@@ -906,29 +906,3 @@
         </div>
     {% endif %}
 {% endblock %}
-
-<script>
-  (function() {
-    function prefillCredentials() {
-      var isLoginPage = document.body.classList.contains("login-page") || 
-                         document.body.classList.contains("login") || 
-                         window.location.pathname.indexOf("/login/") !== -1;
-      if (isLoginPage) {
-        var usernameField = document.getElementById("id_username");
-        var passwordField = document.getElementById("id_password");
-        if (usernameField && !usernameField.value) {
-          usernameField.value = "sneha";
-        }
-        if (passwordField && !passwordField.value) {
-          passwordField.value = "admin1542";
-        }
-      }
-    }
-
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", prefillCredentials);
-    } else {
-      prefillCredentials();
-    }
-  })();
-</script>
