@@ -27,7 +27,14 @@
         }
     </script>
     <style>
-        body { background-color: #0b0a09; color: #f4f2ee; overflow-x: hidden; }
+        body {
+            background-color: #fdf6f9 !important;
+            background-image: 
+              radial-gradient(circle at 10% 20%, rgba(240, 157, 193, 0.15) 0%, transparent 40%),
+              radial-gradient(circle at 90% 80%, rgba(152, 240, 227, 0.15) 0%, transparent 40%) !important;
+            color: #6b443a !important;
+            overflow-x: hidden;
+        }
         
         /* 🌌 Immersive Anti-Gravity Visual Frame Asset Mapping */
         .parallax-bg { 
@@ -38,15 +45,86 @@
         
         /* Premium Interactive Glassmorphism Visuals */
         .glass-card {
-            background: rgba(255, 255, 255, 0.01);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.5s, box-shadow 0.5s;
+            background: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+            border: 1px solid #edd7c2 !important;
+            box-shadow: 0 8px 30px rgba(107, 68, 58, 0.05) !important;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.5s, box-shadow 0.5s !important;
         }
         .glass-card:hover {
-            border-color: rgba(255, 255, 255, 0.12);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(255, 255, 255, 0.01);
+            border-color: #f09fc1 !important;
+            box-shadow: 0 12px 35px rgba(107, 68, 58, 0.08) !important;
+        }
+        .glass-card .bg-stone-950 {
+            background-color: #fdf6f9 !important;
+            border: 1px solid #edd7c2 !important;
+        }
+        .glass-card img {
+            opacity: 0.85 !important;
+        }
+        .glass-card:hover img {
+            opacity: 1 !important;
+        }
+        .glass-card button.cart {
+            background-color: #f09fc1 !important; /* Soft Pink */
+            color: #ffffff !important;
+            box-shadow: 0 4px 14px rgba(240, 157, 193, 0.4) !important;
+            transition: all 0.25s ease !important;
+        }
+        .glass-card button.cart:hover {
+            background-color: #e58bb1 !important;
+            transform: translateY(-1px) !important;
+        }
+        #hero-title {
+            color: #6b443a !important;
+            mix-blend-mode: normal !important;
+        }
+        #hero-title h1 {
+            color: #6b443a !important;
+        }
+        #hero-title p {
+            color: #8c5b4f !important;
+        }
+        #scroll-hint {
+            color: #8c5b4f !important;
+            mix-blend-mode: normal !important;
+        }
+        #main-content h2,
+        #main-content h3,
+        #main-content h4,
+        #main-content .text-white,
+        #main-content .text-stone-200 {
+            color: #6b443a !important;
+        }
+        #main-content p,
+        #main-content .text-stone-400 {
+            color: #8c5b4f !important;
+        }
+        #main-content .text-stone-500 {
+            color: #f09fc1 !important; /* Soft Pink */
+        }
+        #main-content .border-stone-800 {
+            border-color: #edd7c2 !important; /* Sand */
+        }
+        footer {
+            background-color: #edd7c2 !important;
+            border-top: 1px solid #edd7c2 !important;
+            color: #6b443a !important;
+        }
+        footer .text-white,
+        footer a {
+            color: #6b443a !important;
+        }
+        footer a:hover {
+            color: #f09fc1 !important;
+        }
+        footer p,
+        footer .text-stone-400 {
+            color: #8c5b4f !important;
+        }
+        footer .text-stone-600 {
+            color: #a47e74 !important;
         }
     </style>
 </head>
@@ -59,7 +137,7 @@
     <!-- 1. CINEMATIC 3D ANTI-GRAVITY HERO SECTION -->
     <div id="hero-3d-stage" class="relative w-full h-screen flex flex-col justify-between items-center px-8 py-8 z-20">
         <div id="hero-visual" class="absolute inset-0 parallax-bg pointer-events-none scale-105"></div>
-        <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-[#0b0a09] pointer-events-none"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-[#fdf6f9] pointer-events-none"></div>
 
 
         <!-- Dynamic Typographic Layout -->
@@ -194,7 +272,7 @@
                 }
             }
             render() {
-                ctx.fillStyle = `rgba(244, 242, 238, ${this.alphaChannel})`; // Matches text color exactly
+                ctx.fillStyle = `rgba(240, 157, 193, ${this.alphaChannel})`; // Soft pink particles
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.dimension, 0, Math.PI * 2);
                 ctx.fill();
