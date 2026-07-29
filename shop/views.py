@@ -20,8 +20,22 @@ def get_razorpay_client():
     key_secret = getattr(settings, 'RAZORPAY_KEY_SECRET', None) or os.environ.get('RAZORPAY_KEY_SECRET', '')
     return razorpay.Client(auth=(key_id, key_secret))
 
-# 1. Main Shop Homepage View (Category-Wise Dynamic Slideshows)
-def index(request):
+# 1. Spatial Anti-Gravity Landing Showcase View
+def home_showcase(request):
+    """
+    Renders the dedicated, ultra-premium spatial design home section.
+    Pulls real product data records solely to extract cloud asset images 
+    for the floating interactive gravity canvas layout.
+    """
+    all_products = Product.objects.all()
+    return render(request, 'shop/home_showcase.html', {'products': all_products})
+
+# 1.2 Main Shop Catalog View (Category-Wise Dynamic Grid & Slideshows)
+def store_catalog(request):
+    """
+    Renders the functional transactional grid framework.
+    Segregates items cleanly into traditional categories (Skincare, Fragrance, Apothecary).
+    """
     allProds = []
     catprods = Product.objects.values('category', 'id')
     cats = {item['category'] for item in catprods}
@@ -41,6 +55,9 @@ def index(request):
     else:
         context['wishlist_ids'] = set()
     return render(request, 'shop/index.html', context)
+
+def index(request):
+    return home_showcase(request)
 
 def searchMatch(query, item):
     if query.lower() in item.product_name.lower() or query.lower() in item.description.lower() or query.lower() in item.category.lower(): 

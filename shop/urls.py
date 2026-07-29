@@ -2,14 +2,20 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("",views.index ,name="ShopHome"),
-    path("about/",views.about ,name="About Us"),
-    path("contact/",views.contact ,name="Contact Us"),
-    path("tracker/",views.tracker ,name="Tracking status"),
-    path("search/",views.search ,name="Search"),
+    # 🌌 The Root Path: Immersive Anti-Gravity Graphic Studio Landing Section
+    path('', views.home_showcase, name='HomeShowcase'),
+    
+    # 🛍️ The Catalog Path: Transactional Product Grid Layout Core
+    path('store/', views.store_catalog, name='StoreCatalog'),
+    
+    # Existing dynamic routing vectors...
+    path("about/", views.about, name="About Us"),
+    path("contact/", views.contact, name="Contact Us"),
+    path("tracker/", views.tracker, name="Tracking status"),
+    path("search/", views.search, name="Search"),
     path("products/<int:myid>", views.productview, name="View Product"),
-    path("checkout/",views.checkout ,name="Check Out"),
-    path("handlerequest/",views.handlerequest ,name="HandleRequest"),
+    path("checkout/", views.checkout, name="Check Out"),
+    path("handlerequest/", views.handlerequest, name="HandleRequest"),
     path("invoice/<int:order_id>/", views.download_invoice, name="DownloadInvoice"),
     path("login/", views.login_page, name="login"),
     path("signup/", views.signup_page, name="signup"),

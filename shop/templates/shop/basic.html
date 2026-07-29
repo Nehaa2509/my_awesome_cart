@@ -224,31 +224,6 @@
       user-select: none;
       -webkit-user-select: none;
     }
-
-    /* =========================================================================
-       BOUTIQUE INTERFACE PAGE FADE-IN TRANSITIONS
-       ========================================================================= */
-
-    /* 🌌 Hide page elements momentarily while loading */
-    body {
-        opacity: 0;
-        transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1) !important;
-    }
-
-    /* ⚡ The Active Success Frame State Class */
-    body.page-loaded {
-        opacity: 1 !important;
-    }
-
-    /* 🖼️ Optional: Micro-float lift sequence matching our weightless theme */
-    .main-view-container {
-        transform: translateY(10px);
-        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    }
-
-    body.page-loaded .main-view-container {
-        transform: translateY(0) !important;
-    }
   </style>
 
   {% block css %}{% endblock %}
@@ -274,6 +249,9 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-1">
           <li class="nav-item">
             <a class="nav-link {% if request.path == '/shop/' or request.path == '/shop' %}active{% endif %}" href="/shop">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if 'store' in request.path %}active{% endif %}" href="/shop/store/">Store</a>
           </li>
           <li class="nav-item">
             <a class="nav-link {% if 'about' in request.path %}active{% endif %}" href="/shop/about">About Us</a>
@@ -646,58 +624,6 @@
   </script>
 
   {% block js %}{% endblock %}
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // 1. Instantly trigger the weightless fade-in transition on load completion
-        setTimeout(() => {
-            document.body.classList.add("page-loaded");
-        }, 50);
-
-        // 2. Wrap all body layout container tags with our floating class if needed
-        const mainWrap = document.querySelector('main') || document.querySelector('.container');
-        if (mainWrap) {
-            mainWrap.classList.add('main-view-container');
-        }
-
-        // 3. Intercept outbound internal route clicks for smooth fade-outs
-        const internalLinks = document.querySelectorAll('a[href^="/"], a[href^="http://127.0.0.1"], a[href^="https://myawesomecart"]');
-        
-        internalLinks.forEach(link => {
-            // Exclude blank anchors, admin panel nodes, or hash scroll targets (#)
-            if (
-                link.getAttribute('href').startsWith('#') || 
-                link.getAttribute('href').includes('/admin/') || 
-                link.getAttribute('target') === '_blank'
-            ) {
-                return;
-            }
-
-            link.addEventListener("click", function (event) {
-                const targetUrl = this.getAttribute("href");
-                
-                // Prevent instantaneous link jump routing vectors
-                event.preventDefault();
-                
-                // Reverse the opacity matrix smoothly
-                document.body.style.opacity = "0";
-                
-                // Hand off execution tracking to the browser window after transition concludes
-                setTimeout(() => {
-                    window.location.href = targetUrl;
-                }, 400); // Perfectly synced with the 0.5s CSS ease duration curve
-            });
-        });
-    });
-
-    // 🔄 Safari / Browser Back-Button Caching Fix
-    window.addEventListener('pageshow', function (event) {
-        if (event.persisted) {
-            document.body.classList.add("page-loaded");
-            document.body.style.opacity = "1";
-        }
-    });
-  </script>
 </body>
 
 </html>

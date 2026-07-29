@@ -1,0 +1,166 @@
+{% extends "shop/basic.html" %}
+{% block title %} MyAwesomeCart — Antigravity Space Studio {% endblock %}
+
+{% block css %}
+<style>
+  body, html {
+    overflow: hidden;
+    background-color: #fdf6f9 !important;
+    height: 100vh;
+  }
+
+  /* Central Typographic Overlay */
+  .studio-branding-axis {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+  }
+
+  .studio-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 6rem;
+    font-weight: 700;
+    color: #6b443a;
+    letter-spacing: -0.15rem;
+    line-height: 0.9;
+    margin-bottom: 1rem;
+  }
+
+  .studio-subtitle {
+    font-family: 'Poppins', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.4rem;
+    font-size: 0.8rem;
+    color: #f09fc1;
+    font-weight: 600;
+  }
+
+  /* Anti-Gravity Floating Asset Elements */
+  .antigravity-vessel {
+    position: absolute;
+    z-index: 5;
+    cursor: grab;
+    transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform, top, left;
+  }
+  
+  .antigravity-vessel:active {
+    cursor: grabbing;
+  }
+
+  .vessel-graphic {
+    width: 100%;
+    height: auto;
+    border-radius: 24px;
+    box-shadow: 0 30px 60px rgba(107, 68, 58, 0.15);
+    transition: transform 0.4s ease;
+  }
+
+  .antigravity-vessel:hover .vessel-graphic {
+    transform: scale(1.05) rotate(2deg);
+  }
+
+  /* Entry Action Overlay */
+  .explore-gate {
+    position: absolute;
+    bottom: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="position-relative w-100 vh-100 overflow-hidden">
+
+  <!-- Core Brand Hub -->
+  <div class="studio-branding-axis">
+    <span class="studio-subtitle">Import Antigravity</span>
+    <h1 class="studio-title">MyAwesomeCart</h1>
+    <p class="text-muted font-monospace small mt-2">[ Spatial Graphic Release — 2026 ]</p>
+  </div>
+
+  <!-- Draggable, Parallax Floating Product Matrix -->
+  {% for product in products %}
+    <!-- Inline coordinates distributed dynamically via template loops -->
+    <div class="antigravity-vessel interactive-float" 
+         style="width: 220px; 
+                top: {% cycle '15%' '55%' '20%' '60%' '30%' %}; 
+                left: {% cycle '12%' '72%' '64%' '28%' '45%' %};" 
+         data-parallax-speed="{% cycle '1.5' '0.8' '2.0' '1.1' '1.4' %}">
+      
+      <a href="/shop/products/{{ product.id }}" class="text-decoration-none">
+        <img src="{% if product.image %}{{ product.image.url }}{% else %}/media/{{ product.image }}{% endif %}" class="vessel-graphic" alt="{{ product.product_name }}">
+      </a>
+      
+      <div class="text-center mt-3 small font-monospace text-muted tracking-wider opacity-0 hover-show">
+        {{ product.product_name }} — ₹{{ product.price }}
+      </div>
+    </div>
+  {% endfor %}
+
+  <!-- Navigation Action Gate -->
+  <div class="explore-gate">
+    <a href="/shop/store/" class="btn btn-dark rounded-pill px-5 py-3 text-uppercase tracking-widest fw-bold border-0 shadow-lg" 
+       style="background-color: #6b443a; font-size: 0.75rem;">
+      Enter Traditional Studio &rarr;
+    </a>
+  </div>
+
+</div>
+
+<!-- 🧪 Kinetic Parallax & Elastic Interaction Script -->
+<script>
+  // 1. Mouse Move Parallax Engine
+  document.addEventListener("mousemove", function(e) {
+    const items = document.querySelectorAll(".interactive-float");
+    items.forEach(item => {
+      const speed = parseFloat(item.getAttribute("data-parallax-speed"));
+      const x = (window.innerWidth - e.pageX * speed) / 50;
+      const y = (window.innerHeight - e.pageY * speed) / 50;
+      item.style.transform = `translateX(${x}px) translateY(${y}px)`;
+    });
+  });
+
+  // 2. Drag & Drop Floating Physics Engine
+  const vessels = document.querySelectorAll('.interactive-float');
+  vessels.forEach(vessel => {
+    let isDragging = false;
+    let startX, startY, initialLeft, initialTop;
+
+    vessel.addEventListener('mousedown', (e) => {
+      // Don't interrupt direct clicks onto the product link
+      if (e.target.tagName === 'A' || e.target.parentElement.tagName === 'A') return;
+      
+      isDragging = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      initialLeft = vessel.offsetLeft;
+      initialTop = vessel.offsetTop;
+      vessel.style.transition = 'none';
+      e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      vessel.style.left = `${initialLeft + dx}px`;
+      vessel.style.top = `${initialTop + dy}px`;
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false;
+        vessel.style.transition = 'transform 0.2s cubic-bezier(0.25, 1, 0.5, 1)';
+      }
+    });
+  });
+</script>
+{% endblock %}
