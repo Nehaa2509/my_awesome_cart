@@ -48,24 +48,10 @@
             border-color: rgba(255, 255, 255, 0.12);
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(255, 255, 255, 0.01);
         }
-        
-        /* Custom Fluid Parallax Cursor Tracking Elements */
-        #custom-cursor {
-            width: 6px; height: 6px; background: #fff; border-radius: 50%;
-            position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; mix-blend-mode: difference;
-        }
-        #custom-cursor-ring {
-            width: 36px; height: 36px; border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 50%;
-            position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; mix-blend-mode: difference;
-            transform: translate(-15px, -15px);
-        }
     </style>
 </head>
 <body class="antialiased selection:bg-white selection:text-black">
 
-    <!-- FX LAYER 1: Interactive Target Tracker Elements -->
-    <div id="custom-cursor"></div>
-    <div id="custom-cursor-ring"></div>
 
     <!-- FX LAYER 2: Ambient Particulate Simulation -->
     <canvas id="particle-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-0 opacity-30"></canvas>
@@ -180,14 +166,6 @@
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
-        // MOTION RUNTIME A: Micro-Lag Cursor Targeting Loop
-        const cursor = document.getElementById('custom-cursor');
-        const ring = document.getElementById('custom-cursor-ring');
-        
-        window.addEventListener('mousemove', (e) => {
-            gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0 });
-            gsap.to(ring, { x: e.clientX - 15, y: e.clientY - 15, duration: 0.25, ease: "power3.out" });
-        });
 
         // MOTION RUNTIME B: Fluid Zero-Gravity Object Physics
         window.addEventListener('mousemove', (e) => {
