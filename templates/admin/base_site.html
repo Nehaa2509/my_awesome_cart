@@ -423,23 +423,61 @@
   }
 
   /* 8. Admin Login & Logged-Out Page Styling */
-  body.login, body.logged-out {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  body.login, body.logged-out, body.login-page {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 100vh !important;
     background-color: #fdf6f9 !important;
+    background-image: 
+      radial-gradient(circle at 10% 20%, rgba(240, 157, 193, 0.18) 0%, transparent 45%),
+      radial-gradient(circle at 90% 80%, rgba(152, 240, 227, 0.18) 0%, transparent 45%) !important;
+    position: relative !important;
+    overflow: hidden !important;
+  }
+
+  body.login::before, body.logged-out::before, body.login-page::before {
+    content: "" !important;
+    position: absolute !important;
+    width: 250px !important;
+    height: 250px !important;
+    border-radius: 50% !important;
+    background: radial-gradient(circle, rgba(240, 157, 193, 0.3) 0%, rgba(240, 157, 193, 0) 70%) !important;
+    top: 15% !important;
+    left: 15% !important;
+    z-index: 0 !important;
+    filter: blur(50px) !important;
+    pointer-events: none !important;
+  }
+
+  body.login::after, body.logged-out::after, body.login-page::after {
+    content: "" !important;
+    position: absolute !important;
+    width: 300px !important;
+    height: 300px !important;
+    border-radius: 50% !important;
+    background: radial-gradient(circle, rgba(152, 240, 227, 0.3) 0%, rgba(152, 240, 227, 0) 70%) !important;
+    bottom: 15% !important;
+    right: 15% !important;
+    z-index: 0 !important;
+    filter: blur(50px) !important;
+    pointer-events: none !important;
   }
 
   body.login #container, body.logged-out #container {
-    background: #ffffff !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
     border: 1px solid #edd7c2 !important;
     border-radius: 20px !important;
-    box-shadow: 0 10px 40px rgba(107, 68, 58, 0.12) !important;
+    box-shadow: 0 12px 40px rgba(107, 68, 58, 0.12) !important;
     width: 100% !important;
     max-width: 440px !important;
     padding: 24px !important;
     margin: 0 auto !important;
     overflow: hidden;
+    position: relative !important;
+    z-index: 10 !important;
   }
 
   body.login #header, body.logged-out #header {
