@@ -598,5 +598,112 @@
       color: #ffffff !important;
       transform: translateY(-1px) !important;
   }
+
+  /* =========================================================================
+     LOGIN PAGE PASTEL & GLASSMORPHIC THEME
+     ========================================================================= */
+
+  /* 1. Full Body & Canvas Background Fix */
+  body.login-page,
+  .login-box,
+  .login-page {
+      background-color: #fdf6f9 !important; /* Soft warm pink/white canvas */
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(240, 157, 193, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(152, 240, 227, 0.12) 0%, transparent 40%) !important;
+      min-height: 100vh !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+  }
+
+  /* 2. Login Form Card Container */
+  .login-box .card,
+  .login-card-body,
+  .card-primary.card-outline {
+      background: rgba(255, 255, 255, 0.9) !important;
+      backdrop-filter: blur(12px) !important;
+      border: 1px solid #edd7c2 !important;
+      border-radius: 20px !important;
+      box-shadow: 0 12px 35px rgba(107, 68, 58, 0.08) !important;
+      border-top: none !important;
+      padding: 10px !important;
+  }
+
+  /* Header Text ("Welcome back to the Capsule Management Matrix...") */
+  .login-box .login-box-msg,
+  .login-card-body .login-box-msg {
+      color: #6b443a !important;
+      font-family: 'Playfair Display', Georgia, serif !important;
+      font-weight: 700 !important;
+      font-size: 1.05rem !important;
+      padding: 10px 0 20px 0 !important;
+  }
+
+  /* 3. Input Fields & Icons Contrast Fix */
+  .login-box input.form-control,
+  .login-box .input-group .form-control {
+      background-color: #ffffff !important;
+      color: #6b443a !important;
+      border: 1px solid #edd7c2 !important;
+      border-right: none !important;
+      border-radius: 12px 0 0 12px !important;
+      height: 44px !important;
+      font-size: 0.92rem !important;
+      padding-left: 14px !important;
+  }
+
+  /* Placeholder Text Legibility */
+  .login-box input.form-control::placeholder {
+      color: #8c5b4f !important; /* Richer cocoa tint for clear visibility */
+      opacity: 0.7;
+  }
+
+  /* Right Icon Box (User & Lock Icons) */
+  .login-box .input-group-text {
+      background-color: #ffffff !important;
+      border: 1px solid #edd7c2 !important;
+      border-left: none !important;
+      border-radius: 0 12px 12px 0 !important;
+      color: #f09fc1 !important; /* Soft pink icon color */
+      height: 44px !important;
+  }
+
+  .login-box .input-group {
+      margin-bottom: 18px !important;
+  }
+
+  /* Input Focus Glow */
+  .login-box input.form-control:focus,
+  .login-box input.form-control:focus + .input-group-append .input-group-text {
+      border-color: #f09fc1 !important;
+      box-shadow: none !important;
+  }
+
+  /* 4. Main "Log In" Pill Button */
+  .login-box .btn-primary,
+  .login-box input[type="submit"],
+  .login-box button[type="submit"] {
+      background-color: #f09fc1 !important;
+      border: none !important;
+      color: #ffffff !important;
+      font-weight: 700 !important;
+      border-radius: 50px !important;
+      height: 44px !important;
+      font-size: 0.95rem !important;
+      letter-spacing: 0.5px !important;
+      box-shadow: 0 4px 14px rgba(240, 157, 193, 0.4) !important;
+      transition: all 0.25s ease !important;
+      width: 100% !important;
+      margin-top: 10px !important;
+  }
+
+  .login-box .btn-primary:hover,
+  .login-box input[type="submit"]:hover,
+  .login-box button[type="submit"]:hover {
+      background-color: #e58bb1 !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 6px 18px rgba(240, 157, 193, 0.55) !important;
+  }
 </style>
 {% endblock %}
