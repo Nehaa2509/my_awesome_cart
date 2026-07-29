@@ -28,6 +28,25 @@
       --bs-bg-opacity: 1;
       background-color: var(--color-bg) !important;
     }
+    /* 🌟 Custom Elegant Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--color-bg) !important;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--color-nude) !important;
+      border-radius: 10px !important;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--color-pink) !important;
+    }
+    html {
+      scrollbar-width: thin !important;
+      scrollbar-color: var(--color-nude) var(--color-bg) !important;
+    }
 
     body {
       background-color: var(--color-bg);
@@ -75,8 +94,8 @@
     .navbar-custom .nav-link {
       color: var(--color-nude) !important;
       font-weight: 500;
-      font-size: 0.88rem;
-      padding: 0.35rem 0.65rem !important;
+      font-size: 0.95rem;
+      padding: 0.45rem 0.85rem !important;
       transition: all 0.2s ease;
       border-radius: 20px;
     }
@@ -246,12 +265,9 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-1 align-items-center">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-1">
           <li class="nav-item">
             <a class="nav-link {% if request.path == '/shop/' or request.path == '/shop' %}active{% endif %}" href="/shop">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {% if 'store' in request.path %}active{% endif %}" href="/shop/store/">Store</a>
           </li>
           <li class="nav-item">
             <a class="nav-link {% if 'about' in request.path %}active{% endif %}" href="/shop/about">About Us</a>
@@ -268,73 +284,34 @@
         </ul>
 
         <div class="d-flex align-items-center my-2 my-lg-0 me-lg-3 gap-2">
-          <form method="get" action="/shop/search/" class="d-flex position-relative m-0" role="search" id="searchForm">
+          <form method="get" action="/shop/search/" class="d-flex position-relative me-1" role="search" id="searchForm">
             <div class="position-relative w-100 me-2">
-              <input class="form-control rounded-pill px-3 py-1" type="search" placeholder="Search products..." aria-label="Search" name="query"
-                id="query" autocomplete="off" style="border-color: var(--color-nude); background: #ffffff; font-size: 0.88rem; height: 34px;" />
+              <input class="form-control rounded-pill px-3" type="search" placeholder="Search products..." aria-label="Search" name="query"
+                id="query" autocomplete="off" style="border-color: var(--color-nude); background: #ffffff;" />
               <div id="search-autocomplete-dropdown"
                 class="dropdown-menu shadow-lg w-100 mt-1 border-0 rounded-3 overflow-hidden"
                 style="display: none; max-height: 400px; overflow-y: auto; z-index: 1050; left: 0; right: 0;"></div>
             </div>
-            <button class="btn rounded-pill px-3 fw-bold d-flex align-items-center justify-content-center" type="submit" style="background-color: #F5EBE6; color: #6b443a; border: 1px solid #F5EBE6; font-size: 0.85rem; height: 34px; transition: all 0.2s;" onmouseover="this.style.backgroundColor='#edd7c2'; this.style.borderColor='#edd7c2';" onmouseout="this.style.backgroundColor='#F5EBE6'; this.style.borderColor='#F5EBE6';">Search</button>
+            <button class="btn btn-mint rounded-pill px-3 fw-bold" type="submit">Search</button>
           </form>
+
+          <!-- ❤️ Wishlist Button (Icon Only) -->
+          <a href="/shop/wishlist/" class="btn btn-sm rounded-circle d-flex align-items-center justify-content-center text-decoration-none"
+             style="width: 38px; height: 38px; background: rgba(253,246,249,0.15); border: 1px solid rgba(237,215,194,0.4); transition: all 0.25s ease;"
+             title="My Wishlist"
+             onmouseover="this.style.background='rgba(240,159,193,0.3)'; this.style.borderColor='#f09fc1';"
+             onmouseout="this.style.background='rgba(253,246,249,0.15)'; this.style.borderColor='rgba(237,215,194,0.4)';">
+            <i class="bi bi-heart-fill" style="font-size: 1.1rem; color: #f09fc1;"></i>
+          </a>
         </div>
 
         <div class="d-flex align-items-center gap-2 ms-auto">
           {% if user.is_authenticated %}
-          <!-- Cohesive Pill for Authenticated User Profile & Actions -->
-          <div class="d-flex align-items-center gap-3 px-3 py-1 rounded-pill border shadow-sm" style="background: rgba(253, 246, 249, 0.08); border-color: rgba(237, 215, 194, 0.25) !important;">
-            <span class="navbar-text small text-light fw-medium d-flex align-items-center gap-1 p-0 m-0">
-              <i class="bi bi-person-circle" style="font-size: 1.05rem; color: #edd7c2;"></i>
-              Hi, <strong class="text-uppercase" style="color: #98f0e3; letter-spacing: 0.05rem;">{{ user.username }}</strong>
-            </span>
-            
-            <span style="color: rgba(237, 215, 194, 0.4); font-size: 0.85rem;">|</span>
-
-            <!-- ❤️ Wishlist Link -->
-            <a href="/shop/wishlist/" class="d-flex align-items-center justify-content-center text-decoration-none" title="My Wishlist">
-              <i class="bi bi-heart-fill" style="font-size: 1.05rem; color: #f09fc1; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.15)';" onmouseout="this.style.transform='scale(1)';"></i>
-            </a>
-
-            <span style="color: rgba(237, 215, 194, 0.4); font-size: 0.85rem;">|</span>
-
-            <!-- 🛒 Bag Dynamic Indicator inside the Account Section -->
-            <a href="javascript:void(0)" onclick="openCartDrawer()" class="d-flex align-items-center text-decoration-none gap-2 text-white" title="My Bag">
-              <span class="d-flex align-items-center gap-1">
-                <i class="bi bi-bag-heart-fill" style="font-size: 1.05rem; color: #98f0e3; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.15)';" onmouseout="this.style.transform='scale(1)';"></i>
-                <span class="small fw-semibold" style="color: #edd7c2; font-size: 0.8rem;">Bag (<span id="navCartBadgeCount">0</span>)</span>
-              </span>
-              <span class="small fw-bold" style="color: #ffffff; font-size: 0.8rem;">₹<span id="navCartTotalPrice">0.00</span></span>
-            </a>
-
-            <span style="color: rgba(237, 215, 194, 0.4); font-size: 0.85rem;">|</span>
-
-            <a href="/shop/logout/" class="btn btn-sm py-0.5 px-3 text-uppercase fw-bold rounded-pill text-decoration-none" style="background-color: rgba(253, 246, 249, 0.12); color: #ffffff; font-size: 0.65rem; letter-spacing: 0.05rem; transition: background-color 0.2s; border: 1px solid rgba(253, 246, 249, 0.2);" onmouseover="this.style.backgroundColor='rgba(253, 246, 249, 0.25)';" onmouseout="this.style.backgroundColor='rgba(253, 246, 249, 0.12)';">Logout</a>
-          </div>
+          <span class="navbar-text small text-light fw-medium me-1">Hi, <strong class="text-uppercase" style="color: #98f0e3; letter-spacing: 0.05rem;">{{ user.username }}</strong></span>
+          <a href="/shop/logout/" class="btn btn-sm btn-outline-light rounded-pill px-3 fw-semibold">Logout</a>
           {% else %}
-          <!-- Cohesive Pill for Guest Actions -->
-          <div class="d-flex align-items-center gap-3 px-3 py-1.5 rounded-pill border shadow-sm" style="background: rgba(253, 246, 249, 0.08); border-color: rgba(237, 215, 194, 0.25) !important;">
-            <!-- ❤️ Wishlist Link -->
-            <a href="/shop/wishlist/" class="d-flex align-items-center justify-content-center text-decoration-none" title="My Wishlist">
-              <i class="bi bi-heart-fill" style="font-size: 1.05rem; color: #f09fc1; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.15)';" onmouseout="this.style.transform='scale(1)';"></i>
-            </a>
-
-            <span style="color: rgba(237, 215, 194, 0.4); font-size: 0.85rem;">|</span>
-
-            <!-- 🛒 Bag Dynamic Indicator inside the Account Section -->
-            <a href="javascript:void(0)" onclick="openCartDrawer()" class="d-flex align-items-center text-decoration-none gap-2 text-white" title="My Bag">
-              <span class="d-flex align-items-center gap-1">
-                <i class="bi bi-bag-heart-fill" style="font-size: 1.05rem; color: #98f0e3; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.15)';" onmouseout="this.style.transform='scale(1)';"></i>
-                <span class="small fw-semibold" style="color: #edd7c2; font-size: 0.8rem;">Bag (<span id="navCartBadgeCount">0</span>)</span>
-              </span>
-              <span class="small fw-bold" style="color: #ffffff; font-size: 0.8rem;">₹<span id="navCartTotalPrice">0.00</span></span>
-            </a>
-
-            <span style="color: rgba(237, 215, 194, 0.4); font-size: 0.85rem;">|</span>
-
-            <a href="/shop/login/" class="nav-link p-0" style="font-size: 0.82rem; color: #edd7c2 !important; font-weight: 500;">Login</a>
-            <a href="/shop/signup/" class="btn btn-sm rounded-pill px-3 py-1 text-uppercase fw-bold" style="background-color: #F5EBE6; color: #6b443a; font-size: 0.7rem; letter-spacing: 0.05rem;">Sign Up</a>
-          </div>
+          <a href="/shop/login/" class="btn btn-sm btn-outline-light rounded-pill px-3 me-1">Login</a>
+          <a href="/shop/signup/" class="btn btn-sm btn-mint rounded-pill px-3">Sign Up</a>
           {% endif %}
         </div>
 
@@ -380,12 +357,9 @@
   </div>
 
   <!-- 🚨 Sleek Toast Layout Layer -->
-  <div id="uxNotificationToast" class="position-fixed bottom-0 start-50 translate-middle-x mb-4 shadow-lg d-flex align-items-center justify-content-between px-4 py-2 border select-none" style="z-index: 3000; width: 360px; border-radius: 50px; background-color: #6b443a; border-color: rgba(237, 215, 194, 0.3); transform: translateY(150%) translateX(-50%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);">
-    <div class="d-flex align-items-center gap-2">
-      <span class="d-flex align-items-center justify-content-center" style="font-size: 1.15rem;">🛒</span>
-      <span id="toastMessageText" class="text-white small fw-bold tracking-wide mb-0 align-middle">Item added to your capsule</span>
-    </div>
-    <button class="btn btn-sm rounded-pill px-3 py-1 text-uppercase fw-bold shadow-sm" style="background-color: #98f0e3; color: #6b443a; font-size: 0.72rem; border: none; letter-spacing: 0.05rem; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';" onclick="openCartDrawer()">View Bag</button>
+  <div id="uxNotificationToast" class="position-fixed bottom-0 start-50 translate-middle-x mb-4 shadow-lg d-flex align-items-center justify-content-between px-4 py-3 border select-none" style="z-index: 3000; width: 340px; border-radius: 12px; background-color: #6b443a; border-color: #6b443a; transform: translateY(150%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);">
+    <span id="toastMessageText" class="text-white small fw-bold tracking-wide">🛒 Item added to your capsule</span>
+    <span class="small fw-bold text-uppercase" style="color: #98f0e3; cursor: pointer;" onclick="openCartDrawer()">View</span>
   </div>
 
   {% block body %}{% endblock %}
@@ -541,10 +515,6 @@
           $dropdown.hide();
         }
       });
-
-      // Initialize shopify drawer on page load to sync total items count and price
-      let initialCart = JSON.parse(localStorage.getItem('cart')) || {};
-      updateShopifyDrawer(initialCart);
     });
 
     function updateShopifyDrawer(currentCart) {
@@ -599,8 +569,6 @@
       }
 
       if(document.getElementById('cart')) { document.getElementById('cart').innerHTML = totalItems; }
-      if(document.getElementById('navCartBadgeCount')) { document.getElementById('navCartBadgeCount').innerHTML = totalItems; }
-      if(document.getElementById('navCartTotalPrice')) { document.getElementById('navCartTotalPrice').innerHTML = subtotalAmount.toFixed(2); }
       if(document.getElementById('drawerCartSubtotal')) { document.getElementById('drawerCartSubtotal').innerText = '₹' + subtotalAmount.toFixed(2); }
       localStorage.setItem('cart', JSON.stringify(currentCart));
     }
@@ -610,15 +578,15 @@
       let toastElement = document.getElementById('uxNotificationToast');
       if (!toastElement) return;
       if (itemName) {
-        document.getElementById('toastMessageText').innerText = `Added: ${itemName}`;
+        document.getElementById('toastMessageText').innerText = `👜 Added: ${itemName}`;
       } else {
-        document.getElementById('toastMessageText').innerText = `Item added to your capsule`;
+        document.getElementById('toastMessageText').innerText = `🛒 Item added to your capsule`;
       }
       
       toastElement.style.transform = 'translateY(0) translateX(-50%)';
       
       setTimeout(() => {
-        toastElement.style.transform = 'translateY(150%) translateX(-50%)';
+        toastElement.style.transform = 'translateY(150%)';
       }, 2500);
     }
 
