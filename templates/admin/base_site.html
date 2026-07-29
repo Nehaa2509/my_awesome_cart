@@ -527,9 +527,40 @@
     box-shadow: 0 6px 18px rgba(240, 157, 193, 0.55) !important;
   }
 
+  body.login #content-main {
+    width: 100% !important;
+    margin: 0 !important;
+    float: none !important;
+  }
+
+  body.login #content-main form {
+    margin: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
   body.login .form-row {
     padding: 12px 0 !important;
+    border-bottom: none !important;
     border: none !important;
+  }
+
+  body.login .form-row label {
+    display: block !important;
+    padding-right: 0 !important;
+    width: 100% !important;
+    float: none !important;
+    text-align: left !important;
+    margin-bottom: 6px !important;
+    color: #6b443a !important;
+    font-weight: 600 !important;
+    font-size: 0.85rem !important;
+  }
+
+  body.login .form-row input[type=text], body.login .form-row input[type=password] {
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
 
   body.login .submit-row {
