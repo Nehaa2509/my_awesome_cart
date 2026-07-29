@@ -1,24 +1,74 @@
 {% extends "admin/base_site.html" %}
-{% load i18n %}
+{% load i18n static %}
 
 {% block title %}Logged Out — My Awesome Cart{% endblock %}
 
-{% block breadcrumbs %}{% endblock %}
+{% block extrastyle %}
+{{ block.super }}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+    /* Hide top nav, sidebar, and user links on the logout screen */
+    nav,
+    aside,
+    .main-header,
+    .main-sidebar,
+    #jazzy-navbar,
+    #jazzy-sidebar,
+    #user-tools,
+    #nav-sidebar,
+    .breadcrumbs {
+        display: none !important;
+    }
+
+    body.logged-out {
+        background-color: #fdf6f9 !important;
+        font-family: 'Poppins', system-ui, sans-serif;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-height: 100vh !important;
+        margin: 0 !important;
+    }
+
+    .logout-card {
+        background: #ffffff !important;
+        border-radius: 24px !important;
+        box-shadow: 0 10px 40px rgba(107, 68, 58, 0.12) !important;
+        padding: 2.5rem 2rem !important;
+        max-width: 380px !important;
+        width: 100% !important;
+        margin: 0 auto !important;
+        border: 1px solid #edd7c2 !important;
+        text-align: center !important;
+    }
+
+    .btn-login-again {
+        background: #e99fc1 !important;
+        border: none !important;
+        border-radius: 999px !important;
+        padding: 0.7rem 1.2rem !important;
+        font-weight: 600 !important;
+        color: #fff !important;
+        width: 100% !important;
+        cursor: pointer !important;
+        transition: background 0.2s ease, transform 0.2s ease !important;
+        display: inline-block !important;
+        text-decoration: none !important;
+        box-shadow: 0 4px 14px rgba(240, 157, 193, 0.4) !important;
+    }
+
+    .btn-login-again:hover {
+        background: #d887ab !important;
+        transform: translateY(-2px) !important;
+    }
+</style>
+{% endblock %}
+
+{% block bodyclass %}{{ block.super }} logged-out{% endblock %}
 
 {% block content %}
-<div class="logout-wrapper d-flex align-items-center justify-content-center" style="min-height: 65vh; padding: 20px;">
-  <div class="logout-card text-center p-5" style="
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid #edd7c2;
-    border-radius: 24px;
-    box-shadow: 0 12px 35px rgba(107, 68, 58, 0.08);
-    max-width: 480px;
-    width: 100%;
-    margin: 0 auto;
-  ">
-    <!-- Animated Icon Badge -->
+<div class="logout-card">
+    <!-- Icon badge -->
     <div class="icon-badge mb-4" style="
       width: 72px;
       height: 72px;
@@ -30,6 +80,7 @@
       justify-content: center;
       font-size: 2.2rem;
       box-shadow: 0 4px 15px rgba(240, 157, 193, 0.2);
+      margin: 0 auto 24px auto;
     ">
       🛍️
     </div>
@@ -38,37 +89,28 @@
     <h2 class="fw-bold mb-3" style="
       font-family: 'Playfair Display', Georgia, serif; 
       color: #6b443a; 
-      font-size: 1.75rem; 
+      font-size: 1.5rem; 
       letter-spacing: -0.3px;
+      margin: 0 0 12px 0;
+      font-weight: 700;
     ">
-      Successfully Logged Out
+      Logged Out
     </h2>
 
     <!-- Subtitle -->
     <p class="mb-4" style="
       color: #8c5b4f; 
-      font-size: 0.95rem; 
+      font-size: 0.88rem; 
       line-height: 1.6;
       font-family: 'Poppins', sans-serif;
+      margin: 0 0 24px 0;
     ">
       Thank you for spending quality time managing My Awesome Cart. Have a wonderful rest of your day!
     </p>
 
     <!-- Action Buttons -->
-    <div class="d-flex flex-column gap-3 align-items-center">
-      <a href="{% url 'admin:index' %}" class="btn-login-again" style="
-        display: inline-block; 
-        background: #f09fc1 !important; 
-        color: #ffffff !important; 
-        border-radius: 50px !important; 
-        padding: 12px 32px !important; 
-        font-weight: 600; 
-        font-size: 0.95rem;
-        text-decoration: none; 
-        box-shadow: 0 4px 16px rgba(240, 157, 193, 0.4) !important;
-        transition: all 0.25s ease !important;
-        width: 100%;
-      " onmouseover="this.style.background='#e58bb1'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#f09fc1'; this.style.transform='translateY(0)';">
+    <div class="d-flex flex-column gap-3 align-items-center" style="display: flex; flex-direction: column; gap: 12px; align-items: center;">
+      <a href="{% url 'admin:index' %}" class="btn-login-again">
         Log In Again
       </a>
 
@@ -78,10 +120,11 @@
         font-size: 0.88rem;
         text-decoration: none;
         transition: color 0.2s ease;
+        margin-top: 8px;
+        display: inline-block;
       " onmouseover="this.style.color='#f09fc1';" onmouseout="this.style.color='#6b443a';">
         ← Return to Storefront
       </a>
     </div>
-  </div>
 </div>
 {% endblock %}
