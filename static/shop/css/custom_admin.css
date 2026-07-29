@@ -533,3 +533,159 @@ body.login-page::after,
   margin-left: 6px !important;
   display: inline-block !important;
 }
+
+/* =========================================================================
+   🌟 FULL-SCREEN UNIFIED USERS-STYLE LAYOUT FOR ALL ADMIN SECTIONS
+   ========================================================================= */
+
+/* 1. Main Page Content Container & Spacing */
+.content-wrapper,
+.content-wrapper > .content,
+.content-wrapper > .container-fluid,
+#content-main {
+  padding: 1.5rem 2rem 3rem 2rem !important;
+  background-color: #fdf6f9 !important;
+}
+
+/* 2. Unified Page Header Row (Title on Left, Breadcrumbs on Right) */
+.content-header {
+  padding: 1rem 0 2rem 0 !important;
+  margin-bottom: 1rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 1rem !important;
+}
+
+.content-header h1,
+#content-main > h1,
+.content-header .row h1 {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  font-size: 2.2rem !important;
+  font-weight: 700 !important;
+  color: #6b443a !important;
+  margin: 0 !important;
+  letter-spacing: -0.02em !important;
+}
+
+/* 3. Full-Screen Card Containers Across All Pages */
+.card,
+.module,
+fieldset,
+.inline-group,
+#changelist,
+#changelist-form,
+.change-form,
+.dark-mode .card {
+  width: 100% !important;
+  background-color: #ffffff !important;
+  border: 1px solid #edd7c2 !important;
+  border-radius: 24px !important;
+  box-shadow: 0 10px 35px rgba(107, 68, 58, 0.06) !important;
+  margin-bottom: 2rem !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+/* 4. Dashboard Grid Full-Width Card Enhancement */
+.content-wrapper .row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.content-wrapper .row > [class*="col-"] {
+  padding-left: 0.75rem !important;
+  padding-right: 0.75rem !important;
+}
+
+/* 5. Changelist & Table Wrapper Full-Width Clean Card */
+#changelist {
+  display: flex !important;
+  flex-direction: column !important;
+  background: #ffffff !important;
+  border-radius: 24px !important;
+  border: 1px solid #edd7c2 !important;
+  padding: 1.5rem !important;
+  box-shadow: 0 10px 35px rgba(107, 68, 58, 0.06) !important;
+}
+
+#changelist-form {
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+/* Table styling matching Users form clean lines */
+#changelist table,
+.table {
+  border: 1px solid #edd7c2 !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  margin-top: 1rem !important;
+  background: #ffffff !important;
+}
+
+#changelist table thead th,
+.table thead th {
+  background-color: rgba(237, 215, 194, 0.35) !important;
+  color: #6b443a !important;
+  font-family: 'Playfair Display', Georgia, serif !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  padding: 16px 20px !important;
+  border-bottom: 1px solid #edd7c2 !important;
+}
+
+#changelist table tbody td,
+.table tbody td {
+  padding: 16px 20px !important;
+  border-bottom: 1px solid #f7eade !important;
+  color: #6b443a !important;
+  font-size: 0.9rem !important;
+}
+
+/* 6. Action Dropdowns & Search Bars in List Views */
+#changelist .actions,
+#changelist #toolbar {
+  background: #fdf6f9 !important;
+  border: 1px solid #edd7c2 !important;
+  border-radius: 16px !important;
+  padding: 12px 20px !important;
+  margin-bottom: 1rem !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+#changelist #searchbar {
+  border: 1px solid #edd7c2 !important;
+  border-radius: 50px !important;
+  padding: 8px 20px !important;
+  background: #ffffff !important;
+  font-size: 0.88rem !important;
+}
+
+/* 7. Change Form & Fieldset Padding matching Users Form */
+.change-form fieldset,
+.change-form .module {
+  padding: 1.5rem 2rem !important;
+  background: #ffffff !important;
+}
+
+.form-row {
+  border-bottom: 1px solid #f7eade !important;
+  padding: 1rem 0 !important;
+}
+
+.form-row:last-child {
+  border-bottom: none !important;
+}
+
+.form-row label {
+  font-weight: 600 !important;
+  color: #6b443a !important;
+  font-size: 0.9rem !important;
+}
