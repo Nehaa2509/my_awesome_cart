@@ -1,201 +1,156 @@
-Markdown
-# 🛒 OQIREL
+# OQIREL
 
-A full-featured **Django e-commerce web application** with a shopping cart, Razorpay payment integration, order tracking, and a blog — built as a learning project inspired by the *Code With Harry* Django series.
+A full-stack Django e-commerce platform for a curated self-care & home-fragrance boutique — soy candles, reed diffusers, skincare, and apothecary goods. Built with real payment processing, authenticated user accounts, a wishlist, order tracking with PDF invoicing, and a blog with nested comments.
 
----
-
-## ✨ Features
-
-- 🏠 **Landing Page** — Clean home page with navigation to the shop
-- 📦 **Product Catalog** — Category-wise dynamic product slideshows
-- 🔍 **Product Detail View** — Individual product pages
-- 🛒 **Shopping Cart** — Client-side cart with session persistence
-- 💳 **Razorpay Payment Gateway** — Secure online payments with signature verification
-- 📊 **Order Management** — Orders saved to DB with payment status tracking (`Pending` ➡️ `Paid` / `Failed`)
-- 📍 **Order Tracker** — Track order status by Order ID + Email
-- 📝 **Blog** — Blog posts with thumbnails, content, and author info
-- ✉️ **Contact Form** — Saves messages from visitors to the database
-- 🛠️ **Django Admin** — Full admin panel for managing all models
+**Live demo:** https://oqirel-project.onrender.com
 
 ---
 
-## 📂 Project Structure
+## Features
 
-OQIREL/                  # Django project root
-├── MAC/                        # Project configuration
-│   ├── settings.py
+**Storefront**
+- Category-organized product catalog (Fragrance, Skincare, Apothecary) with dynamic slideshows
+- Product detail pages with view-count tracking and category-based recommendations
+- Debounced AJAX search with live autocomplete suggestions
+- Slide-out cart drawer with persistent `localStorage` state and a free-shipping progress indicator
+
+**Accounts & Wishlist**
+- Full authentication (signup, login, logout) via Django's session-based auth
+- Personal wishlist — add/remove products, prevented from duplicate entries at the database level
+
+**Checkout & Payments**
+- Razorpay integration: order creation, hosted checkout, and server-side payment signature verification
+- Authoritative server-side pricing and stock validation — client-submitted cart prices are never trusted; both are recalculated from the database at checkout
+- Atomic stock decrement using SQL `F()` expressions to prevent overselling under concurrent checkouts
+
+**Orders & Invoicing**
+- Order status tracking by Order ID + email (for guests and registered users alike)
+- Timestamped order-update timeline per order
+- PDF invoice generation (ReportLab), gated behind login with an ownership check (matches the order to the requesting user via linked account or verified email, with staff override) so invoices can't be accessed by guessing order IDs
+
+**Blog**
+- Posts with categories, thumbnails, and author attribution
+- Threaded/nested comments (self-referential parent field) and per-user post likes
+
+**Admin**
+- Custom-themed Django admin (branded header, styled login/logout pages) matching the storefront's pastel palette
+- Full CRUD across Products, Orders, Order Updates, Contacts, Blog Posts, and Comments
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Backend | Django (4.2–6.x), Python |
+| Frontend | Bootstrap 5, vanilla JS/jQuery, Playfair Display + Poppins |
+| Database | SQLite (dev) → PostgreSQL via `dj-database-url` (prod) |
+| Payments | Razorpay |
+| PDF generation | ReportLab |
+| Static/media | WhiteNoise |
+| Admin theming | django-jazzmin + custom CSS overrides |
+| Deployment | Render (Gunicorn) |
+
+---
+
+## Project Structure
+
+```
+oqirel/
+├── MAC/                      # Project configuration
+│   ├── settings.py           # Env-var-driven config (see below)
 │   ├── urls.py
-│   ├── wsgi.py
-│   └── asgi.py
-├── shop/                       # Main e-commerce app
-│   ├── models.py               # Product, Contact, Order, OrderUpdate
-│   ├── views.py                # All shop views
-│   ├── urls.py                 # Shop URL patterns
-│   ├── admin.py                # Admin registrations
-│   ├── templates/shop/         # HTML templates
-│   └── static/                 # CSS, JS, images
-├── blog/                       # Blog app
-│   ├── models.py               # Blogpost model
+│   └── wsgi.py
+├── shop/                     # Core e-commerce app
+│   ├── models.py             # Product, Order, OrderUpdate, Contact, Wishlist
 │   ├── views.py
-│   ├── urls.py
+│   ├── admin.py
+│   ├── templates/shop/
+│   └── static/shop/
+├── blog/                     # Blog app
+│   ├── models.py             # BlogPost, BlogComment
+│   ├── views.py
 │   └── templates/blog/
-├── media/                      # User-uploaded media files
-├── db.sqlite3                  # SQLite database
-├── manage.py
-└── populate_db.py              # Script to seed initial data
-
-
----
-
-## 🗃️ Data Models
-
-### `shop` App
-
-| Model | Key Fields |
-| :--- | :--- |
-| `Product` | `product_name`, `category`, `subcategory`, `price`, `description`, `image` |
-| `Contact` | `name`, `email`, `phone`, `desc` |
-| `Order` | `items_json`, `name`, `email`, `address`, `amount`, `payment_status`, Razorpay IDs |
-| `OrderUpdate` | `order_id`, `update_desc`, `timestamp` |
-
-### `blog` App
-
-| Model | Key Fields |
-| :--- | :--- |
-| `Blogpost` | `title`, `chead`, `author`, `content`, `pub_date`, `thumbnail` |
+├── templates/admin/          # Custom admin login/logout overrides
+├── media/                    # User-uploaded product images
+├── requirements.txt
+└── manage.py
+```
 
 ---
 
-## 🛣️ URL Routes
-
-| URL Pattern | View | Description |
-| :--- | :--- | :--- |
-| `/` | `home` | Landing page |
-| `/shop/` | `index` | Product catalog |
-| `/shop/about/` | `about` | About page |
-| `/shop/contact/` | `contact` | Contact form |
-| `/shop/tracker/` | `tracker` | Order tracking |
-| `/shop/search/` | `search` | Search page |
-| `/shop/products/<id>` | `productview` | Product detail |
-| `/shop/checkout/` | `checkout` | Checkout & Razorpay init |
-| `/shop/handlerequest/` | `handlerequest` | Razorpay payment callback |
-| `/blog/` | Blog views | Blog listing & detail |
-| `/admin/` | Django Admin | Admin panel |
-
----
-
-## 💳 Payment Flow (Razorpay)
-
-User fills checkout form
-⬇️
-Order saved to DB (status: Pending)
-⬇️
-Razorpay order created via API
-⬇️
-User pays via Razorpay modal (pay.html)
-⬇️
-Razorpay POSTs to /shop/handlerequest/
-⬇️
-Signature verified on backend
-⬇️
-Order status updated ➡️ "Paid" or "Failed"
-
-
----
-
-## 🛠️ Setup & Installation
+## Setup
 
 ### Prerequisites
-
 - Python 3.10+
 - pip
 
-### Steps
+### Installation
 
 ```bash
-# 1. Clone the repository
-git clone <your-repo-url>
-cd OQIREL
+git clone https://github.com/Nehaa2509/my_awesome_cart.git
+cd my_awesome_cart
 
-# 2. Create and activate a virtual environment
 python -m venv venv
+source venv/bin/activate        # Windows: venv\Scripts\activate
 
-# Windows
-venv\Scripts\activate    
-# Linux/macOS
-# source venv/bin/activate   
+pip install -r requirements.txt
+```
 
-# 3. Install dependencies
-pip install django razorpay pillow
+### Environment variables
 
-# 4. Apply migrations
-python manage.py makemigrations
+Create a `.env` file in the project root (never commit this):
+
+```
+SECRET_KEY=your-strong-random-secret-key
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1
+RAZORPAY_KEY_ID=your_razorpay_key_id
+RAZORPAY_KEY_SECRET=your_razorpay_key_secret
+```
+
+`settings.py` reads all of these via `os.environ.get(...)` with safe local-dev fallbacks — for any real or public deployment, set `DEBUG=False` and provide real values for every variable above through your host's environment variable dashboard, not the `.env` file.
+
+### Database & run
+
+```bash
 python manage.py migrate
-
-# 5. Create a superuser (for admin panel)
 python manage.py createsuperuser
-
-# 6. (Optional) Seed the database with sample data
-python populate_db.py
-
-# 7. Run the development server
 python manage.py runserver
-Visit http://127.0.0.1:8000/ in your browser.
+```
 
-⚙️ Configuration
-Open MAC/settings.py and update the following configuration properties before pushing live:
+Visit `http://127.0.0.1:8000/`.
 
-Python
-# Replace with your actual Razorpay credentials
-RAZORPAY_KEY_ID     = 'your_razorpay_key_id'
-RAZORPAY_KEY_SECRET = 'your_razorpay_key_secret'
+---
 
-# Generate a new secret key for production
-SECRET_KEY = 'your-strong-secret-key'
+## Deployment (Render)
 
-# Disable debug mode in production
-DEBUG = False
+- **Build command:** `pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate`
+- **Start command:** `gunicorn MAC.wsgi:application`
+- Set `SECRET_KEY`, `DEBUG=False`, `ALLOWED_HOSTS` (include your `.onrender.com` domain), `RAZORPAY_KEY_ID`, and `RAZORPAY_KEY_SECRET` as environment variables on the Render dashboard
+- If using PostgreSQL in production, also set `DATABASE_URL` (read via `dj-database-url`)
 
-# Add your domain/IP
-ALLOWED_HOSTS = ['yourdomain.com']
-⚠️ Warning: Never commit your real SECRET_KEY or Razorpay credentials directly to version control. Always pull them from environment variables or a secure .env file instead.
+---
 
-📦 Dependencies
-Package	Purpose
-django	Web framework (Django>=5.0)
-razorpay	Payment gateway Python SDK
-pillow	Image handling support for model ImageField
-👑 Admin Panel
-Access the Django admin portal at http://127.0.0.1:8000/admin/ to:
+## Security notes
 
-Add / edit / delete Products
+- Cart totals and stock are always re-verified server-side at checkout — client-submitted values are discarded, not trusted
+- Invoice downloads require authentication and an ownership check (account match, verified email match, or staff) before serving the PDF
+- Stock updates use atomic `F()` expressions to avoid race conditions during concurrent purchases
+- Secrets are read from environment variables with local-only fallback defaults — production deployments must override every credential
 
-View Orders and alter settlement flags
+---
 
-Log dynamic Order Updates tracking metrics
+## Roadmap
 
-Manage Blog Posts
+- [ ] Move `OrderUpdate.order_id` from a plain integer to a proper `ForeignKey('Order')` for referential integrity
+- [ ] Add a `created_at` timestamp to `Order` for chronological sorting/filtering in admin
+- [ ] Email notifications on order placement and status changes
+- [ ] Pagination for the product catalog and blog feed
+- [ ] Rate-limiting on the order tracker to prevent order ID/email enumeration
 
-Track incoming client Contact notes
+---
 
-🚀 Future Improvements
-[ ] User authentication & account dashboard
+## License
 
-[ ] Wishlist / favourites functionality
-
-[ ] Product search with filtering & sorting
-
-[ ] Email notifications on order placement
-
-[ ] Pagination for product catalog and blog
-
-[ ] Deploy to production (Render / Railway / VPS)
-
-[ ] Move to PostgreSQL for production database
-
-🤝 Credits
-Built following the structural principles taught in the Code With Harry Django development series.
-
-📄 License
-This project is open-source and intended for educational purposes. Feel free to fork and build upon it!
+Educational/portfolio project. Feel free to fork and build on it.
