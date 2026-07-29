@@ -7,27 +7,27 @@
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
     rel="stylesheet">
 <style>
-    body.login {
-        background-color: #fdf6f9;
-        font-family: 'Poppins', system-ui, sans-serif;
-    }
-
-    /* Hide top nav, user tools, and header on login screen */
-    body.login #header,
-    body.login #user-tools,
-    body.login .nav-global,
-    body.login #nav-sidebar,
-    body.login .breadcrumbs {
+    /* Hide top nav, sidebar, and user links on the login screen */
+    nav,
+    aside,
+    .main-header,
+    .main-sidebar,
+    #jazzy-navbar,
+    #jazzy-sidebar,
+    #user-tools,
+    #nav-sidebar,
+    .breadcrumbs {
         display: none !important;
     }
 
-    /* Format Admin Username in Brown & Uppercase across admin panel */
-    #user-tools,
-    #user-tools strong,
-    #user-tools a {
-        text-transform: uppercase !important;
-        color: #6b443a !important; /* Warm Brown */
-        font-weight: 600;
+    body.login {
+        background-color: #fdf6f9 !important;
+        font-family: 'Poppins', system-ui, sans-serif;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-height: 100vh !important;
+        margin: 0 !important;
     }
 
     .login #container {
@@ -36,7 +36,14 @@
         box-shadow: 0 10px 40px rgba(107, 68, 58, 0.12);
         padding: 2.5rem 2rem;
         max-width: 380px;
-        margin: 8vh auto;
+        width: 100%;
+        margin: 0 auto !important;
+    }
+
+    .login #header {
+        background: none;
+        text-align: center;
+        padding: 0 0 1.5rem 0;
     }
 
     .login #site-name,
@@ -47,16 +54,10 @@
         font-weight: 700;
     }
 
-    .login .form-row {
-        margin-bottom: 1.2rem;
-    }
-
     .login .form-row label {
         color: #6b443a;
         font-weight: 500;
         font-size: 0.85rem;
-        display: block;
-        margin-bottom: 0.4rem;
     }
 
     .login .form-row input {
@@ -65,7 +66,6 @@
         padding: 0.6rem 0.8rem;
         width: 100%;
         background: #fdf6f9;
-        box-sizing: border-box;
     }
 
     .login .form-row input:focus {
@@ -85,7 +85,6 @@
         width: 100%;
         cursor: pointer;
         transition: background 0.2s ease;
-        margin-top: 1rem;
     }
 
     .login .submit-row input:hover {
@@ -95,23 +94,6 @@
     .login .errornote {
         border-radius: 10px;
         border-color: #e99fc1;
-        background-color: #fce8f0;
-        color: #6b443a;
-    }
-
-    .login .password-reset-link {
-        text-align: center;
-        margin-top: 1rem;
-    }
-
-    .login .password-reset-link a {
-        color: #6b443a;
-        font-size: 0.8rem;
-        text-decoration: none;
-    }
-
-    .login .password-reset-link a:hover {
-        text-decoration: underline;
     }
 </style>
 {% endblock %}
@@ -125,8 +107,6 @@
 {% block content_title %}{% endblock %}
 
 {% block breadcrumbs %}{% endblock %}
-
-{% block header %}{% endblock %}
 
 {% block content %}
 {% if form.errors and not form.non_field_errors %}
