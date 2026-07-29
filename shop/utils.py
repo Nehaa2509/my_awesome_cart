@@ -242,7 +242,7 @@ def generate_invoice_pdf(order):
         alignment=1, # Center
         textColor=color_brown
     )
-    story.append(Paragraph("Thank you for shopping with <b>OQIREL</b>! Built with care, Razorpay, and Django.", footer_text))
+    story.append(Paragraph("Thank you for shopping with <b>OQIREL</b>!", footer_text))
 
     doc.build(story)
     buffer.seek(0)
