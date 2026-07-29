@@ -1,147 +1,467 @@
 {% extends "shop/basic.html" %}
-{% block title %} MyAwesomeCart — The Antigravity Edition {% endblock %}
+{% load static %}
+
+{% block title %}Home - My Awesome Cart{% endblock %}
 
 {% block css %}
 <style>
-  /* 🪄 Resetting canvas constraints for a total weightless environment */
-  body, html {
-    overflow-x: hidden;
-    background-color: #fdf6f9 !important;
+  /* Modern Styling Variables */
+  :root {
+    --primary-color: #0d6efd;
+    --hover-lift: -6px;
   }
 
-  /* 🏛️ The Central Editorial Brand Frame */
-  .antigravity-hero {
-    height: 90vh;
+  body {
+    background-color: #f8f9fa;
+  }
+
+  /* Clean Card Design & Interactions */
+  .product-card {
+    border: none;
+    border-radius: 12px;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+    background: #ffffff;
+    overflow: hidden;
+  }
+
+  .product-card:hover {
+    transform: translateY(var(--hover-lift));
+    box-shadow: 0 12px 24px rgba(107, 68, 58, 0.15) !important;
+  }
+
+  .product-card img {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .product-card:hover img {
+    transform: scale(1.08);
+  }
+
+  /* 🏷️ Elegant Boutique Carousel Controls & Arrow Buttons */
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 44px;
+    height: 44px;
+    background-color: #6b443a;
+    border: 1px solid #edd7c2;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.85;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 12px rgba(107, 68, 58, 0.15);
+  }
+
+  .carousel-control-prev { left: 0.5rem; }
+  .carousel-control-next { right: 0.5rem; }
+
+  .carousel-control-prev:hover,
+  .carousel-control-next:hover {
+    background-color: #6b443a;
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 8px 20px rgba(107, 68, 58, 0.25);
+  }
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    width: 1.2rem;
+    height: 1.2rem;
+    background-size: 100%;
+    filter: invert(1);
+  }
+
+  /* Custom Minimalist Hero Navigation Arrows */
+  .carousel-control-prev-hero,
+  .carousel-control-next-hero {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    position: relative;
-    z-index: 10;
-    pointer-events: none; /* Allows interacting with 3D elements underneath */
-  }
-
-  .floating-brand-title {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 5rem;
-    font-weight: 700;
+    width: 48px;
+    height: 48px;
+    padding: 0;
     color: #6b443a;
-    letter-spacing: -0.1rem;
-    animation: floatingText 6s ease-in-out infinite;
+    background-color: rgba(253, 246, 249, 0.9);
+    border: 1px solid #edd7c2;
+    border-radius: 50%;
+    box-shadow: 0 6px 16px rgba(107, 68, 58, 0.12);
+    backdrop-filter: blur(8px);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .floating-brand-sub {
-    font-family: 'Poppins', sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 0.3rem;
-    font-size: 0.85rem;
-    color: #f09fc1;
-    font-weight: 600;
+  .carousel-control-prev-hero { left: 1.5rem; }
+  .carousel-control-next-hero { right: 1.5rem; }
+
+  .carousel-control-prev-hero:hover,
+  .carousel-control-next-hero:hover {
+    background-color: #6b443a;
+    color: #98f0e3;
+    border-color: #6b443a;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 10px 24px rgba(107, 68, 58, 0.25);
   }
 
-  /* 🧴 Weightless Product Floating Matrix Styles */
-  .floating-graphic-asset {
-    position: absolute;
-    z-index: 5;
-    cursor: grab;
-    transition: transform 0.1s ease-out;
-    filter: drop-shadow(0 20px 30px rgba(107, 68, 58, 0.12));
-  }
-  .floating-graphic-asset:active {
-    cursor: grabbing;
+  .carousel-arrow-icon {
+    font-size: 2.2rem;
+    font-weight: 300;
+    line-height: 1;
+    margin-top: -2px;
   }
 
-  /* ✨ Gravity-Defying Keyframe Sequences */
-  @keyframes floatingText {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-15px); }
-    100% { transform: translateY(0px); }
+  /* Customizing Bottom Navigation Indicators */
+  .carousel-indicators [data-bs-target] {
+    background-color: #6b443a !important;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin: 0 4px;
+    border: none;
+    opacity: 0.25;
+    transition: all 0.3s ease;
+  }
+
+  .carousel-indicators .active {
+    opacity: 1 !important;
+    background-color: #6b443a !important;
+    width: 24px;
+    border-radius: 12px;
   }
 </style>
 {% endblock %}
 
 {% block body %}
-<div class="position-relative w-100 vh-100 overflow-hidden">
-
-  <!-- 🏛️ Core Aesthetic Visual Overlay -->
-  <div class="antigravity-hero">
-    <span class="floating-brand-sub mb-2">Import Antigravity</span>
-    <h1 class="floating-brand-title">MyAwesomeCart</h1>
-    <p class="text-muted font-monospace mt-3" style="letter-spacing: 0.05rem;">[ A Spatial Graphic Experiment ]</p>
+<!-- ✨ Ultra-Elegant Editorial Hero Banner Slider -->
+<div id="heroBannerSlider" class="carousel slide mb-5" data-bs-ride="carousel" data-bs-interval="5000">
+  <!-- Interactive Navigation Indicators -->
+  <div class="carousel-indicators mb-3">
+    <button type="button" data-bs-target="#heroBannerSlider" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#heroBannerSlider" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#heroBannerSlider" data-bs-slide-to="2" aria-label="Slide 3"></button>
   </div>
 
-  <!-- 🧴 Floating Graphic Elements Container Matrix -->
-  <!-- Asset 01: Botanical Face Oil -->
-  <div class="floating-graphic-asset interactive-float" style="top: 15%; left: 10%; width: 220px;" data-speed="1.2">
-    <img src="https://images.unsplash.com/photo-1608248597481-496100c8c836?q=80&w=600&auto=format&fit=crop" class="img-fluid rounded-4" alt="Face Oil Sub-orbital Element">
+  <!-- Carousel Slides Inner Wrapper -->
+  <div class="carousel-inner rounded-4 overflow-hidden shadow-sm" style="border: 1px solid #edd7c2;">
+    
+    <!-- Slide 1: Skincare Capsule -->
+    <div class="carousel-item active">
+      <div class="hero-banner-card d-flex align-items-center py-5" style="background: linear-gradient(135deg, #fdf6f9 0%, #edd7c2 50%, #fdf6f9 100%);">
+        <div class="container px-4 px-md-5">
+          <div class="row align-items-center g-4">
+            <div class="col-12 col-md-7 text-center text-md-start">
+              <span class="badge mb-3 px-3 py-2 rounded-pill uppercase fw-bold" style="background-color: #f09fc1; color: #6b443a; letter-spacing: 0.12rem; font-size: 0.75rem;">SEASONAL RELEASE</span>
+              <h1 class="display-3 fw-bold mb-3" style="font-family: 'Playfair Display', serif; color: #6b443a; letter-spacing: -0.04rem;">Pure Botanical Radiance</h1>
+              <p class="lead mb-4 text-muted" style="max-width: 520px; font-size: 1.1rem; line-height: 1.6;">Cold-pressed organic jojoba, rosehip &amp; superfine French clays target-engineered for weightless daily skin hydration.</p>
+              <div class="d-flex gap-3 justify-content-center justify-content-md-start">
+                <a href="/shop/search/?query=Skincare" class="btn btn-lg fw-bold px-4 py-3 rounded-pill shadow-sm" style="background-color: #6b443a; color: #fdf6f9; border: none; font-size: 0.9rem; letter-spacing: 0.05rem;">Explore Skincare Capsule &rarr;</a>
+              </div>
+            </div>
+            <div class="col-12 col-md-5 text-center d-none d-md-block">
+              <div class="p-3 bg-white rounded-4 shadow-lg d-inline-block position-relative" style="border: 1px solid #edd7c2; transform: rotate(2deg);">
+                <img src="/media/shop/images/face_oil.png" alt="Botanical Face Oil" class="img-fluid rounded-3" style="max-height: 280px; object-fit: contain;" onerror="this.onerror=null; this.src=noImagePlaceholder;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2: Home Fragrance -->
+    <div class="carousel-item">
+      <div class="hero-banner-card d-flex align-items-center py-5" style="background: linear-gradient(135deg, #edd7c2 0%, #98f0e3 60%, #fdf6f9 100%);">
+        <div class="container px-4 px-md-5">
+          <div class="row align-items-center g-4">
+            <div class="col-12 col-md-7 text-center text-md-start">
+              <span class="badge mb-3 px-3 py-2 rounded-pill uppercase fw-bold" style="background-color: #6b443a; color: #fdf6f9; letter-spacing: 0.12rem; font-size: 0.75rem;">NEW AMBIENT ACCORDS</span>
+              <h1 class="display-3 fw-bold mb-3" style="font-family: 'Playfair Display', serif; color: #6b443a; letter-spacing: -0.04rem;">Olfactory Architecture</h1>
+              <p class="lead mb-4 text-muted" style="max-width: 520px; font-size: 1.1rem; line-height: 1.6;">Hand-poured soy candles &amp; wild lavender reed diffusers crafted to ground your living space in serene calm.</p>
+              <div class="d-flex gap-3 justify-content-center justify-content-md-start">
+                <a href="/shop/search/?query=Fragrance" class="btn btn-lg fw-bold px-4 py-3 rounded-pill shadow-sm" style="background-color: #6b443a; color: #fdf6f9; border: none; font-size: 0.9rem; letter-spacing: 0.05rem;">Discover Room Fragrances &rarr;</a>
+              </div>
+            </div>
+            <div class="col-12 col-md-5 text-center d-none d-md-block">
+              <div class="p-3 bg-white rounded-4 shadow-lg d-inline-block position-relative" style="border: 1px solid #edd7c2; transform: rotate(-2deg);">
+                <img src="/media/shop/images/candle_santal.png" alt="Santal Soy Candle" class="img-fluid rounded-3" style="max-height: 280px; object-fit: contain;" onerror="this.onerror=null; this.src=noImagePlaceholder;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: Botanical Apothecary Rituals -->
+    <div class="carousel-item">
+      <div class="hero-banner-card d-flex align-items-center py-5" style="background: linear-gradient(135deg, #f09fc1 0%, #fdf6f9 60%, #edd7c2 100%);">
+        <div class="container px-4 px-md-5">
+          <div class="row align-items-center g-4">
+            <div class="col-12 col-md-7 text-center text-md-start">
+              <span class="badge mb-3 px-3 py-2 rounded-pill uppercase fw-bold" style="background-color: #98f0e3; color: #6b443a; letter-spacing: 0.12rem; font-size: 0.75rem;">JOURNAL EDITION</span>
+              <h1 class="display-3 fw-bold mb-3" style="font-family: 'Playfair Display', serif; color: #6b443a; letter-spacing: -0.04rem;">The Art of Slow Rituals</h1>
+              <p class="lead mb-4 text-muted" style="max-width: 520px; font-size: 1.1rem; line-height: 1.6;">Mineral-rich Himalayan salts &amp; raw plant lipid soaps crafted for conscious, unhurried bath resets.</p>
+              <div class="d-flex gap-3 justify-content-center justify-content-md-start">
+                <a href="/blog/" class="btn btn-lg fw-bold px-4 py-3 rounded-pill shadow-sm" style="background-color: #6b443a; color: #fdf6f9; border: none; font-size: 0.9rem; letter-spacing: 0.05rem;">Read Our Journal &rarr;</a>
+              </div>
+            </div>
+            <div class="col-12 col-md-5 text-center d-none d-md-block">
+              <div class="p-3 bg-white rounded-4 shadow-lg d-inline-block position-relative" style="border: 1px solid #edd7c2; transform: rotate(1deg);">
+                <img src="/media/shop/images/body_scrub.png" alt="Coconut Body Scrub" class="img-fluid rounded-3" style="max-height: 280px; object-fit: contain;" onerror="this.onerror=null; this.src=noImagePlaceholder;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-  <!-- Asset 02: Smoked Santal Candle -->
-  <div class="floating-graphic-asset interactive-float" style="top: 55%; left: 75%; width: 250px;" data-speed="0.8">
-    <img src="https://images.unsplash.com/photo-1603006905003-be475563bc59?q=80&w=600&auto=format&fit=crop" class="img-fluid rounded-4" alt="Santal Vessel element">
-  </div>
-
-  <!-- Asset 03: Pink French Clay Mask -->
-  <div class="floating-graphic-asset interactive-float" style="top: 20%; left: 65%; width: 200px;" data-speed="1.5">
-    <img src="https://images.unsplash.com/photo-1567894340315-735d7c361db0?q=80&w=600&auto=format&fit=crop" class="img-fluid rounded-4" alt="Clay Formulation asset">
-  </div>
-
-  <!-- Asset 04: Wild Lavender Reed Diffuser -->
-  <div class="floating-graphic-asset interactive-float" style="top: 60%; left: 25%; width: 210px;" data-speed="1.0">
-    <img src="https://images.unsplash.com/photo-1547483238-f400e65ccd56?q=80&w=600&auto=format&fit=crop" class="img-fluid rounded-4" alt="Diffuser Geometry asset">
-  </div>
-
+  <!-- Directional Slider Control Arrows -->
+  <button class="carousel-control-prev-hero" type="button" data-bs-target="#heroBannerSlider" data-bs-slide="prev">
+    <span class="carousel-arrow-icon">‹</span>
+  </button>
+  <button class="carousel-control-next-hero" type="button" data-bs-target="#heroBannerSlider" data-bs-slide="next">
+    <span class="carousel-arrow-icon">›</span>
+  </button>
 </div>
 
-<!-- ⚙️ The Antigravity JavaScript Kinetic Physics Matrix -->
+<div class="container my-5">
+
+  {% for product, range, nSlides in allProds %}
+
+  <!-- 🌿 Editorial Category Header Banner -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end my-4 pb-2 border-bottom" style="border-color: #edd7c2 !important;">
+    <div>
+      <span class="badge mb-1 px-3 py-1 rounded-pill text-uppercase fw-bold" style="background-color: #edd7c2; color: #6b443a; font-size: 0.7rem; letter-spacing: 0.08rem;">Curated Collection</span>
+      <h2 class="display-6 fw-bold mb-0" style="font-family: 'Playfair Display', serif; color: #6b443a; letter-spacing: -0.03rem;">
+        {{ product.0.category }} Capsule &mdash; Signature Formulations
+      </h2>
+    </div>
+    <p class="text-muted small mb-0 mt-2 mt-md-0 fw-medium">Handcrafted essential releases for daily self-care rituals</p>
+  </div>
+  <div class="row">
+    <div id="productCarousel{{forloop.counter}}" class="col carousel slide mb-5" data-bs-ride="carousel">
+
+      <div class="carousel-indicators mb-n3">
+        <button type="button" data-bs-target="#productCarousel{{forloop.counter}}" data-bs-slide-to="0" class="active"
+          aria-current="true"></button>
+        {% for i in range %}
+        <button type="button" data-bs-target="#productCarousel{{forloop.parentloop.counter}}"
+          data-bs-slide-to="{{i}}"></button>
+        {% endfor %}
+      </div>
+
+      <div class="carousel-inner px-md-5">
+
+        <div class="carousel-item active">
+          <div class="row g-4">
+
+            {% for p in product %}
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+              <div class="card product-card h-100 shadow-sm position-relative">
+                <!-- ❤️ Wishlist Heart Button -->
+                <button class="wishlist-btn position-absolute {% if p.id in wishlist_ids %}wishlisted{% endif %}"
+                  onclick="toggleWishlist(event, {{ p.id }}, this)"
+                  title="{% if p.id in wishlist_ids %}Remove from Wishlist{% else %}Add to Wishlist{% endif %}"
+                  style="top: 10px; right: 10px; z-index: 10; background: rgba(253,246,249,0.9); border: 1px solid #edd7c2; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.25s ease; backdrop-filter: blur(4px);">
+                  <i class="{% if p.id in wishlist_ids %}bi bi-heart-fill{% else %}bi bi-heart{% endif %}"
+                     style="font-size: 1rem; color: {% if p.id in wishlist_ids %}#f09fc1{% else %}#6b443a{% endif %};"></i>
+                </button>
+                {% if p.image %}
+                <img src="{{ p.image.url }}" class="card-img-top" alt="{{p.product_name}}" onerror="this.onerror=null; this.src='{% static 'shop/no-image-placeholder.png' %}';">
+                {% else %}
+                <img src="{% static 'shop/no-image-placeholder.png' %}" class="card-img-top" alt="{{p.product_name}}">
+                {% endif %}
+                <div class="card-body d-flex flex-column justify-content-between">
+                  <div>
+                    <h5 class="card-title fw-semibold" id="namepr{{p.id}}">{{p.product_name}}</h5>
+                    <p class="card-text text-muted small">{{p.description | slice:"0:53"}}...</p>
+                  </div>
+                  <div class="mt-3">
+                    <div class="fw-bold mb-2" style="color: #6b443a;">₹<span id="pricepr{{p.id}}">{{p.price}}</span></div>
+
+                    <div class="d-flex gap-2">
+                      <span id="divpr{{p.id}}" class="w-50">
+                        <button id="pr{{p.id}}" class="btn btn-primary w-100 cart">Add to Cart</button>
+                      </span>
+                      <a href="/shop/products/{{p.id}}" class="btn btn-outline-secondary w-50">View</a>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {% if forloop.counter|divisibleby:4 and not forloop.last %}
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="row g-4">
+            {% endif %}
+            {% endfor %}
+
+          </div>
+        </div>
+
+      </div>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel{{forloop.counter}}"
+        data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#productCarousel{{forloop.counter}}"
+        data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+  {% endfor %}
+
+  <!-- Shopify-Style Trust Architecture Badge Row -->
+  <div class="d-flex flex-wrap justify-content-center gap-3 mt-5 text-uppercase tracking-wider select-none small fw-bold text-center">
+    <div class="px-3 py-2 rounded-pill shadow-sm" style="background-color: #fdf6f9; color: #6b443a; font-size: 0.75rem; border: 1px solid #edd7c2;">
+      📦 Free Shipping Over ₹500
+    </div>
+    <div class="px-3 py-2 rounded-pill shadow-sm" style="background-color: #fdf6f9; color: #6b443a; font-size: 0.75rem; border: 1px solid #edd7c2;">
+      🔒 Secure Checkout via Razorpay
+    </div>
+    <div class="px-3 py-2 rounded-pill shadow-sm" style="background-color: #fdf6f9; color: #6b443a; font-size: 0.75rem; border: 1px solid #edd7c2;">
+      ⚡ Instant Status Tracking Logs
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
 <script>
-  document.addEventListener("mousemove", function(e) {
-    const items = document.querySelectorAll(".interactive-float");
-    
-    items.forEach(item => {
-      // Extract specific shifting speeds assigned to each graphic canvas layer
-      const speed = parseFloat(item.getAttribute("data-speed"));
-      
-      // Calculate micro relative directional translation vectors
-      const x = (window.innerWidth - e.pageX * speed) / 45;
-      const y = (window.innerHeight - e.pageY * speed) / 45;
-      
-      // Update item coordinates instantly to produce depth parallax
-      item.style.transform = `translateX(${x}px) translateY(${y}px) rotate(${x * 0.1}deg)`;
-    });
+  console.log('Cart JavaScript Operational');
+
+  // 1. Initial State Sync & Migration
+  let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
+
+  // 2. Initial Setup Run
+  updateCart(cart);
+
+  // 3. Click interaction delegation handler
+  $(document).on('click', '.cart', function () {
+    console.log('Cart item add trigger received.');
+    var idstr = this.id.toString().trim();
+
+    if (cart[idstr] !== undefined) {
+      cart[idstr][0] = cart[idstr][0] + 1;
+    } else {
+      let nameElement = document.getElementById('name' + idstr);
+      let name = nameElement ? nameElement.innerHTML : "Product";
+
+      let priceElement = document.getElementById('price' + idstr);
+      let price = priceElement ? parseInt(priceElement.innerHTML) : 0;
+
+      cart[idstr] = [1, name, price];
+    }
+
+    updateCart(cart);
   });
 
-  // Basic Draggable Matrix Initialization so recruiters can toss the products around
-  const draggables = document.querySelectorAll('.interactive-float');
-  draggables.forEach(el => {
-    let isDragging = false;
-    let startX, startY, initialLeft, initialTop;
+  // Helper function to programmatically reset layout mutations completely
+  function clearCart() {
+    cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
+    for (var item in cart) {
+      let targetSpan = document.getElementById('div' + item);
+      if (targetSpan) {
+        targetSpan.innerHTML = `<button id="${item}" class="btn btn-primary w-100 cart">Add to Cart</button>`;
+      }
+    }
+    localStorage.clear();
+    cart = {};
+    updateCart(cart);
+  }
 
-    el.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      startX = e.clientX;
-      startY = e.clientY;
-      initialLeft = el.offsetLeft;
-      initialTop = el.offsetTop;
-      el.style.transition = 'none';
-      e.preventDefault();
-    });
+  // Helper function managing calculating and displaying total item values
+  function updateCart(currentCart) {
+    let totalItems = 0;
 
-    document.addEventListener('mousemove', (e) => {
-      if (!isDragging) return;
-      const dx = e.clientX - startX;
-      const dy = e.clientY - startY;
-      el.style.left = `${initialLeft + dx}px`;
-      el.style.top = `${initialTop + dy}px`;
-    });
+    for (var item in currentCart) {
+      let qty = currentCart[item][0];
+      totalItems += qty;
+      let targetSpan = document.getElementById('div' + item);
 
-    document.addEventListener('mouseup', () => {
-      if (isDragging) {
-        isDragging = false;
-        el.style.transition = 'transform 0.1s ease-out';
+      if (targetSpan) {
+        if (qty > 0) {
+          targetSpan.innerHTML = `
+          <div class="d-flex justify-content-between align-items-center bg-light border rounded p-1" style="font-size: 14px;">
+            <button id="minus${item}" class="btn btn-sm btn-primary minus px-2">-</button>
+            <span id="val${item}" class="fw-bold text-dark mx-1">${qty}</span>
+            <button id="plus${item}" class="btn btn-sm btn-primary plus px-3">+</button>
+          </div>`;
+        } else {
+          targetSpan.innerHTML = `<button id="${item}" class="btn btn-primary w-100 cart">Add to Cart</button>`;
+          delete currentCart[item];
+        }
+      }
+    }
+
+    localStorage.setItem('cart', JSON.stringify(currentCart));
+    if (document.getElementById('cart')) { document.getElementById('cart').innerHTML = totalItems; }
+
+    if (typeof updateShopifyDrawer === 'function') {
+      updateShopifyDrawer(currentCart);
+    }
+  }
+
+  // 4. Modifier delegation action: Decrement click handler
+  $(document).on("click", "button.minus", function () {
+    var a = this.id.slice(5);
+    cart[a][0] = cart[a][0] - 1;
+    cart[a][0] = Math.max(0, cart[a][0]);
+
+    if (cart[a][0] == 0) {
+      let targetContainer = document.getElementById('div' + a);
+      if (targetContainer) {
+        targetContainer.innerHTML = `<button id="${a}" class="btn btn-primary w-100 cart">Add to Cart</button>`;
+      }
+      delete cart[a];
+    }
+    updateCart(cart);
+  });
+
+  // 5. Modifier delegation action: Increment click handler
+  $(document).on("click", "button.plus", function () {
+    var a = this.id.slice(4);
+    cart[a][0] = cart[a][0] + 1;
+    updateCart(cart);
+  });
+
+  // ❤️ Wishlist Toggle (AJAX heart button)
+  function toggleWishlist(event, productId, btn) {
+    event.preventDefault();
+    const icon = btn.querySelector('i');
+    fetch(`/shop/wishlist/toggle/${productId}/`, {
+      method: 'GET',
+      headers: { 'x-requested-with': 'XMLHttpRequest', 'X-CSRFToken': '{{ csrf_token }}' }
+    })
+    .then(res => {
+      if (res.redirected) { window.location.href = res.url; return null; }
+      return res.json();
+    })
+    .then(data => {
+      if (!data) return;
+      if (data.wishlisted) {
+        icon.className = 'bi bi-heart-fill';
+        icon.style.color = '#f09fc1';
+        btn.title = 'Remove from Wishlist';
+        btn.style.transform = 'scale(1.25)';
+        setTimeout(() => { btn.style.transform = 'scale(1)'; }, 250);
+      } else {
+        icon.className = 'bi bi-heart';
+        icon.style.color = '#6b443a';
+        btn.title = 'Add to Wishlist';
       }
     });
-  });
+  }
 </script>
 {% endblock %}

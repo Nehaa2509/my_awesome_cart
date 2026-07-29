@@ -12,13 +12,24 @@
   /* Central Typographic Overlay */
   .studio-branding-axis {
     position: absolute;
-    top: 50%;
+    top: 48%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
     z-index: 10;
-    pointer-events: none;
-    mix-blend-mode: multiply;
+    pointer-events: auto;
+    /* Soft premium warm cream glassmorphic halo */
+    background: radial-gradient(circle, rgba(253, 246, 249, 0.96) 0%, rgba(253, 246, 249, 0.8) 55%, rgba(253, 246, 249, 0) 100%);
+    padding: 4.5rem;
+    border-radius: 50%;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    width: 650px;
+    max-width: 95vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   .studio-title {
@@ -26,9 +37,10 @@
     font-size: 6rem;
     font-weight: 700;
     color: #6b443a;
-    letter-spacing: -0.15rem;
-    line-height: 0.9;
-    margin-bottom: 1rem;
+    letter-spacing: 0.05rem;
+    line-height: 1.15;
+    margin-top: 0.5rem;
+    margin-bottom: 0.8rem;
   }
 
   .studio-subtitle {
@@ -84,6 +96,14 @@
     <span class="studio-subtitle">Import Antigravity</span>
     <h1 class="studio-title">MyAwesomeCart</h1>
     <p class="text-muted font-monospace small mt-2">[ Spatial Graphic Release — 2026 ]</p>
+    
+    <!-- Primary CTA: Shop the Collection -->
+    <a href="/shop/store/" class="btn rounded-pill px-5 py-2.5 mt-3 text-uppercase tracking-wider fw-bold shadow-lg text-decoration-none" 
+       style="background-color: #6b443a; color: #ffffff; font-size: 0.8rem; border: none; transition: all 0.25s ease;"
+       onmouseover="this.style.backgroundColor='#f09fc1'; this.style.color='#6b443a'; this.style.transform='scale(1.05)';"
+       onmouseout="this.style.backgroundColor='#6b443a'; this.style.color='#ffffff'; this.style.transform='scale(1)';">
+      Shop the Collection &rarr;
+    </a>
   </div>
 
   <!-- Draggable, Parallax Floating Product Matrix -->

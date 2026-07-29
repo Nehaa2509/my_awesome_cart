@@ -19,13 +19,14 @@
   .product-card {
     border: none;
     border-radius: 12px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
     background: #ffffff;
+    overflow: hidden;
   }
 
   .product-card:hover {
     transform: translateY(var(--hover-lift));
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 12px 24px rgba(107, 68, 58, 0.15) !important;
   }
 
   .product-card img {
@@ -33,6 +34,11 @@
     border-top-right-radius: 12px;
     height: 200px;
     object-fit: cover;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .product-card:hover img {
+    transform: scale(1.08);
   }
 
   /* 🏷️ Elegant Boutique Carousel Controls & Arrow Buttons */
