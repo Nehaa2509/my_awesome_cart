@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
+# pyrefly: ignore [missing-import]
 from .models import BlogPost, BlogComment
 
 def index(request):
