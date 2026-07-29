@@ -1,5 +1,5 @@
 Markdown
-# 🛒 MyAwesomeCart
+# 🛒 OQIREL
 
 A full-featured **Django e-commerce web application** with a shopping cart, Razorpay payment integration, order tracking, and a blog — built as a learning project inspired by the *Code With Harry* Django series.
 
@@ -22,7 +22,7 @@ A full-featured **Django e-commerce web application** with a shopping cart, Razo
 
 ## 📂 Project Structure
 
-MyAwesomeCart/                  # Django project root
+OQIREL/                  # Django project root
 ├── MAC/                        # Project configuration
 │   ├── settings.py
 │   ├── urls.py
@@ -116,7 +116,7 @@ Order status updated ➡️ "Paid" or "Failed"
 ```bash
 # 1. Clone the repository
 git clone <your-repo-url>
-cd MyAwesomeCart
+cd OQIREL
 
 # 2. Create and activate a virtual environment
 python -m venv venv

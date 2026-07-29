@@ -8,7 +8,7 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 def generate_invoice_pdf(order):
     """
     Generates an editorial, high-end PDF invoice for an Order instance,
-    matching the MyAwesomeCart frontend color scheme (#6b443a, #fdf6f9, #edd7c2, #f09fc1, #98f0e3).
+    matching the OQIREL frontend color scheme (#6b443a, #fdf6f9, #edd7c2, #f09fc1, #98f0e3).
     Returns a BytesIO buffer containing the PDF binary data.
     """
     buffer = io.BytesIO()
@@ -103,7 +103,7 @@ def generate_invoice_pdf(order):
     # 1. Header Section (Brand Name & Invoice Title)
     header_data = [
         [
-            Paragraph("My Awesome Cart", brand_style),
+            Paragraph("OQIREL", brand_style),
             Paragraph("TAX INVOICE", title_style)
         ],
         [
@@ -242,7 +242,7 @@ def generate_invoice_pdf(order):
         alignment=1, # Center
         textColor=color_brown
     )
-    story.append(Paragraph("Thank you for shopping with <b>My Awesome Cart</b>! Built with care, Razorpay, and Django.", footer_text))
+    story.append(Paragraph("Thank you for shopping with <b>OQIREL</b>! Built with care, Razorpay, and Django.", footer_text))
 
     doc.build(story)
     buffer.seek(0)

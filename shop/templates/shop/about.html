@@ -1,6 +1,6 @@
 {% extends "shop/basic.html" %}
 
-{% block title %} About Us — My Awesome Cart {% endblock %}
+{% block title %} About Us — OQIREL {% endblock %}
 
 {% block css %}
 <style>
@@ -9,65 +9,89 @@
     background: linear-gradient(135deg, #fdf6f9 0%, #edd7c2 50%, #fdf6f9 100%);
     border: 1px solid #edd7c2;
     border-radius: 24px;
-    padding: 5rem 2rem;
+    padding: 3.5rem 2.5rem;
     position: relative;
     overflow: hidden;
   }
-  
-  .about-hero::before {
-    content: '';
+
+  .about-hero::after {
+    content: "";
     position: absolute;
     top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(240, 159, 193, 0.15) 0%, transparent 60%);
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(240, 157, 193, 0.15) 0%, transparent 70%);
     pointer-events: none;
-  }
-
-  .about-card {
-    background: #ffffff;
-    border: 1px solid #edd7c2;
-    border-radius: 16px;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .about-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(107, 68, 58, 0.12) !important;
-    border-color: var(--color-pink);
-  }
-
-  .accent-line {
-    width: 60px;
-    height: 2px;
-    background-color: var(--color-pink);
-    margin: 1.5rem 0;
   }
 
   .lead-editorial {
     font-size: 1.15rem;
     line-height: 1.8;
-    color: #4a3430;
+    color: var(--color-brown);
     font-weight: 300;
+  }
+
+  .value-card {
+    background: #ffffff;
+    border: 1px solid #edd7c2;
+    border-radius: 20px;
+    padding: 2.2rem 1.8rem;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    height: 100%;
+  }
+
+  .value-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(107, 68, 58, 0.08);
+    border-color: var(--color-pink);
+  }
+
+  .icon-wrapper {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--color-bg);
+    border: 1px solid #edd7c2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-brown);
+  }
+
+  .accent-line {
+    width: 60px;
+    height: 3px;
+    background-color: var(--color-pink);
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
   }
 </style>
 {% endblock %}
 
 {% block body %}
-<div class="container my-5 px-4">
-    
+<div class="container my-5">
+
     <!-- 🌿 Premium Hero Introduction Block -->
     <div class="about-hero mb-5 shadow-sm">
         <div class="row align-items-center g-5 position-relative" style="z-index: 2;">
             <div class="col-12 col-lg-7 text-center text-lg-start">
                 <span class="badge mb-3 px-3 py-2 rounded-pill uppercase fw-bold" style="background-color: var(--color-pink); color: #fff; letter-spacing: 0.1rem; font-size: 0.75rem;">OUR STORY</span>
                 <h1 class="display-4 fw-bold mb-3" style="font-family: 'Playfair Display', serif; color: var(--color-brown); letter-spacing: -0.04rem;">
-                    My Awesome Cart
+                    OQIREL
                 </h1>
                 <div class="accent-line mx-auto mx-lg-0"></div>
                 <p class="lead-editorial text-muted max-w-xl">
-                    Founded in 2019 by Code With Harry and Rohan Das, My Awesome Cart began as a shared vision to bring thoughtful, curated living closer to you. Combining technology, design intelligence, and artisanal product sourcing, we have crafted a slow-commerce sanctuary for discerning lifestyles.
+                    Founded in 2019 by Code With Harry and Rohan Das, OQIREL began as a shared vision to bring thoughtful, curated living closer to you. Combining technology, design intelligence, and artisanal product sourcing, we have crafted a slow-commerce sanctuary for discerning lifestyles.
                 </p>
             </div>
             <div class="col-12 col-lg-5 text-center d-none d-lg-block">

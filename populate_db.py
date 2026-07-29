@@ -9,13 +9,13 @@ from blog.models import BlogPost
 
 posts_data = [
     {
-        "title": "Initializing the Ecosystem: The MyAwesomeCart Blueprint",
+        "title": "Initializing the Ecosystem: The OQIREL Blueprint",
         "chead": "Architectural integrity meets weightless interface aesthetics.",
         "category": "Vision",
-        "author": "MyAwesomeCart Team",
+        "author": "OQIREL Team",
         "pub_date": date(2026, 7, 28),
         "content": (
-            "Welcome to the nerve center of our digital experiment. MyAwesomeCart was built on a simple premise: "
+            "Welcome to the nerve center of our digital experiment. OQIREL was built on a simple premise: "
             "e-commerce should feel less like an uninspired spreadsheet grid and more like an immersive design canvas.\n\n"
             "By ditching standard monolithic styling structures for a high-contrast editorial color scheme—anchored "
             "by custom earth tones, muted pink highlights, and asynchronous frontend interface mechanics—we have created "
