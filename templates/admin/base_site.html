@@ -1,10 +1,12 @@
 {% extends "admin/base.html" %}
 
-{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin')
+}}{% endblock %}
 
 {% block branding %}
 <div id="site-name">
-  <a href="{% url 'admin:index' %}" class="brand-link" style="font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: #ffffff; text-decoration: none; display: flex; align-items: center; gap: 10px;">
+  <a href="{% url 'admin:index' %}" class="brand-link"
+    style="font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: #ffffff; text-decoration: none; display: flex; align-items: center; gap: 10px;">
     <span class="brand-icon">🛍️</span> {{ site_header|default:_('Django administration') }}
   </a>
 </div>
@@ -14,7 +16,9 @@
 
 {% block extrastyle %}
 {{ block.super }}
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+  rel="stylesheet">
 
 <style>
   /* 🌟 Custom Elegant Scrollbar */
@@ -22,16 +26,20 @@
     width: 8px;
     height: 8px;
   }
+
   ::-webkit-scrollbar-track {
     background: #fdf6f9 !important;
   }
+
   ::-webkit-scrollbar-thumb {
     background: #edd7c2 !important;
     border-radius: 10px !important;
   }
+
   ::-webkit-scrollbar-thumb:hover {
     background: #f09fc1 !important;
   }
+
   html {
     scrollbar-width: thin !important;
     scrollbar-color: #edd7c2 #fdf6f9 !important;
@@ -48,7 +56,10 @@
      ========================================================================= */
 
   /* Override Django Native Admin CSS Variables across ALL modes */
-  :root, html[data-theme="light"], html[data-theme="dark"], html {
+  :root,
+  html[data-theme="light"],
+  html[data-theme="dark"],
+  html {
     --primary: #6b443a !important;
     --secondary: #edd7c2 !important;
     --header-bg: #6b443a !important;
@@ -80,14 +91,17 @@
   body {
     font-family: 'Poppins', system-ui, -apple-system, sans-serif !important;
     background-color: #fdf6f9 !important;
-    background-image: 
+    background-image:
       radial-gradient(circle at 10% 20%, rgba(240, 157, 193, 0.08) 0%, transparent 40%),
       radial-gradient(circle at 90% 80%, rgba(152, 240, 227, 0.08) 0%, transparent 40%) !important;
     color: #6b443a !important;
     min-height: 100vh;
   }
 
-  h1, h2, h3, .brand-font {
+  h1,
+  h2,
+  h3,
+  .brand-font {
     font-family: 'Playfair Display', Georgia, serif !important;
   }
 
@@ -121,10 +135,13 @@
   }
 
   #user-tools strong {
-    background-color: #edd7c2 !important; /* Warm sand/cream background */
-    color: #6b443a !important; /* Brown text color */
+    background-color: #edd7c2 !important;
+    /* Warm sand/cream background */
+    color: #6b443a !important;
+    /* Brown text color */
     font-weight: 700 !important;
-    text-transform: uppercase !important; /* Force uppercase */
+    text-transform: uppercase !important;
+    /* Force uppercase */
     padding: 3px 10px !important;
     border-radius: 12px !important;
     font-size: 0.78rem !important;
@@ -166,7 +183,9 @@
     box-shadow: 0 12px 35px rgba(107, 68, 58, 0.1) !important;
   }
 
-  .module h2, .module caption, .inline-group h2 {
+  .module h2,
+  .module caption,
+  .inline-group h2 {
     background: #edd7c2 !important;
     color: #6b443a !important;
     font-family: 'Playfair Display', serif !important;
@@ -195,7 +214,8 @@
     letter-spacing: 0.5px !important;
   }
 
-  #result_list td, #result_list th {
+  #result_list td,
+  #result_list th {
     padding: 14px 16px !important;
     border-bottom: 1px solid rgba(237, 215, 194, 0.6) !important;
   }
@@ -208,11 +228,20 @@
     background-color: rgba(152, 240, 227, 0.2) !important;
   }
 
-  tr.row1 { background-color: #ffffff !important; }
-  tr.row2 { background-color: rgba(253, 246, 249, 0.7) !important; }
+  tr.row1 {
+    background-color: #ffffff !important;
+  }
+
+  tr.row2 {
+    background-color: rgba(253, 246, 249, 0.7) !important;
+  }
 
   /* 4. Action Buttons & Input Styling */
-  .button, input[type=submit], input[type=button], .submit-row input, a.button {
+  .button,
+  input[type=submit],
+  input[type=button],
+  .submit-row input,
+  a.button {
     background: #f09fc1 !important;
     border: none !important;
     color: #ffffff !important;
@@ -225,24 +254,31 @@
     box-shadow: 0 4px 14px rgba(240, 157, 193, 0.4) !important;
   }
 
-  .button:hover, input[type=submit]:hover, input[type=button]:hover, .submit-row input:hover {
+  .button:hover,
+  input[type=submit]:hover,
+  input[type=button]:hover,
+  .submit-row input:hover {
     background: #e58bb1 !important;
     transform: translateY(-2px) scale(1.02) !important;
     box-shadow: 0 6px 18px rgba(240, 157, 193, 0.55) !important;
   }
 
-  .button.default, input[type=submit].default {
+  .button.default,
+  input[type=submit].default {
     background: #98f0e3 !important;
     color: #6b443a !important;
     box-shadow: 0 4px 14px rgba(152, 240, 227, 0.4) !important;
   }
 
-  .button.default:hover, input[type=submit].default:hover {
+  .button.default:hover,
+  input[type=submit].default:hover {
     background: #83e4d6 !important;
     box-shadow: 0 6px 18px rgba(152, 240, 227, 0.6) !important;
   }
 
-  .deletelink, .deletelink:link, .deletelink:visited {
+  .deletelink,
+  .deletelink:link,
+  .deletelink:visited {
     background: #6b443a !important;
     color: #ffffff !important;
     border-radius: 50px !important;
@@ -254,7 +290,11 @@
   }
 
   /* 5. Inputs & Select Controls */
-  input[type=text], input[type=password], input[type=email], select, textarea {
+  input[type=text],
+  input[type=password],
+  input[type=email],
+  select,
+  textarea {
     border: 1px solid #edd7c2 !important;
     border-radius: 10px !important;
     padding: 10px 14px !important;
@@ -264,7 +304,10 @@
     transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
   }
 
-  input[type=text]:focus, input[type=password]:focus, select:focus, textarea:focus {
+  input[type=text]:focus,
+  input[type=password]:focus,
+  select:focus,
+  textarea:focus {
     border-color: #f09fc1 !important;
     outline: none !important;
     box-shadow: 0 0 0 4px rgba(240, 157, 193, 0.25) !important;
@@ -432,7 +475,8 @@
     padding-top: 4px !important;
   }
 
-  .change-form .help, .change-form p.help {
+  .change-form .help,
+  .change-form p.help {
     font-size: 0.76rem !important;
     color: #8c5b4f !important;
     margin-top: 6px !important;
@@ -448,20 +492,24 @@
   }
 
   /* 8. Admin Login & Logged-Out Page Styling */
-  body.login, body.logged-out, body.login-page {
+  body.login,
+  body.logged-out,
+  body.login-page {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     min-height: 100vh !important;
     background-color: #fdf6f9 !important;
-    background-image: 
+    background-image:
       radial-gradient(circle at 10% 20%, rgba(240, 157, 193, 0.18) 0%, transparent 45%),
       radial-gradient(circle at 90% 80%, rgba(152, 240, 227, 0.18) 0%, transparent 45%) !important;
     position: relative !important;
     overflow: hidden !important;
   }
 
-  body.login::before, body.logged-out::before, body.login-page::before {
+  body.login::before,
+  body.logged-out::before,
+  body.login-page::before {
     content: "" !important;
     position: absolute !important;
     width: 250px !important;
@@ -475,7 +523,9 @@
     pointer-events: none !important;
   }
 
-  body.login::after, body.logged-out::after, body.login-page::after {
+  body.login::after,
+  body.logged-out::after,
+  body.login-page::after {
     content: "" !important;
     position: absolute !important;
     width: 300px !important;
@@ -489,7 +539,8 @@
     pointer-events: none !important;
   }
 
-  body.login #container, body.logged-out #container {
+  body.login #container,
+  body.logged-out #container {
     background: rgba(255, 255, 255, 0.9) !important;
     backdrop-filter: blur(12px) !important;
     -webkit-backdrop-filter: blur(12px) !important;
@@ -505,7 +556,8 @@
     z-index: 10 !important;
   }
 
-  body.login #header, body.logged-out #header {
+  body.login #header,
+  body.logged-out #header {
     background: transparent !important;
     color: #6b443a !important;
     border: none !important;
@@ -514,12 +566,14 @@
     padding: 12px 0 24px 0 !important;
   }
 
-  body.login #header a, body.logged-out #header a {
+  body.login #header a,
+  body.logged-out #header a {
     color: #6b443a !important;
     justify-content: center !important;
   }
 
-  body.login #content, body.logged-out #content {
+  body.login #content,
+  body.logged-out #content {
     padding: 0 !important;
     margin: 0 !important;
   }
@@ -583,7 +637,8 @@
     font-size: 0.85rem !important;
   }
 
-  body.login .form-row input[type=text], body.login .form-row input[type=password] {
+  body.login .form-row input[type=text],
+  body.login .form-row input[type=password] {
     width: 100% !important;
     box-sizing: border-box !important;
   }
@@ -608,89 +663,90 @@
   #jazzy-usermenu,
   .dropdown-menu-lg,
   .dropdown-menu {
-      background: rgba(255, 255, 255, 0.95) !important;
-      backdrop-filter: blur(12px) !important;
-      -webkit-backdrop-filter: blur(12px) !important;
-      border: 1px solid #edd7c2 !important;
-      border-radius: 16px !important;
-      box-shadow: 0 10px 30px rgba(107, 68, 58, 0.12) !important;
-      padding: 10px 8px !important;
-      min-width: 220px !important;
-      overflow: hidden !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid #edd7c2 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 10px 30px rgba(107, 68, 58, 0.12) !important;
+    padding: 10px 8px !important;
+    min-width: 220px !important;
+    overflow: hidden !important;
   }
 
   /* 2. Menu Header ("Account") */
   #jazzy-usermenu .dropdown-header {
-      color: #6b443a !important;
-      font-family: 'Playfair Display', Georgia, serif !important;
-      font-weight: 700 !important;
-      font-size: 0.95rem !important;
-      letter-spacing: 0.5px !important;
-      padding: 8px 12px !important;
-      text-transform: uppercase !important;
-      opacity: 0.8;
+    color: #6b443a !important;
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
+    letter-spacing: 0.5px !important;
+    padding: 8px 12px !important;
+    text-transform: uppercase !important;
+    opacity: 0.8;
   }
 
   /* 3. Divider Lines */
   #jazzy-usermenu .dropdown-divider {
-      border-top: 1px solid #edd7c2 !important;
-      margin: 6px 0 !important;
-      opacity: 0.6;
+    border-top: 1px solid #edd7c2 !important;
+    margin: 6px 0 !important;
+    opacity: 0.6;
   }
 
   /* 4. Menu Items ("Change password", "Log out", etc.) */
   #jazzy-usermenu .dropdown-item,
   #jazzy-usermenu form button.dropdown-item {
-      color: #6b443a !important;
-      font-size: 0.88rem !important;
-      font-weight: 600 !important;
-      padding: 10px 14px !important;
-      border-radius: 10px !important;
-      display: flex !important;
-      align-items: center !important;
-      gap: 10px !important;
-      transition: all 0.2s ease !important;
-      background: transparent !important;
-      border: none !important;
-      width: 100% !important;
-      text-align: left !important;
+    color: #6b443a !important;
+    font-size: 0.88rem !important;
+    font-weight: 600 !important;
+    padding: 10px 14px !important;
+    border-radius: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    transition: all 0.2s ease !important;
+    background: transparent !important;
+    border: none !important;
+    width: 100% !important;
+    text-align: left !important;
   }
 
   /* Icons inside Menu Items */
   #jazzy-usermenu .dropdown-item i {
-      color: #f09fc1 !important; /* Soft pink icon color */
-      font-size: 0.95rem !important;
-      transition: transform 0.2s ease !important;
+    color: #f09fc1 !important;
+    /* Soft pink icon color */
+    font-size: 0.95rem !important;
+    transition: transform 0.2s ease !important;
   }
 
   /* Hover States for Items */
   #jazzy-usermenu .dropdown-item:hover {
-      background-color: rgba(240, 157, 193, 0.15) !important;
-      color: #6b443a !important;
-      transform: translateX(3px) !important;
+    background-color: rgba(240, 157, 193, 0.15) !important;
+    color: #6b443a !important;
+    transform: translateX(3px) !important;
   }
 
   #jazzy-usermenu .dropdown-item:hover i {
-      transform: scale(1.15) !important;
+    transform: scale(1.15) !important;
   }
 
   /* 5. Footer Link ("See Profile") */
   #jazzy-usermenu .dropdown-footer {
-      background-color: #f09fc1 !important;
-      color: #ffffff !important;
-      font-weight: 600 !important;
-      text-align: center !important;
-      justify-content: center !important;
-      border-radius: 20px !important;
-      margin-top: 4px !important;
-      padding: 8px 14px !important;
-      box-shadow: 0 4px 12px rgba(240, 157, 193, 0.3) !important;
+    background-color: #f09fc1 !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+    justify-content: center !important;
+    border-radius: 20px !important;
+    margin-top: 4px !important;
+    padding: 8px 14px !important;
+    box-shadow: 0 4px 12px rgba(240, 157, 193, 0.3) !important;
   }
 
   #jazzy-usermenu .dropdown-footer:hover {
-      background-color: #e58bb1 !important;
-      color: #ffffff !important;
-      transform: translateY(-1px) !important;
+    background-color: #e58bb1 !important;
+    color: #ffffff !important;
+    transform: translateY(-1px) !important;
   }
 
   /* =========================================================================
@@ -701,103 +757,106 @@
   body.login-page,
   .login-box,
   .login-page {
-      background-color: #fdf6f9 !important; /* Soft warm pink/white canvas */
-      background-image: 
-        radial-gradient(circle at 10% 20%, rgba(240, 157, 193, 0.12) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(152, 240, 227, 0.12) 0%, transparent 40%) !important;
-      min-height: 100vh !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
+    background-color: #fdf6f9 !important;
+    /* Soft warm pink/white canvas */
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(240, 157, 193, 0.12) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(152, 240, 227, 0.12) 0%, transparent 40%) !important;
+    min-height: 100vh !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
   /* 2. Login Form Card Container */
   .login-box .card,
   .login-card-body,
   .card-primary.card-outline {
-      background: rgba(255, 255, 255, 0.9) !important;
-      backdrop-filter: blur(12px) !important;
-      border: 1px solid #edd7c2 !important;
-      border-radius: 20px !important;
-      box-shadow: 0 12px 35px rgba(107, 68, 58, 0.08) !important;
-      border-top: none !important;
-      padding: 10px !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(12px) !important;
+    border: 1px solid #edd7c2 !important;
+    border-radius: 20px !important;
+    box-shadow: 0 12px 35px rgba(107, 68, 58, 0.08) !important;
+    border-top: none !important;
+    padding: 10px !important;
   }
 
   /* Header Text ("Welcome back to the Capsule Management Matrix...") */
   .login-box .login-box-msg,
   .login-card-body .login-box-msg {
-      color: #6b443a !important;
-      font-family: 'Playfair Display', Georgia, serif !important;
-      font-weight: 700 !important;
-      font-size: 1.05rem !important;
-      padding: 10px 0 20px 0 !important;
+    color: #6b443a !important;
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-weight: 700 !important;
+    font-size: 1.05rem !important;
+    padding: 10px 0 20px 0 !important;
   }
 
   /* 3. Input Fields & Icons Contrast Fix */
   .login-box input.form-control,
   .login-box .input-group .form-control {
-      background-color: #ffffff !important;
-      color: #6b443a !important;
-      border: 1px solid #edd7c2 !important;
-      border-right: none !important;
-      border-radius: 12px 0 0 12px !important;
-      height: 44px !important;
-      font-size: 0.92rem !important;
-      padding-left: 14px !important;
+    background-color: #ffffff !important;
+    color: #6b443a !important;
+    border: 1px solid #edd7c2 !important;
+    border-right: none !important;
+    border-radius: 12px 0 0 12px !important;
+    height: 44px !important;
+    font-size: 0.92rem !important;
+    padding-left: 14px !important;
   }
 
   /* Placeholder Text Legibility */
   .login-box input.form-control::placeholder {
-      color: #8c5b4f !important; /* Richer cocoa tint for clear visibility */
-      opacity: 0.7;
+    color: #8c5b4f !important;
+    /* Richer cocoa tint for clear visibility */
+    opacity: 0.7;
   }
 
   /* Right Icon Box (User & Lock Icons) */
   .login-box .input-group-text {
-      background-color: #ffffff !important;
-      border: 1px solid #edd7c2 !important;
-      border-left: none !important;
-      border-radius: 0 12px 12px 0 !important;
-      color: #f09fc1 !important; /* Soft pink icon color */
-      height: 44px !important;
+    background-color: #ffffff !important;
+    border: 1px solid #edd7c2 !important;
+    border-left: none !important;
+    border-radius: 0 12px 12px 0 !important;
+    color: #f09fc1 !important;
+    /* Soft pink icon color */
+    height: 44px !important;
   }
 
   .login-box .input-group {
-      margin-bottom: 18px !important;
+    margin-bottom: 18px !important;
   }
 
   /* Input Focus Glow */
   .login-box input.form-control:focus,
-  .login-box input.form-control:focus + .input-group-append .input-group-text {
-      border-color: #f09fc1 !important;
-      box-shadow: none !important;
+  .login-box input.form-control:focus+.input-group-append .input-group-text {
+    border-color: #f09fc1 !important;
+    box-shadow: none !important;
   }
 
   /* 4. Main "Log In" Pill Button */
   .login-box .btn-primary,
   .login-box input[type="submit"],
   .login-box button[type="submit"] {
-      background-color: #f09fc1 !important;
-      border: none !important;
-      color: #ffffff !important;
-      font-weight: 700 !important;
-      border-radius: 50px !important;
-      height: 44px !important;
-      font-size: 0.95rem !important;
-      letter-spacing: 0.5px !important;
-      box-shadow: 0 4px 14px rgba(240, 157, 193, 0.4) !important;
-      transition: all 0.25s ease !important;
-      width: 100% !important;
-      margin-top: 10px !important;
+    background-color: #f09fc1 !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    border-radius: 50px !important;
+    height: 44px !important;
+    font-size: 0.95rem !important;
+    letter-spacing: 0.5px !important;
+    box-shadow: 0 4px 14px rgba(240, 157, 193, 0.4) !important;
+    transition: all 0.25s ease !important;
+    width: 100% !important;
+    margin-top: 10px !important;
   }
 
   .login-box .btn-primary:hover,
   .login-box input[type="submit"]:hover,
   .login-box button[type="submit"]:hover {
-      background-color: #e58bb1 !important;
-      transform: translateY(-2px) !important;
-      box-shadow: 0 6px 18px rgba(240, 157, 193, 0.55) !important;
+    background-color: #e58bb1 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 18px rgba(240, 157, 193, 0.55) !important;
   }
 
   /* Logo/Branding Header for Login Page */
@@ -805,39 +864,46 @@
   .login-logo,
   .login-box h1,
   body.login #header {
-      font-family: 'Playfair Display', Georgia, serif !important;
-      font-weight: 700 !important;
-      font-size: 1.85rem !important;
-      color: #6b443a !important;
-      margin-bottom: 24px !important;
-      text-align: center !important;
-      letter-spacing: -0.02em !important;
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-weight: 700 !important;
+    font-size: 1.85rem !important;
+    color: #6b443a !important;
+    margin-bottom: 24px !important;
+    text-align: center !important;
+    letter-spacing: -0.02em !important;
   }
 
   .login-box .login-logo a,
   .login-logo a,
   .login-box h1 a,
   body.login #header a {
-      color: #6b443a !important;
-      text-decoration: none !important;
-      font-weight: 700 !important;
+    color: #6b443a !important;
+    text-decoration: none !important;
+    font-weight: 700 !important;
   }
 </style>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    var isLoginPage = document.body.classList.contains("login-page") || 
-                       document.body.classList.contains("login") || 
-                       window.location.pathname.indexOf("/login/") !== -1;
-    if (isLoginPage) {
-      var usernameField = document.getElementById("id_username");
-      var passwordField = document.getElementById("id_password");
-      if (usernameField && !usernameField.value) {
-        usernameField.value = "sneha";
-      }
-      if (passwordField && !passwordField.value) {
-        passwordField.value = "admin1542";
-      }
-    }
-  });
-</script>
+{% endblock %}
+
+{% block usertools %}
+    {% if user.is_authenticated %}
+        <div id="user-tools" style="
+            font-weight: 400 !important;
+            font-size: 0.82rem !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+            border: 1px solid rgba(237, 215, 194, 0.2) !important;
+            border-radius: 30px !important;
+            padding: 6px 18px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            color: #edd7c2 !important;
+            letter-spacing: 0.5px !important;
+            text-transform: uppercase !important;
+        ">
+            <span style="color: #6b443a; text-transform: uppercase; font-weight: bold; background-color: #edd7c2; padding: 3px 10px; border-radius: 12px; font-size: 0.78rem; letter-spacing: 0.5px;">
+                {{ user.get_full_name|default:user.username }}
+            </span>
+            <a href="{% url 'admin:logout' %}" style="color: #98f0e3 !important; font-weight: 700 !important; text-decoration: none !important;">LOGOUT</a>
+        </div>
+    {% endif %}
 {% endblock %}
