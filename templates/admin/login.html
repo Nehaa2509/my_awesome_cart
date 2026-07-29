@@ -123,5 +123,18 @@
   </div>
 </form>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var usernameField = document.getElementById("id_username");
+    var passwordField = document.getElementById("id_password");
+    if (usernameField && !usernameField.value) {
+      usernameField.value = "sneha";
+    }
+    if (passwordField && !passwordField.value) {
+      passwordField.value = "admin1542";
+    }
+  });
+</script>
+
 </div>
 {% endblock %}
