@@ -69,10 +69,10 @@
         </div>
 
         <!-- Scroll Indicator Conduit -->
-        <div id="scroll-hint" class="relative z-30 text-[10px] uppercase tracking-[0.3em] text-white/40 flex flex-col items-center gap-2 mb-4">
+        <a href="{% url 'ShopHome' %}" id="scroll-hint" class="relative z-30 text-[10px] uppercase tracking-[0.3em] text-white/40 flex flex-col items-center gap-2 mb-4 hover:text-white transition duration-300">
             <span>Scroll to Explore</span>
             <div class="w-[1px] h-16 bg-gradient-to-b from-white/40 to-transparent animate-pulse"></div>
-        </div>
+        </a>
     </div>
 
     <!-- 2. RESTRUCTURED LANDING CONTENT PORTAL -->
@@ -211,6 +211,17 @@
             requestAnimationFrame(fluidExecutionLoop);
         }
         fluidExecutionLoop();
+
+        // Redirect to storefront on scroll down
+        let redirected = false;
+        window.addEventListener('scroll', () => {
+            if (!redirected && window.scrollY > 15) {
+                redirected = true;
+                gsap.to("body", { opacity: 0, duration: 0.3, onComplete: () => {
+                    window.location.href = "{% url 'ShopHome' %}";
+                }});
+            }
+        });
 
         // MOTION RUNTIME D: Kinetic Stage Transitions & Dissolve Anchors
         gsap.timeline({
