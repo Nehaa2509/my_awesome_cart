@@ -1,108 +1,210 @@
 {% extends "shop/basic.html" %}
-{% block title %} {{ post.title }} — Journal Entry {% endblock %}
+{% block title %} {{ post.title }} — Journal Entry — My Awesome Cart {% endblock %}
+
+{% block css %}
+<style>
+  /* 🌸 High-End Editorial Style Customizations */
+  .back-btn {
+    color: var(--color-brown);
+    font-weight: 500;
+    font-size: 0.85rem;
+    letter-spacing: 0.05rem;
+    transition: all 0.25s ease;
+  }
+  
+  .back-btn:hover {
+    color: var(--color-pink-dark) !important;
+    transform: translateX(-4px);
+  }
+
+  .article-header {
+    background: linear-gradient(135deg, #fdf6f9 0%, #edd7c2 50%, #fdf6f9 100%);
+    border: 1px solid #edd7c2;
+    border-radius: 24px;
+    padding: 3.5rem 2rem;
+  }
+
+  .article-image-box {
+    border: 1px solid #edd7c2;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(107, 68, 58, 0.06);
+  }
+
+  .article-body-text {
+    font-size: 1.1rem;
+    line-height: 1.95;
+    color: #4a3430;
+    font-weight: 300;
+    letter-spacing: -0.005em;
+  }
+
+  .comment-card {
+    background: #ffffff;
+    border: 1px solid #edd7c2;
+    border-radius: 14px;
+    transition: all 0.3s ease;
+  }
+
+  .comment-card:hover {
+    border-color: var(--color-pink);
+    box-shadow: 0 4px 15px rgba(107, 68, 58, 0.05);
+  }
+
+  .btn-editorial-pink {
+    background-color: var(--color-pink);
+    color: #fff !important;
+    font-weight: 600;
+    transition: all 0.25s ease;
+  }
+
+  .btn-editorial-pink:hover {
+    background-color: var(--color-pink-dark);
+  }
+
+  .btn-outline-editorial {
+    border: 1px solid var(--color-brown);
+    color: var(--color-brown) !important;
+    font-weight: 500;
+    transition: all 0.25s ease;
+  }
+
+  .btn-outline-editorial:hover {
+    background-color: var(--color-brown);
+    color: #fff !important;
+  }
+
+  .toast-copied {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background-color: var(--color-brown);
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    letter-spacing: 0.04rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    z-index: 1060;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+  }
+
+  .toast-copied.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+{% endblock %}
 
 {% block body %}
-<div class="container my-5">
+<div class="container my-5 px-4">
   
-  <a href="/blog/" class="text-decoration-none fw-bold small d-inline-flex align-items-center mb-4" style="color: #6b443a;">
-    &larr; Back to Articles Feed
-  </a>
+  <!-- Back Button Navigation Link -->
+  <div class="mb-4">
+    <a href="/blog/" class="back-btn text-decoration-none d-inline-flex align-items-center gap-2">
+      <i class="bi bi-arrow-left"></i> Back to Articles Feed
+    </a>
+  </div>
 
   <div class="row g-5">
-    <div class="col-12 col-lg-8">
+    <div class="col-12 col-lg-8 mx-auto">
       
       <!-- Article Heading Data Block -->
-      <div class="border-bottom pb-4 mb-4">
-        <span class="text-uppercase small fw-bold tracking-widest d-block mb-2" style="color: #f09fc1;">
+      <div class="article-header mb-5 shadow-sm text-center">
+        <span class="badge mb-3 px-3 py-2 rounded-pill uppercase fw-bold" style="background-color: var(--color-pink); color: #fff; letter-spacing: 0.1rem; font-size: 0.7rem;">
           {{ post.category }}
         </span>
-        <h1 class="display-4 fw-bold mb-2" style="font-family: 'Syne', sans-serif; color: #6b443a;">
+        <h1 class="display-5 fw-bold mb-3" style="font-family: 'Playfair Display', serif; color: var(--color-brown); letter-spacing: -0.03rem; line-height: 1.25;">
           {{ post.title }}
         </h1>
-        <h4 class="text-muted italic mb-3 font-monospace">{{ post.subheading }}</h4>
-        <div class="small fw-semibold text-muted">
-          Published on {{ post.pub_date|date:"F d, Y" }} by <span class="text-dark">{{ post.author|default:"Admin" }}</span>
+        <h4 class="text-muted italic mb-4 font-monospace" style="font-size: 0.95rem; font-weight: 400;">{{ post.subheading }}</h4>
+        <div class="small fw-semibold text-muted border-top pt-3 mt-3 d-inline-flex gap-2 justify-content-center w-75" style="border-color: rgba(107, 68, 58, 0.15) !important;">
+          <span>Published {{ post.pub_date|date:"F d, Y" }}</span>
+          <span>•</span>
+          <span>By <strong class="text-dark">{{ post.author|default:"Admin" }}</strong></span>
         </div>
       </div>
 
       <!-- Main Banner Image Block -->
       {% if post.thumbnail %}
-      <div class="mb-5 shadow-sm rounded-3 overflow-hidden border">
-        <img src="/media/{{ post.thumbnail }}" alt="{{ post.title }}" class="img-fluid w-100">
+      <div class="article-image-box mb-5">
+        <img src="/media/{{ post.thumbnail }}" alt="{{ post.title }}" class="img-fluid w-100" style="object-fit: cover;">
       </div>
       {% endif %}
 
       <!-- Core Text Body Blocks -->
-      <div class="article-body-text text-secondary lh-lg mb-5" style="font-size: 1.1rem; text-align: justify;">
+      <div class="article-body-text mb-5">
         <!-- Using safe filter to maintain formatting shifts if you use rich text fields -->
         {{ post.content|safe|linebreaks }}
       </div>
 
       <!-- Action Bar: Like & Share -->
-      <div class="d-flex align-items-center gap-3 py-3 my-4 border-top border-bottom p-3 rounded-3" style="background-color: #ffffff; border-color: #edd7c2 !important;">
-        <a href="{% url 'like_post' post.post_id %}" class="btn btn-sm rounded-pill px-3 d-flex align-items-center gap-2 text-decoration-none fw-bold" style="background-color: #f09fc1; color: #6b443a;">
-          👍 Like <span class="badge bg-white text-dark rounded-circle">{{ post.total_likes }}</span>
+      <div class="d-flex align-items-center gap-3 py-3 my-5 border-top border-bottom" style="border-color: #edd7c2 !important;">
+        <a href="{% url 'like_post' post.post_id %}" class="btn btn-editorial-pink rounded-pill px-4 d-inline-flex align-items-center gap-2 text-decoration-none">
+          <i class="bi bi-hand-thumbs-up-fill"></i> Like <span class="badge bg-white text-dark rounded-circle" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">{{ post.total_likes }}</span>
         </a>
-        <button class="btn btn-sm rounded-pill px-3 fw-bold" style="border: 1px solid #6b443a; color: #6b443a;" onclick="copyShareLink()">
-          🔗 Copy Share Link
+        <button class="btn btn-outline-editorial rounded-pill px-4" onclick="copyShareLink()">
+          <i class="bi bi-link-45deg"></i> Copy Share Link
         </button>
       </div>
 
-      <hr class="my-5" style="border-color: #edd7c2;">
-
       <!-- 💬 Discussion Thread Interface Matrix -->
-      <div class="comment-section-wrapper mt-5">
-        <h3 class="fw-bold mb-4" style="font-family: 'Syne', sans-serif; color: #6b443a;">
-          Discussion Stream ({{ comments.count }})
+      <div class="comment-section-wrapper mt-5 pt-4">
+        <h3 class="fw-bold mb-4" style="font-family: 'Playfair Display', serif; color: var(--color-brown);">
+          Discussion ({{ comments.count }})
         </h3>
 
         <!-- Handle Alert Success Messages -->
         {% if messages %}
           {% for message in messages %}
-            <div class="alert alert-sm border-0 small rounded-3 {% if message.tags == 'success' %}bg-success text-white{% else %}bg-danger text-white{% endif %} mb-4">
+            <div class="alert alert-success alert-dismissible fade show rounded-pill small px-4 py-2.5 mb-4" role="alert" style="background-color: #e6f9f6; border-color: #a4ecd8; color: #167e65;">
               {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="padding: 0.75rem 1rem;"></button>
             </div>
           {% endfor %}
         {% endif %}
 
-        <!-- 📥 Form submission logic layer -->
+        <!-- Form submission logic layer -->
         {% if user.is_authenticated %}
           <form action="/blog/blogpost/{{ post.post_id }}/" method="POST" class="mb-5">
             {% csrf_token %}
             <div class="mb-3">
-              <label class="form-label small fw-bold text-uppercase tracking-wider">Leave a thought as @{{ user.username }}</label>
-              <textarea name="comment" rows="3" class="form-control rounded-3 p-3" placeholder="Join the editorial conversation..." style="border-color: #edd7c2; background-color: #fdf6f9; color: #6b443a; resize: none;" required></textarea>
+              <label class="form-label small fw-bold text-uppercase tracking-wider text-muted">Join the dialog as @{{ user.username }}</label>
+              <textarea name="comment" rows="3" class="form-control p-3" placeholder="Leave a thoughtful response..." style="border-color: #edd7c2; border-radius: 12px; background-color: #fff; color: #4a3430; resize: none;" required></textarea>
             </div>
-            <button type="submit" class="btn fw-bold px-4 py-2 rounded-pill" style="background-color: #6b443a; color: #fdf6f9; font-size: 0.85rem;">
+            <button type="submit" class="btn btn-editorial-pink rounded-pill px-4 py-2.5 shadow-sm text-uppercase tracking-wider small">
               Post Comment
             </button>
           </form>
         {% else %}
-          <div class="p-4 rounded-3 text-center border mb-5" style="background-color: #ffffff; border-color: #edd7c2 !important;">
-            <p class="text-muted small mb-3">You must be part of our capsule community network to post replies.</p>
-            <a href="/shop/login/" class="btn btn-sm fw-bold px-4 py-2 rounded-pill" style="background-color: #6b443a; color: #fdf6f9;">Log In to Account</a>
+          <div class="p-4 rounded-4 text-center border mb-5 bg-white shadow-sm" style="border-color: #edd7c2 !important;">
+            <p class="text-muted small mb-3">You must be logged in to participate in the conversation stream.</p>
+            <a href="/shop/login/" class="btn btn-editorial-pink rounded-pill px-4 py-2">Log In to Account</a>
           </div>
         {% endif %}
 
-        <!-- 🔄 Render Active Comments Stream Loop -->
+        <!-- Render Active Comments Stream Loop -->
         <div class="comments-stream-container d-flex flex-column gap-3">
           {% for comment in comments %}
-            <div class="p-3 bg-white border rounded-3 shadow-sm position-relative" style="border-color: #edd7c2 !important;">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="fw-bold small" style="color: #6b443a;">@{{ comment.user.username }}</span>
+            <div class="comment-card p-4 shadow-sm position-relative">
+              <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom border-light">
+                <span class="fw-bold small" style="color: var(--color-brown);">@{{ comment.user.username }}</span>
                 <div class="d-flex align-items-center gap-2">
-                  <span class="text-muted" style="font-size: 0.75rem;">{{ comment.timestamp|timesince }} ago</span>
+                  <span class="text-muted small font-monospace">{{ comment.timestamp|timesince }} ago</span>
                   {% if comment.user == request.user or request.user.is_staff %}
-                  <a href="{% url 'deleteComment' comment.sno %}" class="btn btn-sm btn-outline-danger py-0 px-2 text-decoration-none" style="font-size: 0.7rem;" onclick="return confirm('Are you sure you want to delete this comment?');">
-                    &times; Delete
+                  <a href="{% url 'deleteComment' comment.sno %}" class="btn btn-sm btn-outline-danger py-0 px-2 rounded-pill" style="font-size: 0.7rem;" onclick="return confirm('Are you sure you want to delete this comment?');">
+                    Delete
                   </a>
                   {% endif %}
                 </div>
               </div>
-              <p class="text-secondary small mb-0 lh-base" style="white-space: pre-line;">{{ comment.comment }}</p>
+              <p class="text-secondary small mb-0 lh-base" style="white-space: pre-line; font-weight: 300;">{{ comment.comment }}</p>
             </div>
           {% empty %}
-            <p class="text-muted italic small">No responses recorded yet. Be the first to start the dialog vector!</p>
+            <p class="text-muted italic small text-center py-4">No responses recorded yet. Be the first to start the dialog vector!</p>
           {% endfor %}
         </div>
       </div>
@@ -111,10 +213,19 @@
   </div>
 </div>
 
+<!-- Copy share link toast structure -->
+<div id="toast-copied" class="toast-copied">
+  <i class="bi bi-check-circle-fill me-1 text-mint"></i> Share link copied to clipboard!
+</div>
+
 <script>
   function copyShareLink() {
     navigator.clipboard.writeText(window.location.href);
-    alert("Article link successfully copied to your clipboard!");
+    const toast = document.getElementById("toast-copied");
+    toast.classList.add("show");
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2500);
   }
 </script>
 {% endblock %}
