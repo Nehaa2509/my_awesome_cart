@@ -2906,23 +2906,19 @@ img[src*="AdminLTELogo"] {
    LOGIN PAGE LIGHT & GLASSMORPHIC THEME OVERRIDES
    ========================================================================= */
 
-/* 1. Hide navbar, sidebar, and layout wrappers on login page */
-body.login-page .main-header,
-body.login-page .navbar,
-body.login-page nav.navbar,
-body.login-page .main-sidebar,
+/* Hide navbar, search bars, user badges and sidebar panels on Login Page */
+body.login-page nav,
 body.login-page aside,
-body.login-page .navbar-nav,
-body.login-page .form-inline,
-body.login-page .content-header {
+body.login-page .main-header,
+body.login-page .main-sidebar,
+body.login-page #jazzy-navbar,
+body.login-page #jazzy-sidebar,
+body.login nav,
+body.login aside {
     display: none !important;
 }
 
-body.login-page .wrapper {
-    background: transparent !important;
-}
-
-/* 2. Force Body & Root Page Background to Light Pastel */
+/* 1. Force Body & Root Page Background to Light Pastel */
 html,
 body,
 body.login-page,
@@ -2935,6 +2931,9 @@ body.login-page,
         radial-gradient(circle at 90% 80%, rgba(152, 240, 227, 0.15) 0%, transparent 40%) !important;
     color: #6b443a !important;
     min-height: 100vh !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     position: relative !important;
     overflow: hidden !important;
 }
