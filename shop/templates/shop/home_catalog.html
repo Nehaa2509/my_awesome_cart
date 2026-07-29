@@ -209,13 +209,16 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
+        // 🌌 MOTION RUNTIME C (Refined): Slow, Weightless Atmospheric Drift
         class AtmosphericFluidParticle {
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.dimension = Math.random() * 1.2 + 0.4;
-                this.driftVelocityY = -(Math.random() * 0.3 + 0.08);
-                this.alphaChannel = Math.random() * 0.4 + 0.1;
+                // Adjusted dimensions for an elegant, ultra-fine dust look lookbook style
+                this.dimension = Math.random() * 1.0 + 0.2; 
+                // Calibrated velocity parameters for an unhurried, anti-gravity drift velocity profile
+                this.driftVelocityY = -(Math.random() * 0.15 + 0.04); 
+                this.alphaChannel = Math.random() * 0.3 + 0.05;
             }
             advance() {
                 this.y += this.driftVelocityY;
@@ -225,7 +228,7 @@
                 }
             }
             render() {
-                ctx.fillStyle = `rgba(255, 255, 255, ${this.alphaChannel})`;
+                ctx.fillStyle = `rgba(244, 242, 238, ${this.alphaChannel})`; // Matches text color exactly
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.dimension, 0, Math.PI * 2);
                 ctx.fill();
@@ -257,17 +260,31 @@
         .to("#hero-title, #scroll-hint", { opacity: 0, y: -60, duration: 1 })
         .to("#hero-visual", { scale: 1.12, opacity: 0.12, filter: "blur(20px)", duration: 1.5 }, "<");
 
-        // MOTION RUNTIME E: Staggered Spatial Layout Reveals
-        gsap.to("#main-content", {
-            opacity: 1,
-            y: 0,
-            duration: 1.4,
-            ease: "power4.out",
-            scrollTrigger: {
-                trigger: "#main-content",
-                start: "top 80%",
-                toggleActions: "play none none reverse"
-            }
+        // 📦 MOTION RUNTIME E (Refined): High-End Staggered Entry Reveals
+        // Targets all product grid blocks to cascade elegantly onto the screen as they pass the viewport
+        gsap.utils.toArray("section.space-y-8").forEach(section => {
+            const cards = section.querySelectorAll(".glass-card");
+            
+            gsap.fromTo(cards, 
+                { 
+                    opacity: 0, 
+                    y: 40,
+                    scale: 0.98
+                },
+                {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 1.2,
+                    ease: "power4.out",
+                    stagger: 0.15, // Creates the high-end waterfall layout cascading look
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top 85%", // Triggers slightly earlier to breathe smoothly
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
         });
     </script>
 </body>
