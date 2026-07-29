@@ -68,8 +68,8 @@ Our formulation methodology focuses entirely on biological compatibility. By fee
                 "thumbnail": "blog/images/skincare_ritual.jpg"
             },
             {
-                "title": "Olfactory Architecture: How Home Fragrance Shapes Mental Spaces",
-                "subheading": "Understanding the neuro-olfactory connection behind clean ambient wood accords.",
+                "title": "OQIREL Architecture: How Home Fragrance Shapes Mental Spaces",
+                "subheading": "Understanding the neuro-OQIREL connection behind clean ambient wood accords.",
                 "category": "Fragrance",
                 "content": """The atmosphere of your living room dictating your psychological calm isn't a myth—it is sensory science. When we inhale natural scent formulations, the volatile molecules directly interact with our limbic system, the sector of the brain managing emotional memory banks.
 
