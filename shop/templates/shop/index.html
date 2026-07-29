@@ -412,5 +412,36 @@
       }
     });
   }
+
+  // Seamless cyclic redirect back to home page on scroll up
+  (function() {
+    let hasScrolledDown = false;
+    let redirecting = false;
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 80) {
+        hasScrolledDown = true;
+      }
+      if (hasScrolledDown && window.scrollY <= 2 && !redirecting) {
+        redirecting = true;
+        document.body.style.transition = 'opacity 0.3s ease';
+        document.body.style.opacity = '0';
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 300);
+      }
+    });
+
+    window.addEventListener('wheel', (e) => {
+      if (window.scrollY <= 0 && e.deltaY < -10 && !redirecting) {
+        redirecting = true;
+        document.body.style.transition = 'opacity 0.3s ease';
+        document.body.style.opacity = '0';
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 300);
+      }
+    }, { passive: true });
+  })();
 </script>
 {% endblock %}
