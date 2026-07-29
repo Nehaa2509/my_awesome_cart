@@ -3174,3 +3174,22 @@ body.login-page::after,
     color: #ffffff !important;
     transform: translateY(-1px) !important;
 }
+
+/* =========================================================================
+   USER PROFILE NAVBAR USERNAME CHIP (UPPERCASE & BROWN)
+   ========================================================================= */
+.user-menu .d-none.d-md-inline,
+.user-menu span,
+#jazzy-navbar .user-menu a span,
+.user-menu .dropdown-toggle span {
+    background-color: #edd7c2 !important; /* Warm sand/cream background */
+    color: #6b443a !important; /* Brown text color */
+    font-weight: 700 !important;
+    text-transform: uppercase !important; /* Force uppercase */
+    padding: 5px 14px !important;
+    border-radius: 20px !important;
+    font-size: 0.82rem !important;
+    letter-spacing: 0.5px !important;
+    margin-left: 6px !important;
+    display: inline-block !important;
+}
